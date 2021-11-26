@@ -1,0 +1,27 @@
+:root {
+    --landing-background-color:#B1B7D1;
+    --light-brown:#7A6174;
+    --gray-blued:#9B9FB5;
+    --light-violet:#8C7284;
+    --pink:#D1B1C8;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    color:#29292e;
+    height:100vh;
+}
+
+body, input, button, textarea {
+    font:400 16px 'Poppins', sans-serif;
+    outline: none;
+}
