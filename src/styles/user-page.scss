@@ -1,6 +1,9 @@
 #user-page{
     background:var(--light-brown);
-    height:100vh;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh !important;
+    min-height: -webkit-fill-available;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -120,4 +123,46 @@
             }
         }
     }
+}
+
+nav {
+    position:absolute;
+    width: 12.5rem;
+    height: 100vh;
+    background: #FFFFFF;
+    z-index: 9999;
+
+    >div {
+
+        display: grid;
+        grid-template-rows: 1fr 2fr;
+        height: 94vh;
+        justify-content: center;
+        margin-top: 2.7rem;
+
+        h1{
+            color: var(--light-brown);
+            font-weight: bold;
+        }
+
+        .list {
+            display: flex;
+            flex-direction: column;
+    
+            p{
+                cursor: pointer;
+                margin-bottom:2rem;
+                text-align: center;
+                color: var(--light-brown);
+                border-bottom: 2px solid transparent;
+                transition: border-bottom 0.1s ease-in-out;
+
+                &:hover{
+                    border-bottom: 2px solid #BCADB8;
+                }
+            }
+        }
+
+    }
+
 }
