@@ -10,6 +10,7 @@
     margin:0;
     padding:0;
     box-sizing:border-box
+
 }
 
 html {
@@ -24,4 +25,13 @@ body {
 body, input, button, textarea {
     font:400 16px 'Poppins', sans-serif;
     outline: none;
+}
+
+    
+::selection {
+    background: #B1B7D1;
+}
+
+::-moz-selection {
+    background: #B1B7D1;
 }

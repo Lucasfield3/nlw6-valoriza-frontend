@@ -19,6 +19,7 @@ export default function SideMenu(){
                         <p onClick={() => navigate('/recebidos')}>Recebidos</p>
                         <p onClick={() => navigate('/enviados')}>Enviados</p>
                         <p onClick={() => navigate('/sobre')}>Sobre</p>
+                        <p onClick={() => navigate('/')}>Sair</p>
                     </div>
                 </div>
             </nav>

@@ -1,0 +1,5 @@
+{
+    "texto1":{"texto":"O intuito da criação desse app é primeiramente melhorar um projeto da rocket seat nlw6 de nodejs, por tanto, para isso decidi criar um design e um front end para a aplicação, por mais simples que seja o projeto."},
+    "texto2":{"texto":"O app consiste em envios de elogios com hashtags que estao alocadas no banco de dados para complementar a menssagem, assim como, o recebimento de elogios. "},
+    "texto3":{"texto":"E o motivo desse app é justamente agradecer alguém por conta de uma ajuda, tirando uma duvida ou sendo útil de alguma forma."}
+}
