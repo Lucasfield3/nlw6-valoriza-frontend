@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { useNavigate } from 'react-router';
 import { SideMenuContext } from '../context/SideMenuContext';
+import miniLogo from '../images/mini-logo.svg'
 import '../styles/user-page.scss';
 
 export default function SideMenu(){
@@ -21,6 +22,7 @@ export default function SideMenu(){
                         <p onClick={() => navigate('/sobre')}>Sobre</p>
                         <p onClick={() => navigate('/')}>Sair</p>
                     </div>
+                    <img src={miniLogo} alt="mini-logo" />
                 </div>
             </nav>
         </>
