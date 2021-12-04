@@ -41,10 +41,11 @@ export async function createCompliment(newCompliment:NewCompliment){
 
 export async function createTag(newTag:NewTag){
 
-    console.log(newTag)
+    
     return https
     .post<Tag>('/tags', newTag)
     .then(async(res)=> {
+        console.log(res.data)
         return await res.data
     })
     .catch(err => console.log(err))

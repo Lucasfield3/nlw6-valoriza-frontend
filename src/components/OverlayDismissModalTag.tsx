@@ -1,11 +1,10 @@
-import { useContext } from "react"
-import { SideMenuContext } from "../context/SideMenuContext"
 
+interface OverlayDismissModalTagProps{
+    onClick:() => void;
+    isShown:boolean;
+}
 
-
-export default function OverlayDismiss(){
-
-    const { overlayIsActive , isActive} = useContext(SideMenuContext)
+export function OverlayDismissModalTag({onClick, isShown}:OverlayDismissModalTagProps){
 
     return(
         <div style={{
@@ -16,13 +15,12 @@ export default function OverlayDismiss(){
             zIndex:'10',
             cursor:'pointer',
             position: 'absolute',
-            display:isActive ? 'block' : 'none'
+            display:isShown ? 'block' : 'none'
             }}
-            onClick={overlayIsActive}
+            onClick={onClick}
             >
 
         </div>
     )
 
 }
-

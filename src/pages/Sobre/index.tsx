@@ -1,6 +1,6 @@
 
 import MenuHamburguer from '../../components/MenuHamburguer'
-import OverlayDismiss from '../../components/OverlayDismiss'
+import OverlayDismissSideMenu from '../../components/OverlayDismissSideMenu'
 import SideMenu from '../../components/SideMenu'
 import logo from '../../images/logo.svg'
 import Carousel from 'react-elastic-carousel';
@@ -19,7 +19,7 @@ export function Sobre(){
         <div id="user-page">
             <SideMenu/>
             <MenuHamburguer/>
-            <OverlayDismiss/>
+            <OverlayDismissSideMenu/>
             <header>
                 <img src={logo} alt='logo'/>
             </header>

@@ -1,6 +1,6 @@
 import ListMessages from '../../components/ListMessages'
 import MenuHamburguer from '../../components/MenuHamburguer'
-import OverlayDismiss from '../../components/OverlayDismiss'
+import OverlayDismissSideMenu from '../../components/OverlayDismissSideMenu'
 import SideMenu from '../../components/SideMenu'
 import logo from '../../images/logo.svg'
 import '../../styles/user-page.scss'
@@ -11,7 +11,7 @@ export function Recebidos(){
         <div id="user-page">
             <SideMenu/>
             <MenuHamburguer/>
-            <OverlayDismiss/>
+            <OverlayDismissSideMenu/>
             <header>
                 <img src={logo} alt='logo'/>
             </header>
