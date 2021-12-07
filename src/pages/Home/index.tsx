@@ -15,17 +15,22 @@ import { getUsers, User } from '../../service/User'
 
 export function Home(){
 
-    const { register, handleSubmit } = useForm()
+    //const { register, handleSubmit } = useForm()
 
     const { isShown, handleModalIsShown } = useContext(ModalIshownContext)
     const [ isFirstOptionShown, setIsFirtsOptionShown] = useState(true)
     const [users, setUsers] = useState<User[]>()
+    const [user_receiver, setUser_receiver] = useState('')
+    const [tag_id, setTag_id] = useState('new tag')
+    const [message, setMessage] = useState('')
 
-    const onSubmit = async (data:NewCompliment) => {
+    var data:NewCompliment | any = null;
+    const handleCreateCompliment = async () => {
 
+        data = await createCompliment({user_receiver, message, tag_id})
         if(data){
-            await createCompliment(data)
-            console.log(data)
+            
+            console.log('compliment created')
         }else{
             throw new Error("Nothing to return");
         }
@@ -39,7 +44,7 @@ export function Home(){
         }
     }
 
-    console.log(isFirstOptionShown)
+    console.log(user_receiver)
 
     useEffect(()=>{
        getAllUsers()
@@ -55,13 +60,13 @@ export function Home(){
             </header>
             <div className="container">
                 <h1>Envio de elogios</h1>
-                <form autoComplete='on' onSubmit={handleSubmit(onSubmit)}>
+                <form>
                    
                     <div className="compliment-sender">
                         <div>
                             <p>Para:</p>
                             <div className='custom-select'>
-                                <select {...register("user_receiver")} onClick={()=> setIsFirtsOptionShown(false)} name="emails" id="emails">
+                                <select value={user_receiver} onChange={(e) => setUser_receiver(e.target.value)} onClick={()=> setIsFirtsOptionShown(false)} name="emails" id="emails">
                                    {isFirstOptionShown && <option key={users && users.length + 1}>usuários</option> }
                                     {users && users.map((user, index)=> {
                                     return (
@@ -75,10 +80,10 @@ export function Home(){
                             {/* <input {...register("user_receiver", { required: true, maxLength: 40 })} placeholder='email' type='email'/> */}
                         </div>
                         <span/>
-                        <textarea {...register("message", { required: true, maxLength: 500 })} placeholder='Menssagem..' rows={7} cols={28}/>
+                        <textarea value={message} onChange={(e)=> setMessage(e.target.value)} placeholder='Menssagem..' rows={7} cols={28}/>
                     </div>
-                <button type='submit' >Enviar elogio</button>
                 </form>
+                <button onClick={handleCreateCompliment} >Enviar elogio</button>
             </div>
             <CreateTagModal/>
             <OverlayDismissModalTag onClick={handleModalIsShown} isShown={isShown}/>
