@@ -6,7 +6,7 @@ export interface NewUser{
     password:string;
 }
 
-interface User {
+export interface User {
     id:string;
     name:string;
     email:string;
@@ -23,6 +23,20 @@ export async function createUser(newUser:NewUser){
         .then(async(res)=> {
             console.log(res.data)
             return await res.data
+        })
+
+}
+
+export async function getUsers():Promise<User[]>{
+
+    return https
+        .get('/users')
+        .then(async(res)=>{
+            console.log(res.data)
+            return await res.data
+        })
+        .catch((erro)=>{
+            console.log(erro)
         })
 
 }

@@ -127,6 +127,19 @@
             div{
                 display: flex;
                 padding: 0.5rem 0.5rem 0 0.5rem;
+                width: 100%;
+                justify-content: center;
+                
+                .custom-select{
+
+                    select{
+                        outline: none;
+                        background-color: transparent;
+                        border:none;
+                        color:var(--light-brown)
+                    }
+
+                }
 
                 > p {
                     font-size: 1.5rem;
@@ -135,11 +148,12 @@
                 }
 
                 input {
-                    font-size: 1.5rem;
+                    font-size: 1.3rem;
                     position: relative;
                     border: none;
                     padding: 0 0.5rem;
-                    color:var(--light-brown);
+                    color: var(--light-brown);
+                    width: 78%;
 
                     &::placeholder{
                        position: inherit;

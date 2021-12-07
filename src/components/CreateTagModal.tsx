@@ -24,14 +24,14 @@ export function CreateTagModal(){
 
     return(
         <>
-        <div style={{opacity:isShown ? 1 : 0}} className='modal-create-tag'>
+        <div style={{opacity:isShown ? 1 : 0, zIndex:isShown ? 80 : -80}} className='modal-create-tag'>
             <header>
                 <h1>Crie sua tag</h1>
             </header>
             <main>
-                <input value={tag.name} onChange={(e)=> setTag({name:e.target.value})} type="text" placeholder="digite sem a '#'" />
+                <input  value={tag.name} onChange={(e)=> setTag({name:e.target.value})} type="text" placeholder="digite sem a '#'" />
             </main>
-            <button onClick={handleCreateTag}>Criar tag</button>
+            <button  onClick={handleCreateTag}>Criar tag</button>
         </div>
         </>
     )
