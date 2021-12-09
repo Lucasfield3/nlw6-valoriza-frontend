@@ -19,11 +19,12 @@ export interface NewTag {
     name: string;
 }
 
-interface Tag {
+export interface Tag {
     id: string;
     name: string;
     created_at:Date;
     updated_at:Date;
+    custom_name:string;
 }
 
 export async function createCompliment(newCompliment:NewCompliment){
@@ -44,6 +45,18 @@ export async function createTag(newTag:NewTag){
     
     return https
     .post<Tag>('/tags', newTag)
+    .then(async(res)=> {
+        console.log(res.data)
+        return await res.data
+    })
+    .catch(err => console.log(err))
+
+}
+
+export async function getTags():Promise<Tag[]>{
+
+    return https
+    .get('/tags')
     .then(async(res)=> {
         console.log(res.data)
         return await res.data

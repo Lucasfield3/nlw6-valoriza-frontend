@@ -40,3 +40,15 @@ export async function getUsers():Promise<User[]>{
         })
 
 }
+
+export async function getUser(){
+
+    return https
+        .get('/user')
+        .then(async(res)=>{
+            console.log(res.data)
+            return await res.data
+        })
+        .catch((erro)=>{console.log(erro)})
+
+}

@@ -273,6 +273,7 @@ nav {
     width: 90%;
     height: 80%;
     overflow-y: auto;
+    justify-content: start !important;
 
     &::-webkit-scrollbar{
         width:0.5rem;
