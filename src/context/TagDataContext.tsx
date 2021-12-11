@@ -18,11 +18,13 @@ export function TagDataProvider({children}:TagDataProviderProps){
 
     async function getAllTags(){
 
-        const tagsSend = await getTags()
-        if(tagsSend){
-            setTags(tags)
-            console.log(tags)
+        try{
+            const tagsSend = await getTags()
+            setTags(tagsSend)
+        }catch(err){
+            console.log(err)
         }
+       
 
     }
 

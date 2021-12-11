@@ -10,16 +10,28 @@ export interface AccessToken {
     access_token: string;
 }
 
-export async function login(credentials: Credentials):Promise<string | any>{
+export interface PayLoad {
+    email: string;
+    iat:number;
+    exp:number;
+    sub:string;
+}
+
+export async function login(credentials: Credentials, isLoggedIn:boolean):Promise<string | any>{
 
     console.log(credentials);
 
     return https
     .post('/login', credentials)
     .then(async(res)=> {
+        isLoggedIn = true
         return await res.data as string
+         
     })
-    .catch(err => {console.error(err)})
+    .catch(err => {
+        console.error(err)
+        return isLoggedIn = false
+    })
 
 }
 

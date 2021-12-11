@@ -53,13 +53,13 @@ export async function createTag(newTag:NewTag){
 
 }
 
-export async function getTags():Promise<Tag[]>{
+export async function getTags():Promise<Tag[] | any>{
 
     return https
     .get('/tags')
     .then(async(res)=> {
         console.log(res.data)
-        return await res.data
+        return await res.data as Tag[]
     })
     .catch(err => console.log(err))
 

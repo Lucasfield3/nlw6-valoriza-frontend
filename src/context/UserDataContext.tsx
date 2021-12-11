@@ -20,17 +20,23 @@ export function UserDataProvider({children}: UserDataProviderProps) {
     const [ users , setUsers] = useState<User[]>()
 
     async function getAllUsers(){
-        const usersSend = await getUsers()
+
+        const usersSend = await getUsers() as User[]
+
         if(usersSend){
             setUsers(usersSend)
         }
-    }
+        
+    }  
+
 
     async function getOneUser(){
-        const userSend = await getUser()
+        const userSend = await getUser() as User
         if(userSend){
             setUser(userSend)
         }
+       
+    
     }
 
 

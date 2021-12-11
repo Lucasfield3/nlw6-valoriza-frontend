@@ -1,3 +1,4 @@
+import { NavigateFunction } from 'react-router';
 import https from '../utils/https';
 
 export interface NewUser{
@@ -27,16 +28,17 @@ export async function createUser(newUser:NewUser){
 
 }
 
-export async function getUsers():Promise<User[]>{
+export async function getUsers():Promise<User[] | any>{
 
     return https
         .get('/users')
         .then(async(res)=>{
             console.log(res.data)
-            return await res.data
+            return await res.data as User[]
         })
         .catch((erro)=>{
             console.log(erro)
+            
         })
 
 }
@@ -49,6 +51,9 @@ export async function getUser(){
             console.log(res.data)
             return await res.data
         })
-        .catch((erro)=>{console.log(erro)})
+        .catch((erro)=>{
+            console.log(erro)
+            
+        })
 
 }

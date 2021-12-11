@@ -6,9 +6,21 @@ import logo from '../../images/logo.svg'
 import Carousel from 'react-elastic-carousel';
 import '../../styles/user-page.scss'
 import sobre from '../../sobre.json'
+import { useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router';
+import { UserDataContext } from '../../context/UserDataContext';
+import { AuthenticateContext } from '../../context/AuthenticateContext';
 
 export function Sobre(){
+    const { handleIsLogged } = useContext(AuthenticateContext)
+    const navigate = useNavigate()
 
+    const { user } = useContext(UserDataContext)
+
+    useEffect(()=>{
+        handleIsLogged(navigate)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const breakPoints = [
         {width: 1, itemsToShow:1}
@@ -17,7 +29,7 @@ export function Sobre(){
 
     return(
         <div id="user-page">
-            <SideMenu/>
+            <SideMenu userName={user && user.name}/>
             <MenuHamburguer/>
             <OverlayDismissSideMenu/>
             <header>
