@@ -12,8 +12,9 @@ import { UserDataContext } from '../../context/UserDataContext'
 import { TagDataContext } from '../../context/TagDataContext'
 
 import '../../styles/user-page.scss'
-import {  useNavigate } from 'react-router'
-import { getPayload, getToken } from '../../service/Authenticate'
+import { useNavigate } from 'react-router'
+import { useAuth } from '../../context/AuthContext'
+import { getPayload, PayLoad } from '../../service/Authenticate'
 
 
 
@@ -46,27 +47,25 @@ export function Home(){
                 console.log("Nothing to return");
             }
     }
-    // async function handleIsLoggedHome(){
-    //     const payLoad = getPayload()
-    //     const userSend = await getAllUsers()
-    //     if(userSend){
-    //         if(user.email !== payLoad.email){
-    //             navigate('/')
-    //         }
-    //     }
-        
-    // }
 
-    useEffect(()=>{
-       
+    const { loggedIn } = useAuth()
+    const payLoad = getPayload() as PayLoad
+    function isLoggedIn(){
+        if(payLoad === undefined){
+            if(loggedIn === false){
+              return navigate('/')
+            }
+        }
+    }
+    useEffect(()=>{    
         getAllUsers()
-
+        isLoggedIn() 
      // eslint-disable-next-line react-hooks/exhaustive-deps
      },[])
 
     return(
         <>
-      {users  && <div id="user-page">
+      <div id="user-page">
             <SideMenu userName={user && user.name}/>
             <MenuHamburguer/>
             <OverlayDismissSideMenu/>
@@ -79,24 +78,24 @@ export function Home(){
                    
                     <div className="compliment-sender">
                         <div style={{display:'flex', flexDirection:'column'}}>
-                            <div className='custom-select'>
+                            <div key='users' className='custom-select'>
                                 <p>Para:</p>
                                 <select value={user_receiver} onChange={(e) => setUser_receiver(e.target.value)} onClick={()=> setIsFirtsOptionShown(false)}>
-                                {isFirstOptionShown && <option key={0}>usuários</option> }
+                                {isFirstOptionShown && <option key={users && users.length + 1}>usuários</option> }
                                     {users && users.map((userEmail, index)=> {
                                     return (
                                         <>
-                                            <option key={index}  value={userEmail.id}>{userEmail.email}</option>                                
+                                            <option key={users.length}  value={userEmail.id}>{userEmail.email}</option>                                
                                         </>
                                         )
                                     })}
                                 </select>
                              </div> 
                              <span/>
-                            <div className='custom-select'>
+                            <div key='tag' className='custom-select'>
                                 <p>Tags:</p>
                              <select  onChange={(e) => setTag_id(e.target.value)} value={tag_id}>
-                                <option key={467}>tags</option>
+                                <option key={tags && tags.length + 1}>tags</option>
                                     {tags && tags.map((tag, index)=>{
                                         return (
                                             <>
@@ -118,7 +117,7 @@ export function Home(){
             <CreateTagModal/>
             <OverlayDismissModalTag onClick={handleModalIsShown} isShown={isShown}/>
             <button onClick={handleModalIsShown} className='create-tag-button'><img src={plus} alt="Plus-icon" /></button>
-        </div> }
+        </div> 
         </>
     )
 

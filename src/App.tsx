@@ -10,17 +10,25 @@ import { Error } from "./pages/Error/index";
 import { Recebidos } from "./pages/Recebidos";
 import { Register } from "./pages/Register";
 import { Sobre } from "./pages/Sobre";
+import { AuthContext, useAuth, useAuthInit } from "./context/AuthContext";
+import { Navigate } from "react-router";
 
 
 
 
 function App() {
 
+  const { loading, auth } = useAuthInit()
+  if(loading){
+    return <Error/>
+  }
   
+  console.log(`rendering app with authState=${auth}`)
 
   return (
     
         <UserDataProvider>
+          <AuthContext.Provider value={auth}>
           <TagDataProvider>
             <SideMenuProvider>
               <ModalIshownProvider>
@@ -29,7 +37,7 @@ function App() {
                     <Route element={<Login/>} path='/'></Route>
                     <Route element={<Register/>} path='/register'></Route>
                     <Route element={<Home/>} path='/user/myHome'></Route>
-                    <Route element={<Error/>} path='/'/>
+                    {/* <Route element={<Error/>} path='/'/> */}
                     <Route element={<Recebidos/>} path='/recebidos'></Route>
                     <Route element={<Enviados/>} path='/enviados'></Route>
                     <Route element={<Sobre/>} path='/sobre'></Route>
@@ -38,6 +46,7 @@ function App() {
               </ModalIshownProvider>
             </SideMenuProvider>
           </TagDataProvider>
+          </AuthContext.Provider>
         </UserDataProvider>
       
   );

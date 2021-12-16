@@ -4,25 +4,29 @@ import { Link, useNavigate } from 'react-router-dom'
 import {  useContext } from 'react'
 
 import { login, storeToken } from '../../service/Authenticate'
-import { User } from '../../service/User'
+import { getUsers, User } from '../../service/User'
 import { UserDataContext } from '../../context/UserDataContext'
 import { useForm } from 'react-hook-form'
 
 export function Login(){
     const { register, handleSubmit  } = useForm()
-    const { getOneUser} = useContext(UserDataContext)
+    const { getAllUsers} = useContext(UserDataContext)
     const navigate = useNavigate()
     
     async function onSubmit(data:User){
 
         var access_token:string | any = null;
         access_token = await login(data)
-        
+
+        const users = await getUsers()
         if(access_token){
             storeToken(access_token) 
             if(data){
-                getOneUser()
-                navigate(`/user/myHome/`)
+                if(users !== undefined){
+                    getAllUsers()
+                    navigate(`/user/myHome/`)
+                }
+                
             } 
             
         }

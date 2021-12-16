@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useState } from "react";
-import { getPayload } from "../service/Authenticate";
+import { getPayload, PayLoad } from "../service/Authenticate";
 import { getUser, getUsers, User } from "../service/User";
 
 interface UserDataContextData {
@@ -27,38 +27,34 @@ interface UserDataProviderProps {
 export function UserDataProvider({children}: UserDataProviderProps) {
 
     const [ user , setUser] = useState<User>(DEFAULT_CONTEXT_DATA)
-    const [ users , setUsers] = useState<User[]>([])
+    const [ users , setUsers] = useState<User[]>()
     
     async function getAllUsers():Promise<User[] | any>{
-
-        const usersSend = await getUsers() as User[]
-            if(usersSend){
-                setUsers(usersSend)
-                const payLoad = getPayload()
-                let userFilter:User | null;
-                
-                users.map((user)=>{
+        const users = await getUsers()
+        if(users){
+           return await getUsers().then((data:User[])=>{
+                setUsers(data)
+                const payLoad = getPayload() as PayLoad
+                let userFilter:User;
+                data.map((user)=>{
                     if(payLoad.email === user.email){
                         return userFilter = user
                     }
                     return userFilter
                 })
+                
                 setUser(userFilter)
-            }
+            })    
+        }
     }  
 
-    let userSend:User | null;
     async function getOneUser():Promise<User | any>{
-        userSend = await getUser() as User
-        if(userSend){
-            setUser(userSend)
-        }
-            
+        return await getUser()
+        .then((data:User)=>{
+            console.log(data)
+            setUser(data)
+        })
     }
-
-
-
-
 
 
     return(

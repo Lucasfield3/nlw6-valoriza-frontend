@@ -45,6 +45,7 @@ export const getToken = () =>{
 
 export const getPayload = ()=>{
     const token = window.localStorage.getItem('access_token')
-    console.log(token)
-    return jwt_decode(token) as PayLoad
+    if(token){
+        return jwt_decode(token) as PayLoad
+    }
 }

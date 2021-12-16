@@ -30,6 +30,7 @@ export default function SideMenu({userName}:SideMenuProps){
                         <p onClick={() => {
                             navigate('/')
                             handleIsActive()
+                            storeToken('')
                             }}>Sair</p>
                     </div>
                     <img src={miniLogo} alt="mini-logo" />
