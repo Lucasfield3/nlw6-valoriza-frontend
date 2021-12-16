@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
 import { getTags, Tag } from "../service/Compliment";
 
 interface TagDataContextProp{
@@ -27,6 +27,10 @@ export function TagDataProvider({children}:TagDataProviderProps){
        
 
     }
+
+    useEffect(() => {
+        getAllTags()
+    }, [])
 
     return(
         <TagDataContext.Provider value={{tags, getAllTags}}>

@@ -1,4 +1,4 @@
-import { NavigateFunction } from 'react-router';
+
 import https from '../utils/https';
 
 export interface NewUser{
@@ -43,13 +43,13 @@ export async function getUsers():Promise<User[] | any>{
 
 }
 
-export async function getUser(){
+export async function getUser():Promise<User | any>{
 
     return https
         .get('/user')
         .then(async(res)=>{
             console.log(res.data)
-            return await res.data
+            return await res.data as User
         })
         .catch((erro)=>{
             console.log(erro)

@@ -9,19 +9,25 @@ import sobre from '../../sobre.json'
 import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { UserDataContext } from '../../context/UserDataContext';
-import { AuthenticateContext } from '../../context/AuthenticateContext';
+import { getToken } from '../../service/Authenticate';
 
 export function Sobre(){
-    const { handleIsLogged } = useContext(AuthenticateContext)
     const navigate = useNavigate()
 
     const { user } = useContext(UserDataContext)
 
+    function handleIsLoggedHome(){
+        const sendToken = getToken()
+        if(sendToken === undefined){
+            return navigate('/')
+        } 
+        
+    }
+
     useEffect(()=>{
-        handleIsLogged(navigate)
+        handleIsLoggedHome()
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-
     const breakPoints = [
         {width: 1, itemsToShow:1}
       ]

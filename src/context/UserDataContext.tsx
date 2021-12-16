@@ -1,12 +1,22 @@
 import { createContext, ReactNode, useState } from "react";
+import { getPayload } from "../service/Authenticate";
 import { getUser, getUsers, User } from "../service/User";
 
 interface UserDataContextData {
     user: User;
     users: User[];
-    getAllUsers:()=>void;
-    getOneUser:()=>void;
+    getAllUsers:()=>User[] | any;
+    getOneUser:()=>User | any;
 }
+
+const DEFAULT_CONTEXT_DATA = {
+    id:'',
+    name:'',
+    email:'',
+    password:'',
+    created_at: new Date(),
+    updated_at:new Date()
+}   
 
 export const UserDataContext = createContext({} as UserDataContextData)
 
@@ -16,28 +26,38 @@ interface UserDataProviderProps {
 
 export function UserDataProvider({children}: UserDataProviderProps) {
 
-    const [ user , setUser] = useState<User>()
-    const [ users , setUsers] = useState<User[]>()
-
-    async function getAllUsers(){
+    const [ user , setUser] = useState<User>(DEFAULT_CONTEXT_DATA)
+    const [ users , setUsers] = useState<User[]>([])
+    
+    async function getAllUsers():Promise<User[] | any>{
 
         const usersSend = await getUsers() as User[]
-
-        if(usersSend){
-            setUsers(usersSend)
-        }
-        
+            if(usersSend){
+                setUsers(usersSend)
+                const payLoad = getPayload()
+                let userFilter:User | null;
+                
+                users.map((user)=>{
+                    if(payLoad.email === user.email){
+                        return userFilter = user
+                    }
+                    return userFilter
+                })
+                setUser(userFilter)
+            }
     }  
 
-
-    async function getOneUser(){
-        const userSend = await getUser() as User
+    let userSend:User | null;
+    async function getOneUser():Promise<User | any>{
+        userSend = await getUser() as User
         if(userSend){
             setUser(userSend)
         }
-       
-    
+            
     }
+
+
+
 
 
 

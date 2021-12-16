@@ -10,12 +10,16 @@ import { Error } from "./pages/Error/index";
 import { Recebidos } from "./pages/Recebidos";
 import { Register } from "./pages/Register";
 import { Sobre } from "./pages/Sobre";
-import { AuthenticateProvider } from "./context/AuthenticateContext";
+
+
 
 
 function App() {
+
+  
+
   return (
-      <AuthenticateProvider>
+    
         <UserDataProvider>
           <TagDataProvider>
             <SideMenuProvider>
@@ -24,7 +28,7 @@ function App() {
                 <Routes>
                     <Route element={<Login/>} path='/'></Route>
                     <Route element={<Register/>} path='/register'></Route>
-                    <Route element={<Home/>} path='/home'></Route>
+                    <Route element={<Home/>} path='/user/myHome'></Route>
                     <Route element={<Error/>} path='/'/>
                     <Route element={<Recebidos/>} path='/recebidos'></Route>
                     <Route element={<Enviados/>} path='/enviados'></Route>
@@ -35,7 +39,7 @@ function App() {
             </SideMenuProvider>
           </TagDataProvider>
         </UserDataProvider>
-      </AuthenticateProvider>
+      
   );
 }
 

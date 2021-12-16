@@ -1,9 +1,9 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { useNavigate } from 'react-router';
 import { SideMenuContext } from '../context/SideMenuContext';
-import { UserDataContext } from '../context/UserDataContext';
 import miniLogo from '../images/mini-logo.svg'
-import { User } from '../service/User';
+import { storeToken } from '../service/Authenticate';
+
 import '../styles/user-page.scss';
 
 interface SideMenuProps{
@@ -12,7 +12,7 @@ interface SideMenuProps{
 
 export default function SideMenu({userName}:SideMenuProps){
 
-    const { isActive } = useContext(SideMenuContext)
+    const { isActive, handleIsActive } = useContext(SideMenuContext)
 
     const navigate = useNavigate()
 
@@ -23,11 +23,14 @@ export default function SideMenu({userName}:SideMenuProps){
                 <div>
                     <h1>{userName}</h1>
                     <div className="list">
-                        <p onClick={() => navigate('/home')}>Home</p>
+                        <p onClick={() => navigate('/user/myHome')}>Home</p>
                         <p onClick={() => navigate('/recebidos')}>Recebidos</p>
                         <p onClick={() => navigate('/enviados')}>Enviados</p>
                         <p onClick={() => navigate('/sobre')}>Sobre</p>
-                        <p onClick={() => navigate('/')}>Sair</p>
+                        <p onClick={() => {
+                            navigate('/')
+                            handleIsActive()
+                            }}>Sair</p>
                     </div>
                     <img src={miniLogo} alt="mini-logo" />
                 </div>

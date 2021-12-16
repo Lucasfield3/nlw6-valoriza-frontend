@@ -17,20 +17,18 @@ export interface PayLoad {
     sub:string;
 }
 
-export async function login(credentials: Credentials, isLoggedIn:boolean):Promise<string | any>{
+export async function login(credentials: Credentials):Promise<string | any>{
 
     console.log(credentials);
 
     return https
     .post('/login', credentials)
     .then(async(res)=> {
-        isLoggedIn = true
         return await res.data as string
-         
     })
     .catch(err => {
-        console.error(err)
-        return isLoggedIn = false
+        
+        return console.error(err)
     })
 
 }
@@ -48,5 +46,5 @@ export const getToken = () =>{
 export const getPayload = ()=>{
     const token = window.localStorage.getItem('access_token')
     console.log(token)
-    return jwt_decode(token)
+    return jwt_decode(token) as PayLoad
 }

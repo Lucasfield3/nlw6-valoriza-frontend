@@ -4,7 +4,7 @@ import SideMenu from '../../components/SideMenu'
 import logo from '../../images/logo.svg'
 import { createCompliment, NewCompliment} from '../../service/Compliment'
 import plus from '../../images/plus.svg'
-import { ChangeEvent, useContext,  useEffect,  useState } from 'react'
+import { useContext,  useEffect,  useState } from 'react'
 import { CreateTagModal } from '../../components/CreateTagModal'
 import { OverlayDismissModalTag } from '../../components/OverlayDismissModalTag'
 import { ModalIshownContext } from '../../context/ModalIsShownContext'
@@ -12,36 +12,33 @@ import { UserDataContext } from '../../context/UserDataContext'
 import { TagDataContext } from '../../context/TagDataContext'
 
 import '../../styles/user-page.scss'
-import { useNavigate } from 'react-router'
-import { AuthenticateContext } from '../../context/AuthenticateContext'
+import {  useNavigate } from 'react-router'
+import { getPayload, getToken } from '../../service/Authenticate'
+
+
 
 export function Home(){
 
-    //const { handleIsLogged } = useContext(ValidateContext)
-    const { users, getAllUsers, user, getOneUser} = useContext(UserDataContext)
-    const { handleIsLogged } = useContext(AuthenticateContext)
-    const { tags, getAllTags } = useContext(TagDataContext)
+    const {user, getAllUsers, users} = useContext(UserDataContext)
+    const { tags, } = useContext(TagDataContext)
     const { isShown, handleModalIsShown } = useContext(ModalIshownContext)
     const [ isFirstOptionShown, setIsFirtsOptionShown] = useState(true)
     const [user_receiver, setUser_receiver] = useState('')
     const [tag_id, setTag_id] = useState('')
     const [message, setMessage] = useState('')
     const navigate = useNavigate()
-
+    const [ , setIsTagShown ] = useState(false)
     var data:NewCompliment | any = null;
     const handleCreateCompliment = async () => {
-       const [,  messageSend] = message.split(`${tag_id}`)
         let tagId = ''
 
             tags.map((tag)=>{
-                if(tag_id === tag.custom_name){
+                if(tag_id === tag.name){
                     tagId = tag.id
-                    console.log(tag.id)
                 }
                 return tag.id
             })
-
-            data = await createCompliment({user_receiver, message:messageSend.trim(), tag_id:tagId})
+            data = await createCompliment({user_receiver, message, tag_id:tagId})
 
             if(data){
                 console.log('compliment created')
@@ -49,28 +46,27 @@ export function Home(){
                 console.log("Nothing to return");
             }
     }
+    // async function handleIsLoggedHome(){
+    //     const payLoad = getPayload()
+    //     const userSend = await getAllUsers()
+    //     if(userSend){
+    //         if(user.email !== payLoad.email){
+    //             navigate('/')
+    //         }
+    //     }
+        
+    // }
 
     useEffect(()=>{
-        handleIsLogged(navigate)
-        getOneUser()
-        getAllTags()
+       
         getAllUsers()
+
      // eslint-disable-next-line react-hooks/exhaustive-deps
      },[])
 
-     function handleSetTag(e:ChangeEvent<HTMLTextAreaElement>){
-
-        if(e.target.value.match('#') && !e.target.value.match(' ')){
-            setTag_id(e.target.value)
-            console.log(tag_id)
-        }
-
-        setMessage(e.target.value)
-     }
- 
     return(
         <>
-       <div id="user-page">
+      {users  && <div id="user-page">
             <SideMenu userName={user && user.name}/>
             <MenuHamburguer/>
             <OverlayDismissSideMenu/>
@@ -82,23 +78,39 @@ export function Home(){
                 <form>
                    
                     <div className="compliment-sender">
-                        <div>
-                            <p>Para:</p>
+                        <div style={{display:'flex', flexDirection:'column'}}>
                             <div className='custom-select'>
+                                <p>Para:</p>
                                 <select value={user_receiver} onChange={(e) => setUser_receiver(e.target.value)} onClick={()=> setIsFirtsOptionShown(false)}>
-                                   {isFirstOptionShown && <option key={0}>usuários</option> }
+                                {isFirstOptionShown && <option key={0}>usuários</option> }
                                     {users && users.map((userEmail, index)=> {
                                     return (
                                         <>
-                                            {userEmail.email !== user.email && <option key={index}  value={userEmail.id}>{userEmail.email}</option>}                                 
+                                            <option key={index}  value={userEmail.id}>{userEmail.email}</option>                                
                                         </>
                                         )
                                     })}
                                 </select>
                              </div> 
+                             <span/>
+                            <div className='custom-select'>
+                                <p>Tags:</p>
+                             <select  onChange={(e) => setTag_id(e.target.value)} value={tag_id}>
+                                <option key={467}>tags</option>
+                                    {tags && tags.map((tag, index)=>{
+                                        return (
+                                            <>
+                                                <option onClick={()=> setIsTagShown(false)} value={tag.name} key={index}>{tag.name}</option>
+                                            </>
+                                        )
+                                    })}
+                                </select>
+                             </div> 
+                             <span/>
                         </div>
-                        <span/>
-                        <textarea value={message} onChange={(e)=> handleSetTag(e)} placeholder='Menssagem..' rows={7} cols={28}/>
+                        
+                        <textarea value={message} onChange={(e)=> setMessage(e.target.value)} placeholder='Menssagem..' rows={7} cols={28}>
+                        </textarea>
                     </div>
                 </form>
                 <button onClick={handleCreateCompliment} >Enviar elogio</button>
@@ -106,7 +118,7 @@ export function Home(){
             <CreateTagModal/>
             <OverlayDismissModalTag onClick={handleModalIsShown} isShown={isShown}/>
             <button onClick={handleModalIsShown} className='create-tag-button'><img src={plus} alt="Plus-icon" /></button>
-        </div>
+        </div> }
         </>
     )
 

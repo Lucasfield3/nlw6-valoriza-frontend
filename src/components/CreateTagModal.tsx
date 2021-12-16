@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import { ModalIshownContext } from "../context/ModalIsShownContext";
+import { TagDataContext } from "../context/TagDataContext";
 import { createTag, NewTag } from "../service/Compliment";
 import '../styles/user-page.scss';
 
@@ -8,14 +9,15 @@ export function CreateTagModal(){
     const [ tag, setTag ] = useState<NewTag>({name:''})
 
     const {  isShown, handleModalIsShown } = useContext(ModalIshownContext)
-
+    const { getAllTags} = useContext(TagDataContext)
     var newTag:string | any = null;
     
     async function handleCreateTag(){
 
         newTag = await createTag(tag);
         if(newTag){
-            return handleModalIsShown()
+            handleModalIsShown()
+            getAllTags()
         }
 
     }
