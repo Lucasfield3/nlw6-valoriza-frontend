@@ -1,4 +1,3 @@
-
 import https from '../utils/https';
 
 export interface NewUser{
@@ -43,13 +42,12 @@ export async function getUsers():Promise<User[] | any>{
 
 }
 
-export async function getUser():Promise<User | any>{
-
+export async function getUser(){
     return https
-        .get('/user')
+        .get<User>('/user')
         .then(async(res)=>{
             console.log(res.data)
-            return await res.data as User
+            return res.data as User
         })
         .catch((erro)=>{
             console.log(erro)

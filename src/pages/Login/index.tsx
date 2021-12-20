@@ -1,36 +1,34 @@
 import '../../styles/landing-pages.scss'
 import logo from '../../images/logo.svg'
 import { Link, useNavigate } from 'react-router-dom'
-import {  useContext } from 'react'
+
 
 import { login, storeToken } from '../../service/Authenticate'
-import { getUsers, User } from '../../service/User'
-import { UserDataContext } from '../../context/UserDataContext'
+import {  User } from '../../service/User'
 import { useForm } from 'react-hook-form'
+import { useContext } from 'react'
+import { UserDataContext } from '../../context/UserDataContext'
 
 export function Login(){
     const { register, handleSubmit  } = useForm()
     const { getAllUsers} = useContext(UserDataContext)
     const navigate = useNavigate()
-    
     async function onSubmit(data:User){
-
         var access_token:string | any = null;
-        access_token = await login(data)
-
-        const users = await getUsers()
-        if(access_token){
-            storeToken(access_token) 
-            if(data){
-                if(users !== undefined){
-                    getAllUsers()
-                    navigate(`/user/myHome/`)
+            await login(data)
+            .then((dataLogin:string) => {
+                if(dataLogin){
+                access_token = dataLogin
+                storeToken(access_token) 
+                    if(access_token){
+                        getAllUsers()
+                        setTimeout(()=>navigate(`/user/myHome/`), 500)
+                    }
                 }
-                
-            } 
-            
-        }
+            })
+        
     }
+
 
     return(
         <div id='landing-page'>

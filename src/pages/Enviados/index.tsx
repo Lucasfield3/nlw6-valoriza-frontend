@@ -8,6 +8,7 @@ import SideMenu from '../../components/SideMenu'
 import { UserDataContext } from '../../context/UserDataContext'
 import logo from '../../images/logo.svg'
 import { getToken } from '../../service/Authenticate'
+import { getUser, User } from '../../service/User'
 import '../../styles/user-page.scss'
 
 export function Enviados(){
@@ -16,8 +17,10 @@ export function Enviados(){
 
     const { user } = useContext(UserDataContext)
 
-    function handleIsLoggedHome(){
+    async function handleIsLoggedHome(){
         const sendToken = getToken()
+        const userSend = await getUser() as User
+        if(userSend) console.log(userSend)
         if(sendToken === undefined){
             return navigate('/')
         } 

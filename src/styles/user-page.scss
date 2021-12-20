@@ -132,12 +132,16 @@
                 justify-content: center;
                 
                 .custom-select{
-
+                    // height: 72px;
+                    position:relative;
                     select{
                         outline: none;
                         background-color: transparent;
-                        border:none;
-                        color:var(--light-brown)
+                        border: none;
+                        color: var(--light-brown);
+                        z-index: 9999;
+                        margin-top: 0.5rem;
+                        padding-left: 0.5rem;
 
                     }
 
@@ -147,6 +151,7 @@
                     font-size: 1.5rem;
                     color: var(--light-brown);
                     font-weight: bold;
+                    align-self: start;
                 }
 
                 input {

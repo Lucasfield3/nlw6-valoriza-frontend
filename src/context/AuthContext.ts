@@ -32,13 +32,14 @@ export function useAuthInit():AuthInit{
                     auth  = (payLoad !== undefined ) ? {loggedIn:true, userId:dataUser.id} :
                    {loggedIn:false}
                    setAuthInit({loading:false, auth})
-                   return console.log('isLoggedIn', auth)
+                   return auth
                 })
             }else{
                 auth  = {loggedIn:false}
                 setAuthInit({loading:false, auth})
                 return console.log('isLoggedIn', auth)
             }
+            console.log(auth)
           })
     
    } 

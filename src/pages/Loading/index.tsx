@@ -3,7 +3,7 @@ import { Navigate} from 'react-router';
 import { useAuth } from '../../context/AuthContext';
 
 import { getPayload, PayLoad } from '../../service/Authenticate';
-export function Error(){
+export function Loading(){
     const { loggedIn } = useAuth()
     const payLoad = getPayload() as PayLoad
     function isLoggedIn(){
@@ -16,7 +16,10 @@ export function Error(){
         }
     }
 
+
+
     useEffect(()=>{
+
         isLoggedIn()
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])

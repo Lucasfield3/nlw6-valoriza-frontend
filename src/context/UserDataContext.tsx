@@ -9,7 +9,7 @@ interface UserDataContextData {
     getOneUser:()=>User | any;
 }
 
-const DEFAULT_CONTEXT_DATA = {
+export const DEFAULT_CONTEXT_DATA = {
     id:'',
     name:'',
     email:'',
@@ -28,7 +28,8 @@ export function UserDataProvider({children}: UserDataProviderProps) {
 
     const [ user , setUser] = useState<User>(DEFAULT_CONTEXT_DATA)
     const [ users , setUsers] = useState<User[]>()
-    
+
+
     async function getAllUsers():Promise<User[] | any>{
         const users = await getUsers()
         if(users){
@@ -42,19 +43,30 @@ export function UserDataProvider({children}: UserDataProviderProps) {
                     }
                     return userFilter
                 })
-                
+
                 setUser(userFilter)
             })    
-        }
+        }  
+        
     }  
 
-    async function getOneUser():Promise<User | any>{
-        return await getUser()
-        .then((data:User)=>{
-            console.log(data)
-            setUser(data)
-        })
+
+
+    let newUser:User
+    async function getOneUser(){
+       return await getUser()
+       .then((data:User)=>{
+           if(data){
+            newUser = data
+               console.log(newUser)
+               //setUser(newUser)
+           }
+       })
     }
+    
+
+
+
 
 
     return(

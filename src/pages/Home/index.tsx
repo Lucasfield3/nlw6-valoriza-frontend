@@ -13,8 +13,8 @@ import { TagDataContext } from '../../context/TagDataContext'
 
 import '../../styles/user-page.scss'
 import { useNavigate } from 'react-router'
-import { useAuth } from '../../context/AuthContext'
 import { getPayload, PayLoad } from '../../service/Authenticate'
+
 
 
 
@@ -30,6 +30,7 @@ export function Home(){
     const navigate = useNavigate()
     const [ , setIsTagShown ] = useState(false)
     var data:NewCompliment | any = null;
+
     const handleCreateCompliment = async () => {
         let tagId = ''
 
@@ -48,25 +49,25 @@ export function Home(){
             }
     }
 
-    const { loggedIn } = useAuth()
+
     const payLoad = getPayload() as PayLoad
     function isLoggedIn(){
-        if(payLoad === undefined){
-            if(loggedIn === false){
-              return navigate('/')
-            }
+        if(payLoad !== undefined){
+            getAllUsers()
+        }else{
+            return navigate('/')
         }
+
     }
-    useEffect(()=>{    
-        getAllUsers()
-        isLoggedIn() 
+    useEffect(()=>{
+           isLoggedIn() 
      // eslint-disable-next-line react-hooks/exhaustive-deps
      },[])
 
     return(
         <>
-      <div id="user-page">
-            <SideMenu userName={user && user.name}/>
+      {users && <div id="user-page">
+            <SideMenu userName={users && user.name}/>
             <MenuHamburguer/>
             <OverlayDismissSideMenu/>
             <header>
@@ -80,7 +81,17 @@ export function Home(){
                         <div style={{display:'flex', flexDirection:'column'}}>
                             <div key='users' className='custom-select'>
                                 <p>Para:</p>
-                                <select value={user_receiver} onChange={(e) => setUser_receiver(e.target.value)} onClick={()=> setIsFirtsOptionShown(false)}>
+                                <select onFocus={()=> {
+                                    document.getElementById('custom-select').setAttribute('size', '4')
+                                    document.getElementById('custom-select').setAttribute('position', 'absolute')
+                                    document.getElementById('custom-select').setAttribute('z-index', '100')
+                                }} id='custom-select' onBlur={()=>{
+                                    document.getElementById('custom-select').setAttribute('size', '1')
+                                }} value={user_receiver} onChange={(e) => {
+                                    setUser_receiver(e.target.value)
+                                    document.getElementById('custom-select').setAttribute('size', '1')
+                                    document.getElementById('custom-select').blur()
+                                    }} onClick={()=> setIsFirtsOptionShown(false)}>
                                 {isFirstOptionShown && <option key={users && users.length + 1}>usuários</option> }
                                     {users && users.map((userEmail, index)=> {
                                     return (
@@ -117,7 +128,7 @@ export function Home(){
             <CreateTagModal/>
             <OverlayDismissModalTag onClick={handleModalIsShown} isShown={isShown}/>
             <button onClick={handleModalIsShown} className='create-tag-button'><img src={plus} alt="Plus-icon" /></button>
-        </div> 
+        </div> }
         </>
     )
 
