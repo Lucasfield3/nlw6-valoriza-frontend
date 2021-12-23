@@ -11,6 +11,7 @@ import { Recebidos } from "./pages/Recebidos";
 import { Register } from "./pages/Register";
 import { Sobre } from "./pages/Sobre";
 import { AuthContext,  useAuthInit } from "./context/AuthContext";
+import { ListsComplimetsProvider } from "./context/ListsComplimets";
 
 
 
@@ -29,23 +30,25 @@ function App() {
     
         <UserDataProvider>
           <AuthContext.Provider value={auth}>
-          <TagDataProvider>
-            <SideMenuProvider>
-              <ModalIshownProvider>
-                <BrowserRouter>
-                <Routes>
-                    <Route element={<Login/>} path='/'></Route>
-                    <Route element={<Register/>} path='/register'></Route>
-                    <Route element={<Home/>} path='/user/myHome'></Route>
-                    <Route element={<Loading/>} path='/loading'/>
-                    <Route element={<Recebidos/>} path='/recebidos'></Route>
-                    <Route element={<Enviados/>} path='/enviados'></Route>
-                    <Route element={<Sobre/>} path='/sobre'></Route>
-                </Routes>
-                </BrowserRouter>
-              </ModalIshownProvider>
-            </SideMenuProvider>
-          </TagDataProvider>
+            <ListsComplimetsProvider>
+              <TagDataProvider>
+                <SideMenuProvider>
+                  <ModalIshownProvider>
+                    <BrowserRouter>
+                    <Routes>
+                        <Route element={<Login/>} path='/'></Route>
+                        <Route element={<Register/>} path='/register'></Route>
+                        <Route element={<Home/>} path='/user/myHome'></Route>
+                        <Route element={<Loading/>} path='/loading'/>
+                        <Route element={<Recebidos/>} path='/recebidos'></Route>
+                        <Route element={<Enviados/>} path='/enviados'></Route>
+                        <Route element={<Sobre/>} path='/sobre'></Route>
+                    </Routes>
+                    </BrowserRouter>
+                  </ModalIshownProvider>
+                </SideMenuProvider>
+              </TagDataProvider>
+            </ListsComplimetsProvider>
           </AuthContext.Provider>
         </UserDataProvider>
       

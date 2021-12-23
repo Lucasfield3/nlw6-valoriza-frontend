@@ -6,7 +6,7 @@ export interface NewCompliment {
     message:string;
 }
 
-interface Compliment {
+export interface Compliment {
     id:string;
     user_sender:string;
     user_receiver:string;
@@ -60,6 +60,30 @@ export async function getTags():Promise<Tag[] | any>{
     .then(async(res)=> {
         console.log(res.data)
         return await res.data as Tag[]
+    })
+    .catch(err => console.log(err))
+
+}
+
+export async function getComplimentsListSend():Promise<Compliment[] | any>{
+
+    return https
+    .get('/user/compliments/send')
+    .then(async(res)=> {
+        console.log(res.data)
+        return await res.data as Compliment[]
+    })
+    .catch(err => console.log(err))
+
+}
+
+export async function getComplimentsListReceive():Promise<Compliment[] | any>{
+
+    return https
+    .get('/user/compliments/receive')
+    .then(async(res)=> {
+        console.log(res.data)
+        return await res.data as Compliment[]
     })
     .catch(err => console.log(err))
 
