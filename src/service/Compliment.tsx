@@ -58,20 +58,18 @@ export async function getTags():Promise<Tag[] | any>{
     return https
     .get('/tags')
     .then(async(res)=> {
-        console.log(res.data)
         return await res.data as Tag[]
     })
     .catch(err => console.log(err))
 
 }
 
-export async function getComplimentsListSend():Promise<Compliment[] | any>{
+export async function getComplimentsListSend():Promise<Compliment[]>{
 
     return https
     .get('/user/compliments/send')
     .then(async(res)=> {
-        console.log(res.data)
-        return await res.data as Compliment[]
+        return await res.data as Compliment[] | any
     })
     .catch(err => console.log(err))
 
@@ -82,8 +80,7 @@ export async function getComplimentsListReceive():Promise<Compliment[] | any>{
     return https
     .get('/user/compliments/receive')
     .then(async(res)=> {
-        console.log(res.data)
-        return await res.data as Compliment[]
+        return await res.data as Compliment[] | any
     })
     .catch(err => console.log(err))
 

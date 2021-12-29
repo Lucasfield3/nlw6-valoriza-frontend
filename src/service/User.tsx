@@ -21,7 +21,6 @@ export async function createUser(newUser:NewUser){
     https
         .post<User>('/users', newUser)
         .then(async(res)=> {
-            console.log(res.data)
             return await res.data
         })
 
@@ -32,7 +31,6 @@ export async function getUsers():Promise<User[] | any>{
     return https
         .get('/users')
         .then(async(res)=>{
-            console.log(res.data)
             return await res.data as User[]
         })
         .catch((erro)=>{
@@ -46,7 +44,6 @@ export async function getUser(){
     return https
         .get<User>('/user')
         .then(async(res)=>{
-            console.log(res.data)
             return res.data as User
         })
         .catch((erro)=>{

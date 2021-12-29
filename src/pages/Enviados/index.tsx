@@ -15,12 +15,10 @@ export function Enviados(){
 
     const navigate = useNavigate()
 
-    const { user } = useContext(UserDataContext)
+    const { user, users } = useContext(UserDataContext)
 
     async function handleIsLoggedHome(){
         const sendToken = getToken()
-        const userSend = await getUser() as User
-        if(userSend) console.log(userSend)
         if(sendToken === undefined){
             return navigate('/')
         } 
@@ -28,11 +26,12 @@ export function Enviados(){
     }
 
     useEffect(()=>{
-        handleIsLoggedHome()
+        //handleIsLoggedHome()
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return(
+        <>
         <div id="user-page">
             <SideMenu userName={user && user.name}/>
             <MenuHamburguer/>
@@ -55,6 +54,7 @@ export function Enviados(){
                 </div>
             </div>
         </div>
+        </>
     )
 
 }

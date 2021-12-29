@@ -2,30 +2,8 @@
 import { useContext, useEffect, useState } from 'react'
 import { ListsComplimetsContext } from '../context/ListsComplimets'
 import { UserDataContext } from '../context/UserDataContext'
-import { Compliment } from '../service/Compliment'
-import { User } from '../service/User'
 import '../styles/user-page.scss'
 
-interface ArrayFilteredUser {
-    user:{ id: string; email: string };
-   
-} 
-
-interface ArrayFilteredUserReceiver {
-    userReceiverId:{user_receiver:string};
-}
-
-interface ResultArray {
-    email: string;
-}
-
-interface ArrayMerge {
-    
-    id:string;
-    email: string;
-    user_receiver:string;
-    
-}
 
 
 
@@ -34,13 +12,10 @@ export default function ListMessages(){
     const { listComplimentsSend, getAllComplimentsSend } = useContext(ListsComplimetsContext)
     const { users, getAllUsers } = useContext(UserDataContext)
     const [ resultEmail, setResultEmail ] = useState<string[]>([])
+    
 
-
-    // function valueArray(valueUsers:User[], valueCompliments:Compliment[]): User[] | Compliment[] {  
-    //     return (valueUsers).concat(valueCompliments);  
-    // }
     let finalResult:string[] = [''];
-
+    let resultEmailFiltered:string[] = [''];
     function filterUserSender(){
         let userExtract:string[] = users.map((user) => {
             return user.id
@@ -48,56 +23,71 @@ export default function ListMessages(){
         let userReceiverExtract:string[] = listComplimentsSend.map((usersReceiver)=>{
             return usersReceiver.user_receiver
         })
-
-        let userReceiverEmailFiltered:string[] = userExtract.concat(userReceiverExtract)
-
-        console.log(userReceiverEmailFiltered)
-        let resultEmail:string[] = [''];
-
-        for(var i = 0; i < userReceiverEmailFiltered.length; i ++ ){
-            console.log(i)
-            if(userExtract[i] === userReceiverExtract[i]){
-                resultEmail.push(userReceiverEmailFiltered[i]);
-                console.log(resultEmail[i])
+        
+        const extractValueIds = (arrayValue:string)=>{
+            for(const [, value] of userExtract.entries()){
+                if(value === arrayValue){
+                    return resultEmailFiltered.push(value)
+                     // setResultEmail([...resultEmail, {
+                    //     user_receiver:value
+                    // }])
+                }
             }
-            if(userExtract[i] === undefined || userReceiverExtract[i] === undefined){
-                 continue;
-            }
-
         }
 
-        console.log(resultEmail)
+        console.log(resultEmailFiltered)
+
+        for(const [, value] of userReceiverExtract.entries()){
+    
+            extractValueIds(value)
+          
+        }
+
+         
+        const extractValueEmails = (arrayValue:string)=>{
+            for(const [, value] of users.entries()){
+                if(value.id === arrayValue){
+                    return finalResult.push(value.email)
+                    // setResultEmail([...resultEmail, {
+                    //     email:value.email
+                    // }])
+                
+                }
+            }
+        }
+
+     
        
-        for(var x = 0; x < users.length; x ++ ){
-            console.log(x)
-            if(resultEmail[x] === users[x].id){
-                finalResult.push(users[x].email);
-                console.log(users[x])
-            }
-            if(resultEmail[x] === undefined || users[x] === undefined){
-                 continue;
-            }
+        for(const [, value] of resultEmailFiltered.entries()){
+
+            extractValueEmails(value)
 
         }
 
         setResultEmail(finalResult)
-        console.log(finalResult)
+        console.log(resultEmail)
+        // console.log(finalResult)
 
     }
+
+  
 
     useEffect(() => {
         getAllComplimentsSend()
         getAllUsers()
         filterUserSender()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return(
         <>
         <div className="list-messages">
-            {resultEmail && resultEmail.map((result) => {
+            {resultEmail && resultEmail.map((result, index) => {
                 return (
                     <>
-                        <p>{result}</p>
+                        <p key={index} onClick={(e) => {
+                            console.log(listComplimentsSend[index - 1])
+                        }}>{result}</p>
                     </>
                 )
             })}

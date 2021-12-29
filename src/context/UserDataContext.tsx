@@ -1,11 +1,11 @@
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
 import { getPayload, PayLoad } from "../service/Authenticate";
 import { getUser, getUsers, User } from "../service/User";
 
 interface UserDataContextData {
     user: User;
     users: User[];
-    getAllUsers:()=>User[] | any;
+    getAllUsers:()=>Promise<User[] | any>;
     getOneUser:()=>User | any;
 }
 
@@ -27,7 +27,7 @@ interface UserDataProviderProps {
 export function UserDataProvider({children}: UserDataProviderProps) {
 
     const [ user , setUser] = useState<User>(DEFAULT_CONTEXT_DATA)
-    const [ users , setUsers] = useState<User[]>()
+    const [ users , setUsers] = useState<User[]>([])
 
 
     async function getAllUsers():Promise<User[] | any>{
@@ -45,7 +45,7 @@ export function UserDataProvider({children}: UserDataProviderProps) {
                 })
 
                 setUser(userFilter)
-            })    
+            }) as User[] | any  
         }  
         
     }  
@@ -65,7 +65,9 @@ export function UserDataProvider({children}: UserDataProviderProps) {
     }
     
 
-
+useEffect(()=>{ 
+    getAllUsers()
+}, [])
 
 
 

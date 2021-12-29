@@ -10,7 +10,6 @@ import { Loading } from "./pages/Loading/index";
 import { Recebidos } from "./pages/Recebidos";
 import { Register } from "./pages/Register";
 import { Sobre } from "./pages/Sobre";
-import { AuthContext,  useAuthInit } from "./context/AuthContext";
 import { ListsComplimetsProvider } from "./context/ListsComplimets";
 
 
@@ -19,17 +18,10 @@ import { ListsComplimetsProvider } from "./context/ListsComplimets";
 
 function App() {
 
-  const { loading, auth } = useAuthInit()
-  if(loading){
-    return <Loading/>
-  }
-  
-  //console.log(`rendering app with authState=${auth}`)
 
   return (
     
         <UserDataProvider>
-          <AuthContext.Provider value={auth}>
             <ListsComplimetsProvider>
               <TagDataProvider>
                 <SideMenuProvider>
@@ -49,7 +41,6 @@ function App() {
                 </SideMenuProvider>
               </TagDataProvider>
             </ListsComplimetsProvider>
-          </AuthContext.Provider>
         </UserDataProvider>
       
   );

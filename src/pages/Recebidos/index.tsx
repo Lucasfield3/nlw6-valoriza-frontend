@@ -48,7 +48,7 @@ export function Recebidos(){
                         <input placeholder='pesquisar' type='text'/>
                     </div>
                     <span/>
-                    <ListMessages/>
+                   {user && <ListMessages/>}
                 </div>
             </div>
         </div>
