@@ -75,7 +75,7 @@ export async function getComplimentsListSend():Promise<Compliment[]>{
 
 }
 
-export async function getComplimentsListReceive():Promise<Compliment[] | any>{
+export async function getComplimentsListReceive():Promise<Compliment[]>{
 
     return https
     .get('/user/compliments/receive')

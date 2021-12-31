@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
-import ListMessages from '../../components/ListMessages'
+import ListMessagesReceived from '../../components/ListMessagesReceived'
 import MenuHamburguer from '../../components/MenuHamburguer'
 import OverlayDismissSideMenu from '../../components/OverlayDismissSideMenu'
 import SideMenu from '../../components/SideMenu'
@@ -48,7 +48,7 @@ export function Recebidos(){
                         <input placeholder='pesquisar' onChange={(e)=> setSearchText(e.target.value)} value={searchText} type='text'/>
                     </div>
                     <span/>
-                    <ListMessages searchText={searchText}/>
+                    <ListMessagesReceived searchText={searchText}/>
                 </div>
             </div>
         </div>

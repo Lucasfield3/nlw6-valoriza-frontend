@@ -1,29 +1,16 @@
-
 import { useContext, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router'
-import ListMessages from '../../components/ListMessages'
+import ListMessagesSended from '../../components/ListMessagesSended'
 import MenuHamburguer from '../../components/MenuHamburguer'
 import OverlayDismissSideMenu from '../../components/OverlayDismissSideMenu'
 import SideMenu from '../../components/SideMenu'
 import { UserDataContext } from '../../context/UserDataContext'
 import logo from '../../images/logo.svg'
-import { getToken } from '../../service/Authenticate'
-import { getUser, User } from '../../service/User'
 import '../../styles/user-page.scss'
 
 export function Enviados(){
 
-    const navigate = useNavigate()
     const [searchText, setSearchText] = useState('');
-    const { user, users } = useContext(UserDataContext)
-
-    async function handleIsLoggedHome(){
-        const sendToken = getToken()
-        if(sendToken === undefined){
-            return navigate('/')
-        } 
-        
-    }
+    const { user } = useContext(UserDataContext)
 
     useEffect(()=>{
         //handleIsLoggedHome()
@@ -50,7 +37,7 @@ export function Enviados(){
                         <input placeholder='pesquisar' onChange={(e)=> setSearchText(e.target.value)} value={searchText} type='text'/>
                     </div>
                     <span/>
-                    <ListMessages searchText={searchText}/>
+                    <ListMessagesSended searchText={searchText}/>
                 </div>
             </div>
         </div>

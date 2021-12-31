@@ -16,9 +16,9 @@ interface ComplimentsFiltered{
         id:string;
     }
 }
-export default function ListMessages({searchText}:ListMessagesProps){
+export default function ListMessagesReceived({searchText}:ListMessagesProps){
 
-    const { listComplimentsSend, getAllComplimentsSend } = useContext(ListsComplimetsContext)
+    const { listComplimentsReceiver, getAllComplimentsReceiver } = useContext(ListsComplimetsContext)
     const { users, getAllUsers } = useContext(UserDataContext)
     const { tags, } = useContext(TagDataContext)
     const [ resultEmail, setResultEmail ] = useState<ComplimentsFiltered[]>([])
@@ -34,12 +34,11 @@ export default function ListMessages({searchText}:ListMessagesProps){
         user_receiver:'',
         user_sender:''
     }];
-    function filterUserReceiver(){
-        getAllComplimentsSend()
-
+    function filterUserSender(){
+        getAllComplimentsReceiver()
         const extractCompliment = (arrayValue:Compliment)=>{
             for(const [, value] of users.entries()){
-                if(value.id === arrayValue.user_receiver){
+                if(value.id === arrayValue.user_sender){
                     return resultEmailFiltered.push(arrayValue)
 
                 }
@@ -47,7 +46,7 @@ export default function ListMessages({searchText}:ListMessagesProps){
         }
 
        
-        for(const [, value] of listComplimentsSend.entries()){
+        for(const [, value] of listComplimentsReceiver.entries()){
     
             extractCompliment(value)
           
@@ -55,9 +54,9 @@ export default function ListMessages({searchText}:ListMessagesProps){
 
         console.log(resultEmailFiltered)
          
-        const extractValueReceivers = (arrayValue:Compliment)=>{
+        const extractValueSenders = (arrayValue:Compliment)=>{
             for(const [, value] of users.entries()){
-                if(value.id === arrayValue.user_receiver){
+                if(value.id === arrayValue.user_sender){
                     return finalResult.push({compliments:{email:value.email, id:arrayValue.id}})
                 }
             }
@@ -65,7 +64,7 @@ export default function ListMessages({searchText}:ListMessagesProps){
 
         for(const [, value] of resultEmailFiltered.entries()){
 
-            extractValueReceivers(value)
+            extractValueSenders(value)
 
         }
 
@@ -76,14 +75,14 @@ export default function ListMessages({searchText}:ListMessagesProps){
     }
 
 
-    let usersReceiverFiltered = resultEmail.filter(compliment =>{
+    let usersSenderFiltered = resultEmail.filter(compliment =>{
         if(resultEmail){
              return compliment.compliments.email.toLowerCase().indexOf(searchText.toLowerCase()) !== -1
          }
      })
 
      function handleShowCompliment(id:string){
-        for(const [, value] of listComplimentsSend.entries()){
+        for(const [, value] of listComplimentsReceiver.entries()){
             if(value.id === id){
                 setValuesCompliments(value)
                 setComplimentModalShown(!complimentModalShown)
@@ -94,14 +93,18 @@ export default function ListMessages({searchText}:ListMessagesProps){
 
     useEffect(() => {
         getAllUsers()
-        filterUserReceiver()
+        if(listComplimentsReceiver.length > 0){
+
+            filterUserSender()
+        }
+        
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return(
         <>
         {users && <div className="list-messages">
-            {usersReceiverFiltered.map((result, index) => {
+            {usersSenderFiltered.map((result, index) => {
                 return (
                     <>
                         <p  key={index} onClick={() => {
@@ -114,7 +117,7 @@ export default function ListMessages({searchText}:ListMessagesProps){
             })}
             {complimentModalShown &&  
             <div style={{width:'20rem', height:'10rem', backgroundColor:'var(--light-brown)', position:'absolute'}}>
-                <header>{users.map(user => user.id === valuesCompliments.user_receiver && user.email)}</header>
+                <header>{users.map(user => user.id === valuesCompliments.user_sender && user.email)}</header>
                 <main>
                     {valuesCompliments.message}
                 </main>

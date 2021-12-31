@@ -24,7 +24,7 @@ export function Home(){
     const {user, getAllUsers, users} = useContext(UserDataContext)
     const { tags, } = useContext(TagDataContext)
     const { isShown, handleModalIsShown } = useContext(ModalIshownContext)
-    const { getAllComplimentsSend } = useContext(ListsComplimetsContext)
+    const { getAllComplimentsSend, getAllComplimentsReceiver } = useContext(ListsComplimetsContext)
     const [ isFirstOptionShown, setIsFirtsOptionShown] = useState(true)
     const [user_receiver, setUser_receiver] = useState('')
     const [tag_id, setTag_id] = useState('')
@@ -57,6 +57,8 @@ export function Home(){
     function isLoggedIn(){
         if(payLoad !== undefined){
             getAllUsers()
+            getAllComplimentsSend()
+            getAllComplimentsReceiver()
         }else{
             return navigate('/')
         }
