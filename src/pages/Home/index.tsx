@@ -14,6 +14,7 @@ import { TagDataContext } from '../../context/TagDataContext'
 import '../../styles/user-page.scss'
 import { useNavigate } from 'react-router'
 import { getPayload, PayLoad } from '../../service/Authenticate'
+import { ListsComplimetsContext } from '../../context/ListsComplimets'
 
 
 
@@ -23,6 +24,7 @@ export function Home(){
     const {user, getAllUsers, users} = useContext(UserDataContext)
     const { tags, } = useContext(TagDataContext)
     const { isShown, handleModalIsShown } = useContext(ModalIshownContext)
+    const { getAllComplimentsSend } = useContext(ListsComplimetsContext)
     const [ isFirstOptionShown, setIsFirtsOptionShown] = useState(true)
     const [user_receiver, setUser_receiver] = useState('')
     const [tag_id, setTag_id] = useState('')
@@ -44,6 +46,7 @@ export function Home(){
 
             if(data){
                 console.log('compliment created')
+                getAllComplimentsSend()
             }else{
                 console.log("Nothing to return");
             }
@@ -110,7 +113,10 @@ export function Home(){
                                     {tags && tags.map((tag, index)=>{
                                         return (
                                             <>
-                                                <option onClick={()=> setIsTagShown(false)} value={tag.name} key={index}>{tag.name}</option>
+                                                <option onClick={()=> {
+                                                    setIsTagShown(false)
+                                                    console.log(tag.id)
+                                                    }} value={tag.name} key={index}>{tag.name}</option>
                                             </>
                                         )
                                     })}

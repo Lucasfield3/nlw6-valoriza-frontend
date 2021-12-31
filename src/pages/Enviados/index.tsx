@@ -1,5 +1,5 @@
 
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import ListMessages from '../../components/ListMessages'
 import MenuHamburguer from '../../components/MenuHamburguer'
@@ -14,7 +14,7 @@ import '../../styles/user-page.scss'
 export function Enviados(){
 
     const navigate = useNavigate()
-
+    const [searchText, setSearchText] = useState('');
     const { user, users } = useContext(UserDataContext)
 
     async function handleIsLoggedHome(){
@@ -47,10 +47,10 @@ export function Enviados(){
                 }}>Lista de elogios enviados</h1>
                 <div className="compliment-sender">
                     <div>
-                        <input placeholder='pesquisar' type='text'/>
+                        <input placeholder='pesquisar' onChange={(e)=> setSearchText(e.target.value)} value={searchText} type='text'/>
                     </div>
                     <span/>
-                    <ListMessages/>
+                    <ListMessages searchText={searchText}/>
                 </div>
             </div>
         </div>

@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import ListMessages from '../../components/ListMessages'
 import MenuHamburguer from '../../components/MenuHamburguer'
@@ -12,7 +12,7 @@ import '../../styles/user-page.scss'
 export function Recebidos(){
 
     const navigate = useNavigate()
-
+    const [searchText, setSearchText] = useState('');
     const { user } = useContext(UserDataContext)
 
   
@@ -43,12 +43,12 @@ export function Recebidos(){
                     height:'auto',
                     width:'26rem'
                 }}>Lista de elogios recebidos</h1>
-                <div className="compliment-sender">
+                 <div className="compliment-sender">
                     <div>
-                        <input placeholder='pesquisar' type='text'/>
+                        <input placeholder='pesquisar' onChange={(e)=> setSearchText(e.target.value)} value={searchText} type='text'/>
                     </div>
                     <span/>
-                   {user && <ListMessages/>}
+                    <ListMessages searchText={searchText}/>
                 </div>
             </div>
         </div>
