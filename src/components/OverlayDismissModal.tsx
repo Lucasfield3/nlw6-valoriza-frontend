@@ -4,7 +4,7 @@ interface OverlayDismissModalTagProps{
     isShown:boolean;
 }
 
-export function OverlayDismissModalTag({onClick, isShown}:OverlayDismissModalTagProps){
+export function OverlayDismissModal({onClick, isShown}:OverlayDismissModalTagProps){
 
     return(
         <div style={{

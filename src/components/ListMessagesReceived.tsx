@@ -1,10 +1,12 @@
 /* eslint-disable array-callback-return */
 import { useContext, useEffect, useState } from 'react'
 import { ListsComplimetsContext } from '../context/ListsComplimets'
+import { ModalIshownContext } from '../context/ModalIsShownContext'
 import { TagDataContext } from '../context/TagDataContext'
 import { UserDataContext } from '../context/UserDataContext'
 import { Compliment } from '../service/Compliment'
 import '../styles/user-page.scss'
+import { ModalCompliments } from './ModalCompliments'
 
 interface ListMessagesProps {
     searchText:string;
@@ -19,11 +21,11 @@ interface ComplimentsFiltered{
 export default function ListMessagesReceived({searchText}:ListMessagesProps){
 
     const { listComplimentsReceiver, getAllComplimentsReceiver } = useContext(ListsComplimetsContext)
-    const { users, getAllUsers } = useContext(UserDataContext)
+    const { users, getAllUsers} = useContext(UserDataContext)
     const { tags, } = useContext(TagDataContext)
+    const { handleModalIsShownCompliments, complimentModalShown } = useContext(ModalIshownContext)
     const [ resultEmail, setResultEmail ] = useState<ComplimentsFiltered[]>([])
     const [ valuesCompliments, setValuesCompliments ] = useState<Compliment>()
-    const [ complimentModalShown, setComplimentModalShown ] = useState(false)
 
     let finalResult:ComplimentsFiltered[] = [{compliments:{email:'', id:''}}];
     let resultEmailFiltered:Compliment[] = [{
@@ -82,19 +84,20 @@ export default function ListMessagesReceived({searchText}:ListMessagesProps){
      })
 
      function handleShowCompliment(id:string){
-        for(const [, value] of listComplimentsReceiver.entries()){
-            if(value.id === id){
-                setValuesCompliments(value)
-                setComplimentModalShown(!complimentModalShown)
-            }
-        }
+         if(tags.length > 0){
+             for(const [, value] of listComplimentsReceiver.entries()){
+                 if(value.id === id){
+                     setValuesCompliments(value)
+                     return handleModalIsShownCompliments()
+                 }
+             }
+         }
 
      }
 
     useEffect(() => {
         getAllUsers()
-        if(listComplimentsReceiver.length > 0){
-
+        if(listComplimentsReceiver !== undefined){
             filterUserSender()
         }
         
@@ -115,14 +118,13 @@ export default function ListMessagesReceived({searchText}:ListMessagesProps){
                     </>
                 )
             })}
-            {complimentModalShown &&  
-            <div style={{width:'20rem', height:'10rem', backgroundColor:'var(--light-brown)', position:'absolute'}}>
-                <header>{users.map(user => user.id === valuesCompliments.user_sender && user.email)}</header>
-                <main>
-                    {valuesCompliments.message}
-                </main>
-                <footer>{tags.map(tag => tag.id === valuesCompliments.tag_id && tag.name)}</footer>
-            </div>}
+           {valuesCompliments !== undefined && <ModalCompliments 
+            email={users.map(user => user.id === valuesCompliments.user_sender && user.email)} 
+            tag={tags.map(tag => tag.id === valuesCompliments.tag_id && tag.name)} 
+            isShown={complimentModalShown}
+            forFrom={'De:'}
+            message={valuesCompliments.message}
+            />}
             </div>}
         </>
     )

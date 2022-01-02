@@ -1,9 +1,9 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
+import { createContext, ReactNode, useState } from "react";
 import { getTags, Tag } from "../service/Compliment";
 
 interface TagDataContextProp{
     tags:Tag[];
-    getAllTags:()=>void;
+    getAllTags:()=>Promise<Tag[]>;
 }
 
 export const TagDataContext = createContext({} as TagDataContextProp)
@@ -17,20 +17,21 @@ export function TagDataProvider({children}:TagDataProviderProps){
     const [ tags, setTags] = useState<Tag[]>()
 
     async function getAllTags(){
-
-        try{
-            const tagsSend = await getTags()
-            setTags(tagsSend)
-        }catch(err){
-            console.log(err)
+        const tagsSend = await getTags()
+        if(tagsSend){
+            return await getTags().then((data:Tag[]) =>{
+                if(data){
+                    setTags(data)
+                }
+            }) as Tag[] | any
         }
+            
+            
+      
        
 
     }
 
-    useEffect(() => {
-        getAllTags()
-    }, [])
 
     return(
         <TagDataContext.Provider value={{tags, getAllTags}}>

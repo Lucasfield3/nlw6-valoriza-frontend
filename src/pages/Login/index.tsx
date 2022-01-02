@@ -11,7 +11,7 @@ import { UserDataContext } from '../../context/UserDataContext'
 
 export function Login(){
     const { register, handleSubmit  } = useForm()
-    const { getAllUsers} = useContext(UserDataContext)
+    const { getAllUsers, getOneUser} = useContext(UserDataContext)
     const navigate = useNavigate()
     async function onSubmit(data:User){
         var access_token:string | any = null;
@@ -22,7 +22,9 @@ export function Login(){
                 storeToken(access_token) 
                     if(access_token){
                         getAllUsers()
+                        getOneUser()
                         setTimeout(()=>navigate(`/user/myHome/`), 500)
+                        window.location.reload()
                     }
                 }
             })

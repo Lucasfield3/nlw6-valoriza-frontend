@@ -6,7 +6,7 @@ import { createCompliment, NewCompliment} from '../../service/Compliment'
 import plus from '../../images/plus.svg'
 import { useContext,  useEffect,  useState } from 'react'
 import { CreateTagModal } from '../../components/CreateTagModal'
-import { OverlayDismissModalTag } from '../../components/OverlayDismissModalTag'
+import { OverlayDismissModal } from '../../components/OverlayDismissModal'
 import { ModalIshownContext } from '../../context/ModalIsShownContext'
 import { UserDataContext } from '../../context/UserDataContext'
 import { TagDataContext } from '../../context/TagDataContext'
@@ -21,8 +21,8 @@ import { ListsComplimetsContext } from '../../context/ListsComplimets'
 
 export function Home(){
 
-    const {user, getAllUsers, users} = useContext(UserDataContext)
-    const { tags, } = useContext(TagDataContext)
+    const {user, getAllUsers, users, getOneUser} = useContext(UserDataContext)
+    const { tags, getAllTags} = useContext(TagDataContext)
     const { isShown, handleModalIsShown } = useContext(ModalIshownContext)
     const { getAllComplimentsSend, getAllComplimentsReceiver } = useContext(ListsComplimetsContext)
     const [ isFirstOptionShown, setIsFirtsOptionShown] = useState(true)
@@ -57,8 +57,10 @@ export function Home(){
     function isLoggedIn(){
         if(payLoad !== undefined){
             getAllUsers()
+            getOneUser()
             getAllComplimentsSend()
             getAllComplimentsReceiver()
+            getAllTags()
         }else{
             return navigate('/')
         }
@@ -134,7 +136,7 @@ export function Home(){
                 <button onClick={handleCreateCompliment} >Enviar elogio</button>
             </div>
             <CreateTagModal/>
-            <OverlayDismissModalTag onClick={handleModalIsShown} isShown={isShown}/>
+            <OverlayDismissModal onClick={handleModalIsShown} isShown={isShown}/>
             <button onClick={handleModalIsShown} className='create-tag-button'><img src={plus} alt="Plus-icon" /></button>
         </div> }
         </>

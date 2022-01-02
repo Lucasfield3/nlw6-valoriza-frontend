@@ -28,14 +28,13 @@ export function UserDataProvider({children}: UserDataProviderProps) {
 
     const [ user , setUser] = useState<User>(DEFAULT_CONTEXT_DATA)
     const [ users , setUsers] = useState<User[]>([])
-
+    const payLoad = getPayload() as PayLoad
 
     async function getAllUsers():Promise<User[] | any>{
         const users = await getUsers()
         if(users){
            return await getUsers().then((data:User[])=>{
                 setUsers(data)
-                const payLoad = getPayload() as PayLoad
                 let userFilter:User;
                 data.map((user)=>{
                     if(payLoad.email === user.email){
@@ -54,14 +53,16 @@ export function UserDataProvider({children}: UserDataProviderProps) {
 
     let newUser:User
     async function getOneUser(){
-       return await getUser()
-       .then((data:User)=>{
-           if(data){
-            newUser = data
-               console.log(newUser)
-               //setUser(newUser)
-           }
-       })
+        if(window.location){
+            return await getUser()
+            .then((data:User)=>{
+                if(data){
+                 newUser = data
+                    console.log(newUser)
+                    //setUser(newUser)
+                }
+            })
+        }
     }
     
 
@@ -69,6 +70,9 @@ useEffect(()=>{
     getAllUsers()
 }, [])
 
+useEffect(()=>{
+    getOneUser()
+}, [payLoad])
 
 
     return(

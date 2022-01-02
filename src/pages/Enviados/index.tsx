@@ -1,8 +1,10 @@
 import { useContext, useEffect, useState } from 'react'
 import ListMessagesSended from '../../components/ListMessagesSended'
 import MenuHamburguer from '../../components/MenuHamburguer'
+import { OverlayDismissModal } from '../../components/OverlayDismissModal'
 import OverlayDismissSideMenu from '../../components/OverlayDismissSideMenu'
 import SideMenu from '../../components/SideMenu'
+import { ModalIshownContext } from '../../context/ModalIsShownContext'
 import { UserDataContext } from '../../context/UserDataContext'
 import logo from '../../images/logo.svg'
 import '../../styles/user-page.scss'
@@ -10,7 +12,8 @@ import '../../styles/user-page.scss'
 export function Enviados(){
 
     const [searchText, setSearchText] = useState('');
-    const { user } = useContext(UserDataContext)
+    const { user, users } = useContext(UserDataContext)
+    const { handleModalIsShownCompliments, complimentModalShown } = useContext(ModalIshownContext)
 
     useEffect(()=>{
         //handleIsLoggedHome()
@@ -19,7 +22,7 @@ export function Enviados(){
 
     return(
         <>
-        <div id="user-page">
+        {users && <div id="user-page">
             <SideMenu userName={user && user.name}/>
             <MenuHamburguer/>
             <OverlayDismissSideMenu/>
@@ -40,7 +43,9 @@ export function Enviados(){
                     <ListMessagesSended searchText={searchText}/>
                 </div>
             </div>
-        </div>
+            <OverlayDismissModal onClick={handleModalIsShownCompliments} isShown={complimentModalShown}/>
+        </div>}
+
         </>
     )
 

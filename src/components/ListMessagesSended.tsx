@@ -1,6 +1,7 @@
 /* eslint-disable array-callback-return */
 import { useContext, useEffect, useState } from 'react'
 import { ListsComplimetsContext } from '../context/ListsComplimets'
+import { ModalIshownContext } from '../context/ModalIsShownContext'
 import { TagDataContext } from '../context/TagDataContext'
 import { UserDataContext } from '../context/UserDataContext'
 import { Compliment } from '../service/Compliment'
@@ -15,6 +16,7 @@ interface ComplimentsFiltered{
     compliments:{
         email:string;
         id:string;
+       
     }
 }
 export default function ListMessagesSended({searchText}:ListMessagesProps){
@@ -22,9 +24,10 @@ export default function ListMessagesSended({searchText}:ListMessagesProps){
     const { listComplimentsSend, getAllComplimentsSend } = useContext(ListsComplimetsContext)
     const { users, getAllUsers } = useContext(UserDataContext)
     const { tags, } = useContext(TagDataContext)
+    const { handleModalIsShownCompliments, complimentModalShown } = useContext(ModalIshownContext)
     const [ resultEmail, setResultEmail ] = useState<ComplimentsFiltered[]>([])
     const [ valuesCompliments, setValuesCompliments ] = useState<Compliment>()
-    const [ complimentModalShown, setComplimentModalShown ] = useState(false)
+  
 
     let finalResult:ComplimentsFiltered[] = [{compliments:{email:'', id:''}}];
     let resultEmailFiltered:Compliment[] = [{
@@ -86,7 +89,7 @@ export default function ListMessagesSended({searchText}:ListMessagesProps){
         for(const [, value] of listComplimentsSend.entries()){
             if(value.id === id){
                 setValuesCompliments(value)
-                setComplimentModalShown(!complimentModalShown)
+                return handleModalIsShownCompliments()
             }
         }
 
@@ -114,14 +117,13 @@ export default function ListMessagesSended({searchText}:ListMessagesProps){
                     </>
                 )
             })}
-            {complimentModalShown && <ModalCompliments 
+            {valuesCompliments !== undefined &&<ModalCompliments 
             email={users.map(user => user.id === valuesCompliments.user_receiver && user.email)} 
             tag={tags.map(tag => tag.id === valuesCompliments.tag_id && tag.name)} 
             isShown={complimentModalShown}
             forFrom={'Para:'}
             message={valuesCompliments.message}
             />}
-            {/* <OverlayDismissModalTag onClick={()=> setComplimentModalShown(!complimentModalShown)} isShown={complimentModalShown}/> */}
             </div>}
         </>
     )

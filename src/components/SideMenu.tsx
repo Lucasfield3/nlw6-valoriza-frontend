@@ -13,7 +13,7 @@ interface SideMenuProps{
 export default function SideMenu({userName}:SideMenuProps){
 
     const { isActive, handleIsActive } = useContext(SideMenuContext)
-    const { users } = useContext(UserDataContext)
+    const { users, getOneUser } = useContext(UserDataContext)
     const navigate = useNavigate()
 
 
@@ -29,7 +29,7 @@ export default function SideMenu({userName}:SideMenuProps){
                         <p onClick={() => navigate('/sobre')}>Sobre</p>
                         <p onClick={() => {
                             handleIsActive()
-                            //storeToken('')
+                            getOneUser()
                             navigate('/')
                             }}>Sair</p>
                     </div>

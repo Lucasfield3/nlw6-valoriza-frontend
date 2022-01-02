@@ -1,4 +1,4 @@
-import '../styles/user-page.scss';
+import '../styles/modals.scss';
 
 interface ModalComplimentsProps {
     isShown:boolean;
@@ -15,8 +15,8 @@ export function ModalCompliments({isShown, email, tag, message, forFrom}:ModalCo
         <>
              <div style={{opacity:isShown ? 1 : 0, zIndex:isShown ? 80 : -80}} className="list-compliment">
                     <p>{forFrom} {email}</p>
-                <textarea value={message} rows={7} cols={28}/>
-                {tag}
+                <textarea readOnly value={message} cols={28}/>
+                #{tag}
             </div>
 
         </>
