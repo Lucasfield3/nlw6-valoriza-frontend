@@ -1,34 +1,21 @@
 import '../../styles/landing-pages.scss'
 import logo from '../../images/logo.svg'
 import { Link, useNavigate } from 'react-router-dom'
-
-
-import { login, storeToken } from '../../service/Authenticate'
-import {  User } from '../../service/User'
+import { Credentials, } from '../../service/Authenticate'
 import { useForm } from 'react-hook-form'
 import { useContext } from 'react'
-import { UserDataContext } from '../../context/UserDataContext'
+import { AuthContext } from '../../context/AuthContext'
 
 export function Login(){
     const { register, handleSubmit  } = useForm()
-    const { getAllUsers, getOneUser} = useContext(UserDataContext)
+    const { authenticate } = useContext(AuthContext)
     const navigate = useNavigate()
-    async function onSubmit(data:User){
-        var access_token:string | any = null;
-            await login(data)
-            .then((dataLogin:string) => {
-                if(dataLogin){
-                access_token = dataLogin
-                storeToken(access_token) 
-                    if(access_token){
-                        getAllUsers()
-                        getOneUser()
-                        setTimeout(()=>navigate(`/user/myHome/`), 500)
-                        window.location.reload()
-                    }
-                }
-            })
+    
+    async function onSubmit(data:Credentials){
         
+        await authenticate(data)   
+        setTimeout(()=>navigate('/user/myHome'), 500)
+
     }
 
 

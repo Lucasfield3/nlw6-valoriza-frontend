@@ -15,13 +15,15 @@ import '../../styles/user-page.scss'
 import { useNavigate } from 'react-router'
 import { getPayload, PayLoad } from '../../service/Authenticate'
 import { ListsComplimetsContext } from '../../context/ListsComplimets'
+import { AuthContext } from '../../context/AuthContext'
 
 
 
 
 export function Home(){
 
-    const {user, getAllUsers, users, getOneUser} = useContext(UserDataContext)
+    const { getAllUsers, users} = useContext(UserDataContext)
+    const {userAuthenticated, authenticated} = useContext(AuthContext)
     const { tags, getAllTags} = useContext(TagDataContext)
     const { isShown, handleModalIsShown } = useContext(ModalIshownContext)
     const { getAllComplimentsSend, getAllComplimentsReceiver } = useContext(ListsComplimetsContext)
@@ -52,29 +54,20 @@ export function Home(){
             }
     }
 
+   // const reloadCount = Number(sessionStorage.getItem('reloadCount')) || 0;
+ 
 
-    const payLoad = getPayload() as PayLoad
-    function isLoggedIn(){
-        if(payLoad !== undefined){
-            getAllUsers()
-            getOneUser()
-            getAllComplimentsSend()
-            getAllComplimentsReceiver()
-            getAllTags()
-        }else{
-            return navigate('/')
-        }
-
-    }
-    useEffect(()=>{
-           isLoggedIn() 
-     // eslint-disable-next-line react-hooks/exhaustive-deps
-     },[])
+    useEffect(() => {
+        getAllUsers()
+        getAllComplimentsSend()
+        getAllComplimentsReceiver()
+        getAllTags()
+    }, [])
 
     return(
         <>
-      {users && <div id="user-page">
-            <SideMenu userName={users && user.name}/>
+      {users &&  <div id="user-page">
+            {userAuthenticated && <SideMenu userName={users && userAuthenticated.user.name}/>}
             <MenuHamburguer/>
             <OverlayDismissSideMenu/>
             <header>

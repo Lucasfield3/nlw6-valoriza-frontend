@@ -1,12 +1,10 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
-import { getPayload, PayLoad } from "../service/Authenticate";
-import { getUser, getUsers, User } from "../service/User";
+import { createContext, ReactNode,  useEffect,  useState } from "react";
+
+import { getUsers, User } from "../service/User";
 
 interface UserDataContextData {
-    user: User;
     users: User[];
     getAllUsers:()=>Promise<User[] | any>;
-    getOneUser:()=>User | any;
 }
 
 export const DEFAULT_CONTEXT_DATA = {
@@ -26,57 +24,26 @@ interface UserDataProviderProps {
 
 export function UserDataProvider({children}: UserDataProviderProps) {
 
-    const [ user , setUser] = useState<User>(DEFAULT_CONTEXT_DATA)
     const [ users , setUsers] = useState<User[]>([])
-    const payLoad = getPayload() as PayLoad
 
     async function getAllUsers():Promise<User[] | any>{
         const users = await getUsers()
         if(users){
            return await getUsers().then((data:User[])=>{
                 setUsers(data)
-                let userFilter:User;
-                data.map((user)=>{
-                    if(payLoad.email === user.email){
-                        return userFilter = user
-                    }
-                    return userFilter
-                })
-
-                setUser(userFilter)
-            }) as User[] | any  
+            }) as User[]
         }  
         
     }  
 
-
-
-    let newUser:User
-    async function getOneUser(){
-        if(window.location){
-            return await getUser()
-            .then((data:User)=>{
-                if(data){
-                 newUser = data
-                    console.log(newUser)
-                    //setUser(newUser)
-                }
-            })
-        }
-    }
     
-
-useEffect(()=>{ 
-    getAllUsers()
-}, [])
-
-useEffect(()=>{
-    getOneUser()
-}, [payLoad])
-
+    useEffect(() => {
+        getAllUsers()
+    }, [])
+  
 
     return(
-        <UserDataContext.Provider value={{user, users, getAllUsers, getOneUser}}>
+        <UserDataContext.Provider value={{ users, getAllUsers}}>
             {children}
         </UserDataContext.Provider>
     )

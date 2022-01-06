@@ -10,11 +10,13 @@ import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { UserDataContext } from '../../context/UserDataContext';
 import { getToken } from '../../service/Authenticate';
+import { AuthContext } from '../../context/AuthContext';
 
 export function Sobre(){
     const navigate = useNavigate()
 
-    const { user } = useContext(UserDataContext)
+    const {userAuthenticated} = useContext(AuthContext)
+    
 
     function handleIsLoggedHome(){
         const sendToken = getToken()
@@ -35,7 +37,7 @@ export function Sobre(){
 
     return(
         <div id="user-page">
-            <SideMenu userName={user && user.name}/>
+            <SideMenu userName={userAuthenticated && userAuthenticated.user.name}/>
             <MenuHamburguer/>
             <OverlayDismissSideMenu/>
             <header>

@@ -1,4 +1,5 @@
 import https from '../utils/https';
+import { getPayload, PayLoad } from './Authenticate';
 
 export interface NewUser{
     name:string;
@@ -27,20 +28,22 @@ export async function createUser(newUser:NewUser){
 }
 
 export async function getUsers():Promise<User[] | any>{
-
-    return https
-        .get('/users')
-        .then(async(res)=>{
-            return await res.data as User[]
-        })
-        .catch((erro)=>{
-            console.log(erro)
-            
-        })
+ 
+        return https
+            .get('/users')
+            .then(async(res)=>{
+                return await res.data as User[]
+            })
+            .catch((erro)=>{
+                console.log(erro)
+                
+            })
+    
 
 }
 
-export async function getUser(){
+export async function getUser():Promise<User | any>{
+    //const payLoad = getPayload() as PayLoad
     return https
         .get<User>('/user')
         .then(async(res)=>{

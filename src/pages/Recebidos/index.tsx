@@ -4,6 +4,7 @@ import MenuHamburguer from '../../components/MenuHamburguer'
 import { OverlayDismissModal } from '../../components/OverlayDismissModal'
 import OverlayDismissSideMenu from '../../components/OverlayDismissSideMenu'
 import SideMenu from '../../components/SideMenu'
+import { AuthContext } from '../../context/AuthContext'
 import { ListsComplimetsContext } from '../../context/ListsComplimets'
 import { ModalIshownContext } from '../../context/ModalIsShownContext'
 import { TagDataContext } from '../../context/TagDataContext'
@@ -16,7 +17,8 @@ export function Recebidos(){
     const [searchText, setSearchText] = useState('');
     const { handleModalIsShownCompliments, complimentModalShown } = useContext(ModalIshownContext)
     const { listComplimentsReceiver, getAllComplimentsReceiver } = useContext(ListsComplimetsContext)
-    const { user, getAllUsers} = useContext(UserDataContext)
+    const { getAllUsers} = useContext(UserDataContext)
+    const {userAuthenticated} = useContext(AuthContext)
     const {  getAllTags} = useContext(TagDataContext)
 
 
@@ -30,7 +32,7 @@ export function Recebidos(){
     return(
         <>
         {listComplimentsReceiver && <div id="user-page">
-           <SideMenu userName={user && user.name}/>
+           <SideMenu userName={userAuthenticated && userAuthenticated.user.name}/>
             <MenuHamburguer/>
             <OverlayDismissSideMenu/>
             <header>

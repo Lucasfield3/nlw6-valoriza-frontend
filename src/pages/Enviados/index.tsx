@@ -4,6 +4,7 @@ import MenuHamburguer from '../../components/MenuHamburguer'
 import { OverlayDismissModal } from '../../components/OverlayDismissModal'
 import OverlayDismissSideMenu from '../../components/OverlayDismissSideMenu'
 import SideMenu from '../../components/SideMenu'
+import { AuthContext } from '../../context/AuthContext'
 import { ModalIshownContext } from '../../context/ModalIsShownContext'
 import { UserDataContext } from '../../context/UserDataContext'
 import logo from '../../images/logo.svg'
@@ -12,9 +13,10 @@ import '../../styles/user-page.scss'
 export function Enviados(){
 
     const [searchText, setSearchText] = useState('');
-    const { user, users } = useContext(UserDataContext)
+    const { users } = useContext(UserDataContext)
     const { handleModalIsShownCompliments, complimentModalShown } = useContext(ModalIshownContext)
-
+    const {userAuthenticated} = useContext(AuthContext)
+    
     useEffect(()=>{
         //handleIsLoggedHome()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -23,7 +25,7 @@ export function Enviados(){
     return(
         <>
         {users && <div id="user-page">
-            <SideMenu userName={user && user.name}/>
+            <SideMenu userName={userAuthenticated && userAuthenticated.user.name}/>
             <MenuHamburguer/>
             <OverlayDismissSideMenu/>
             <header>

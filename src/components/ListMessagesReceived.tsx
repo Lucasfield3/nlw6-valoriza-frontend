@@ -1,5 +1,6 @@
 /* eslint-disable array-callback-return */
 import { useContext, useEffect, useState } from 'react'
+import { AuthContext } from '../context/AuthContext'
 import { ListsComplimetsContext } from '../context/ListsComplimets'
 import { ModalIshownContext } from '../context/ModalIsShownContext'
 import { TagDataContext } from '../context/TagDataContext'
@@ -23,6 +24,7 @@ export default function ListMessagesReceived({searchText}:ListMessagesProps){
     const { listComplimentsReceiver, getAllComplimentsReceiver } = useContext(ListsComplimetsContext)
     const { users, getAllUsers} = useContext(UserDataContext)
     const { tags, } = useContext(TagDataContext)
+    const { userAuthenticated } = useContext(AuthContext)
     const { handleModalIsShownCompliments, complimentModalShown } = useContext(ModalIshownContext)
     const [ resultEmail, setResultEmail ] = useState<ComplimentsFiltered[]>([])
     const [ valuesCompliments, setValuesCompliments ] = useState<Compliment>()
@@ -106,7 +108,7 @@ export default function ListMessagesReceived({searchText}:ListMessagesProps){
 
     return(
         <>
-        {users && <div className="list-messages">
+        {userAuthenticated && <div className="list-messages">
             {usersSenderFiltered.map((result, index) => {
                 return (
                     <>
