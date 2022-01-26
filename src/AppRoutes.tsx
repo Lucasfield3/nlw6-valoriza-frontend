@@ -21,7 +21,7 @@ import { ListsComplimetsProvider } from "./context/ListsComplimets";
 import { ReactElement, ReactNode, useContext, useState } from 'react';
 import { getUser, User } from './service/User';
 import { Credentials, storeToken } from './service/Authenticate';
-import { AuthContext, AuthProvider } from './context/AuthContext';
+import { AuthContext, AuthProvider, DEFAULT_CONTEXT_DATA } from './context/AuthContext';
 
 
 
@@ -33,20 +33,22 @@ function AppRoutes(){
     const Private = ({children}:PrivateProps)=>{
         const { authenticated, loading, userAuthenticated } = useContext(AuthContext)
 
+
         if(loading){
             console.log('loading')
             return <Loading/>
         }
-        if(userAuthenticated === null){
-            if(!authenticated){
-                console.log('not authenticated')
-                return <Navigate to='/'/>
-            }
+        
+        if(!authenticated){
+            console.log('not authenticated')
+            return <Navigate to='/'/>
         }
-        if(userAuthenticated !== null){
+        
+        if(authenticated){
             console.log('Authenticated')
             return children
         }
+ 
     }
 
     return(

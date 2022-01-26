@@ -1,6 +1,7 @@
 import https from "../utils/https";
 import jwt_decode from "jwt-decode";
 import { User } from "./User";
+import { Compliment } from "./Compliment";
 
 export interface Credentials {
     email: string;
@@ -21,22 +22,18 @@ export interface PayLoad {
 export interface UserAuthenticated {
     token: string;
     user: User;
+    compliments:{
+        send:Compliment[];
+        receive:Compliment[];
+    }
 }
 
 export async function login(credentials: Credentials):Promise<UserAuthenticated | any>{
 
     console.log(credentials);
 
-    return https
-    .post('/login', credentials)
-    .then(async(res)=> {
-        return await res.data as UserAuthenticated
-    })
-    .catch(err => {
-        
-        return console.error(err)
-    })
-
+    return https.post('/login', credentials) as UserAuthenticated | any
+    
 }
 
 export const storeToken = (access_token:string)=>{

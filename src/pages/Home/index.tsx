@@ -12,10 +12,11 @@ import { UserDataContext } from '../../context/UserDataContext'
 import { TagDataContext } from '../../context/TagDataContext'
 
 import '../../styles/user-page.scss'
-import { useNavigate } from 'react-router'
+import { Navigate, useNavigate } from 'react-router'
 import { getPayload, PayLoad } from '../../service/Authenticate'
 import { ListsComplimetsContext } from '../../context/ListsComplimets'
 import { AuthContext } from '../../context/AuthContext'
+import { Loading } from '../Loading'
 
 
 
@@ -55,19 +56,15 @@ export function Home(){
     }
 
    // const reloadCount = Number(sessionStorage.getItem('reloadCount')) || 0;
- 
-
-    useEffect(() => {
-        getAllUsers()
-        getAllComplimentsSend()
-        getAllComplimentsReceiver()
-        getAllTags()
-    }, [])
-
+   if(userAuthenticated === null){
+    console.log('not authenticated')
+    return <Navigate to='/'/>
+    }
+  
     return(
         <>
-      {users &&  <div id="user-page">
-            {userAuthenticated && <SideMenu userName={users && userAuthenticated.user.name}/>}
+      {userAuthenticated &&  <div id="user-page">
+           <SideMenu/>
             <MenuHamburguer/>
             <OverlayDismissSideMenu/>
             <header>
@@ -131,7 +128,7 @@ export function Home(){
             <CreateTagModal/>
             <OverlayDismissModal onClick={handleModalIsShown} isShown={isShown}/>
             <button onClick={handleModalIsShown} className='create-tag-button'><img src={plus} alt="Plus-icon" /></button>
-        </div> }
+        </div>}
         </>
     )
 

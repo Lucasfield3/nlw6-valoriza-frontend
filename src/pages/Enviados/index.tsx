@@ -1,30 +1,27 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext,  useState } from 'react'
 import ListMessagesSended from '../../components/ListMessagesSended'
 import MenuHamburguer from '../../components/MenuHamburguer'
 import { OverlayDismissModal } from '../../components/OverlayDismissModal'
 import OverlayDismissSideMenu from '../../components/OverlayDismissSideMenu'
 import SideMenu from '../../components/SideMenu'
 import { AuthContext } from '../../context/AuthContext'
+import { ListsComplimetsContext } from '../../context/ListsComplimets'
 import { ModalIshownContext } from '../../context/ModalIsShownContext'
-import { UserDataContext } from '../../context/UserDataContext'
 import logo from '../../images/logo.svg'
 import '../../styles/user-page.scss'
 
 export function Enviados(){
 
     const [searchText, setSearchText] = useState('');
-    const { users } = useContext(UserDataContext)
     const { handleModalIsShownCompliments, complimentModalShown } = useContext(ModalIshownContext)
     const {userAuthenticated} = useContext(AuthContext)
+    const { listComplimentsSend} = useContext(AuthContext)
     
-    useEffect(()=>{
-        //handleIsLoggedHome()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+
 
     return(
         <>
-        {users && <div id="user-page">
+        {userAuthenticated.compliments.send && <div id="user-page">
             <SideMenu userName={userAuthenticated && userAuthenticated.user.name}/>
             <MenuHamburguer/>
             <OverlayDismissSideMenu/>
@@ -42,7 +39,7 @@ export function Enviados(){
                         <input placeholder='pesquisar' onChange={(e)=> setSearchText(e.target.value)} value={searchText} type='text'/>
                     </div>
                     <span/>
-                    <ListMessagesSended searchText={searchText}/>
+                    {userAuthenticated.compliments.send  && <ListMessagesSended searchText={searchText}/>}
                 </div>
             </div>
             <OverlayDismissModal onClick={handleModalIsShownCompliments} isShown={complimentModalShown}/>

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext,  useState } from 'react'
 import ListMessagesReceived from '../../components/ListMessagesReceived'
 import MenuHamburguer from '../../components/MenuHamburguer'
 import { OverlayDismissModal } from '../../components/OverlayDismissModal'
@@ -7,8 +7,6 @@ import SideMenu from '../../components/SideMenu'
 import { AuthContext } from '../../context/AuthContext'
 import { ListsComplimetsContext } from '../../context/ListsComplimets'
 import { ModalIshownContext } from '../../context/ModalIsShownContext'
-import { TagDataContext } from '../../context/TagDataContext'
-import { UserDataContext } from '../../context/UserDataContext'
 import logo from '../../images/logo.svg'
 import '../../styles/user-page.scss'
 
@@ -16,22 +14,20 @@ export function Recebidos(){
 
     const [searchText, setSearchText] = useState('');
     const { handleModalIsShownCompliments, complimentModalShown } = useContext(ModalIshownContext)
-    const { listComplimentsReceiver, getAllComplimentsReceiver } = useContext(ListsComplimetsContext)
-    const { getAllUsers} = useContext(UserDataContext)
+
     const {userAuthenticated} = useContext(AuthContext)
-    const {  getAllTags} = useContext(TagDataContext)
 
 
-    useEffect(()=>{
-        getAllUsers()
-        getAllComplimentsReceiver()
-        getAllTags()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    // useEffect(()=>{
+    //     getAllUsers()
+    //     getAllComplimentsReceiver()
+    //     getAllTags()
+    // // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [])
 
     return(
         <>
-        {listComplimentsReceiver && <div id="user-page">
+        {userAuthenticated.compliments.receive && <div id="user-page">
            <SideMenu userName={userAuthenticated && userAuthenticated.user.name}/>
             <MenuHamburguer/>
             <OverlayDismissSideMenu/>
@@ -49,7 +45,7 @@ export function Recebidos(){
                         <input placeholder='pesquisar' onChange={(e)=> setSearchText(e.target.value)} value={searchText} type='text'/>
                     </div>
                     <span/>
-                    <ListMessagesReceived searchText={searchText}/>
+                    {userAuthenticated.compliments.receive && <ListMessagesReceived searchText={searchText}/>}
                 </div>
             </div>
             <OverlayDismissModal onClick={handleModalIsShownCompliments} isShown={complimentModalShown}/>

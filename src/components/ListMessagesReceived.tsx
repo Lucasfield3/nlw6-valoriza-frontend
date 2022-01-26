@@ -21,10 +21,10 @@ interface ComplimentsFiltered{
 }
 export default function ListMessagesReceived({searchText}:ListMessagesProps){
 
-    const { listComplimentsReceiver, getAllComplimentsReceiver } = useContext(ListsComplimetsContext)
+    //const {getAllComplimentsReceiver } = useContext(ListsComplimetsContext)
     const { users, getAllUsers} = useContext(UserDataContext)
     const { tags, } = useContext(TagDataContext)
-    const { userAuthenticated } = useContext(AuthContext)
+    const { userAuthenticated, listComplimentsReceiver } = useContext(AuthContext)
     const { handleModalIsShownCompliments, complimentModalShown } = useContext(ModalIshownContext)
     const [ resultEmail, setResultEmail ] = useState<ComplimentsFiltered[]>([])
     const [ valuesCompliments, setValuesCompliments ] = useState<Compliment>()
@@ -39,7 +39,7 @@ export default function ListMessagesReceived({searchText}:ListMessagesProps){
         user_sender:''
     }];
     function filterUserSender(){
-        getAllComplimentsReceiver()
+
         const extractCompliment = (arrayValue:Compliment)=>{
             for(const [, value] of users.entries()){
                 if(value.id === arrayValue.user_sender){
@@ -50,7 +50,7 @@ export default function ListMessagesReceived({searchText}:ListMessagesProps){
         }
 
        
-        for(const [, value] of listComplimentsReceiver.entries()){
+        for(const [, value] of userAuthenticated.compliments.receive.entries()){
     
             extractCompliment(value)
           
@@ -87,7 +87,7 @@ export default function ListMessagesReceived({searchText}:ListMessagesProps){
 
      function handleShowCompliment(id:string){
          if(tags.length > 0){
-             for(const [, value] of listComplimentsReceiver.entries()){
+             for(const [, value] of userAuthenticated.compliments.receive.entries()){
                  if(value.id === id){
                      setValuesCompliments(value)
                      return handleModalIsShownCompliments()
@@ -98,8 +98,7 @@ export default function ListMessagesReceived({searchText}:ListMessagesProps){
      }
 
     useEffect(() => {
-        getAllUsers()
-        if(listComplimentsReceiver !== undefined){
+        if(userAuthenticated.compliments.receive !== undefined){
             filterUserSender()
         }
         

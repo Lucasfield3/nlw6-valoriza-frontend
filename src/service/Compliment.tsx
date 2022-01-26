@@ -1,4 +1,5 @@
 import https from "../utils/https";
+import { getPayload, UserAuthenticated } from "./Authenticate";
 
 export interface NewCompliment {
     tag_id: string;
@@ -64,24 +65,31 @@ export async function getTags():Promise<Tag[] | any>{
 
 }
 
-export async function getComplimentsListSend():Promise<Compliment[]>{
+export async function getComplimentsListSend(id:string):Promise<Compliment[]>{
+
 
     return https
-    .get('/user/compliments/send')
+    .get<Compliment[]>(`/user/compliments/send/${id}`)
     .then(async(res)=> {
-        return await res.data as Compliment[] | any
+        return res.data as Compliment[] | any
     })
     .catch(err => console.log(err))
+    
+}
+
+export async function getComplimentsListReceive(id:string):Promise<Compliment[]>{
+
+   
+   
+    return https
+    .get<Compliment[]>(`/user/compliments/receive/${id}`)
+    .then(async(res)=> {
+        return  res.data as Compliment[] | any
+    })
+    .catch(err => console.log(err))
+    
 
 }
 
-export async function getComplimentsListReceive():Promise<Compliment[]>{
 
-    return https
-    .get('/user/compliments/receive')
-    .then(async(res)=> {
-        return await res.data as Compliment[] | any
-    })
-    .catch(err => console.log(err))
 
-}

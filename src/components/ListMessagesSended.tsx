@@ -1,5 +1,6 @@
 /* eslint-disable array-callback-return */
 import { useContext, useEffect, useState } from 'react'
+import { AuthContext } from '../context/AuthContext'
 import { ListsComplimetsContext } from '../context/ListsComplimets'
 import { ModalIshownContext } from '../context/ModalIsShownContext'
 import { TagDataContext } from '../context/TagDataContext'
@@ -21,10 +22,11 @@ interface ComplimentsFiltered{
 }
 export default function ListMessagesSended({searchText}:ListMessagesProps){
 
-    const { listComplimentsSend, getAllComplimentsSend } = useContext(ListsComplimetsContext)
+   // const {  getAllComplimentsSend } = useContext(ListsComplimetsContext)
     const { users, getAllUsers } = useContext(UserDataContext)
     const { tags, } = useContext(TagDataContext)
     const { handleModalIsShownCompliments, complimentModalShown } = useContext(ModalIshownContext)
+    const { userAuthenticated, listComplimentsSend } = useContext(AuthContext)
     const [ resultEmail, setResultEmail ] = useState<ComplimentsFiltered[]>([])
     const [ valuesCompliments, setValuesCompliments ] = useState<Compliment>()
   
@@ -39,7 +41,6 @@ export default function ListMessagesSended({searchText}:ListMessagesProps){
         user_sender:''
     }];
     function filterUserReceiver(){
-        getAllComplimentsSend()
         const extractCompliment = (arrayValue:Compliment)=>{
             for(const [, value] of users.entries()){
                 if(value.id === arrayValue.user_receiver){
@@ -50,7 +51,7 @@ export default function ListMessagesSended({searchText}:ListMessagesProps){
         }
 
        
-        for(const [, value] of listComplimentsSend.entries()){
+        for(const [, value] of userAuthenticated.compliments.send.entries()){
     
             extractCompliment(value)
           
@@ -86,7 +87,7 @@ export default function ListMessagesSended({searchText}:ListMessagesProps){
      })
 
      function handleShowCompliment(id:string){
-        for(const [, value] of listComplimentsSend.entries()){
+        for(const [, value] of userAuthenticated.compliments.send.entries()){
             if(value.id === id){
                 setValuesCompliments(value)
                 return handleModalIsShownCompliments()
@@ -97,7 +98,7 @@ export default function ListMessagesSended({searchText}:ListMessagesProps){
 
     useEffect(() => {
         getAllUsers()
-        if(listComplimentsSend.length > 0){
+        if(userAuthenticated.compliments.send.length > 0){
             filterUserReceiver()
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -105,7 +106,7 @@ export default function ListMessagesSended({searchText}:ListMessagesProps){
 
     return(
         <>
-        {users && <div className="list-messages">
+        {userAuthenticated && <div className="list-messages">
             {usersReceiverFiltered.map((result, index) => {
                 return (
                     <>

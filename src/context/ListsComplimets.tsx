@@ -1,11 +1,15 @@
-import { createContext, ReactNode, useState } from "react";
-import { Compliment, getComplimentsListReceive, getComplimentsListSend } from "../service/Compliment";
+import { createContext, ReactNode, useContext,  useState } from "react";
+import { Compliment,  getComplimentsListReceive, getComplimentsListSend } from "../service/Compliment";
+
+import { AuthContext } from "./AuthContext";
+
 
 interface ListsComplimetsContextData {
     listComplimentsSend:Compliment[];
     listComplimentsReceiver:Compliment[];
     getAllComplimentsSend:() => Promise<Compliment[]>;
     getAllComplimentsReceiver:() => Promise<Compliment[]>;
+    clearAll:() => void;
 }
 
 export const ListsComplimetsContext = createContext({} as ListsComplimetsContextData)
@@ -28,32 +32,34 @@ export function ListsComplimetsProvider({children}:ListsComplimetsProviderProps)
 
     const [ listComplimentsSend, setListComplimentsSend ] = useState<Compliment[]>([DEFAULT_CONTEXT_DATA])
     const [ listComplimentsReceiver, setListComplimentsReceiver ] = useState<Compliment[]>([DEFAULT_CONTEXT_DATA])
+    const { userAuthenticated } = useContext(AuthContext)
 
-    async function getAllComplimentsSend():Promise<Compliment[]>{
-        const complimentsSend = await getComplimentsListSend()
-        if(complimentsSend){
-            return await getComplimentsListSend()
-            .then((data:Compliment[])=>{
-                if(data){
-                    console.log(data)
-                    setListComplimentsSend(data)
-                }
-            }) as Compliment[] | any
+
+            //console.log(userId.user.id)
+    async function getAllComplimentsSend():Promise<Compliment[] | any>{
+    
+        const response = await getComplimentsListSend(userAuthenticated.user.id)
+        console.log(response)
+        if(response){
+            setListComplimentsSend(response)
         }
+            
+        
     }
 
 
-    async function getAllComplimentsReceiver():Promise<Compliment[]>{
-        const complimentsReceive = await getComplimentsListReceive()
-        if(complimentsReceive){
-            return await getComplimentsListReceive()
-            .then((data:Compliment[])=>{
-                if(data){
-                    console.log(data)
-                    setListComplimentsReceiver(data)
-                }
-            }) as Compliment[] | any
-        }
+    async function getAllComplimentsReceiver():Promise<Compliment[] | any>{
+       
+            const response = await getComplimentsListReceive(userAuthenticated.user.id) 
+            console.log(response)
+            if(response){
+                setListComplimentsReceiver(response)
+            }
+        
+    }
+    function clearAll(){
+        setListComplimentsReceiver([])
+        setListComplimentsReceiver([])
     }
 
 
@@ -62,7 +68,9 @@ export function ListsComplimetsProvider({children}:ListsComplimetsProviderProps)
         listComplimentsSend, 
         getAllComplimentsSend, 
         getAllComplimentsReceiver, 
-        listComplimentsReceiver}}>
+        listComplimentsReceiver,
+        clearAll
+        }}>
             {children}
         </ListsComplimetsContext.Provider>
     )

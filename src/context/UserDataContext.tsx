@@ -1,6 +1,7 @@
-import { createContext, ReactNode,  useEffect,  useState } from "react";
+import { createContext, ReactNode,  useContext,  useEffect,  useState } from "react";
 
 import { getUsers, User } from "../service/User";
+import { AuthContext } from "./AuthContext";
 
 interface UserDataContextData {
     users: User[];
@@ -25,7 +26,7 @@ interface UserDataProviderProps {
 export function UserDataProvider({children}: UserDataProviderProps) {
 
     const [ users , setUsers] = useState<User[]>([])
-
+    const {userAuthenticated, authenticated} = useContext(AuthContext)
     async function getAllUsers():Promise<User[] | any>{
         const users = await getUsers()
         if(users){
@@ -38,7 +39,9 @@ export function UserDataProvider({children}: UserDataProviderProps) {
 
     
     useEffect(() => {
-        getAllUsers()
+        if(authenticated){
+            getAllUsers()
+        }
     }, [])
   
 

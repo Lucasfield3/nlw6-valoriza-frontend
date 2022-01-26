@@ -18,18 +18,18 @@ export function Sobre(){
     const {userAuthenticated} = useContext(AuthContext)
     
 
-    function handleIsLoggedHome(){
-        const sendToken = getToken()
-        if(sendToken === undefined){
-            return navigate('/')
-        } 
+    // function handleIsLoggedHome(){
+    //     const sendToken = getToken()
+    //     if(sendToken === undefined){
+    //         return navigate('/')
+    //     } 
         
-    }
+    // }
 
-    useEffect(()=>{
-        handleIsLoggedHome()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    // useEffect(()=>{
+    //     handleIsLoggedHome()
+    // // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [])
     const breakPoints = [
         {width: 1, itemsToShow:1}
       ]
