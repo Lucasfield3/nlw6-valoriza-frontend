@@ -26,13 +26,13 @@ interface UserDataProviderProps {
 export function UserDataProvider({children}: UserDataProviderProps) {
 
     const [ users , setUsers] = useState<User[]>([])
-    const {userAuthenticated, authenticated} = useContext(AuthContext)
+    const { authenticated} = useContext(AuthContext)
     async function getAllUsers():Promise<User[] | any>{
-        const users = await getUsers()
+        const users = await getUsers() as User[] | any;
         if(users){
-           return await getUsers().then((data:User[])=>{
-                setUsers(data)
-            }) as User[]
+         
+            setUsers(users)
+           
         }  
         
     }  
@@ -42,6 +42,7 @@ export function UserDataProvider({children}: UserDataProviderProps) {
         if(authenticated){
             getAllUsers()
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
   
 

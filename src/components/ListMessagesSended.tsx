@@ -1,7 +1,6 @@
 /* eslint-disable array-callback-return */
 import { useContext, useEffect, useState } from 'react'
-import { AuthContext } from '../context/AuthContext'
-import { ListsComplimetsContext } from '../context/ListsComplimets'
+import { AuthContext, DEFAULT_COMPLIMENT_DATA } from '../context/AuthContext'
 import { ModalIshownContext } from '../context/ModalIsShownContext'
 import { TagDataContext } from '../context/TagDataContext'
 import { UserDataContext } from '../context/UserDataContext'
@@ -22,8 +21,7 @@ interface ComplimentsFiltered{
 }
 export default function ListMessagesSended({searchText}:ListMessagesProps){
 
-   // const {  getAllComplimentsSend } = useContext(ListsComplimetsContext)
-    const { users, getAllUsers } = useContext(UserDataContext)
+    const { users } = useContext(UserDataContext)
     const { tags, } = useContext(TagDataContext)
     const { handleModalIsShownCompliments, complimentModalShown } = useContext(ModalIshownContext)
     const { userAuthenticated, listComplimentsSend } = useContext(AuthContext)
@@ -51,7 +49,7 @@ export default function ListMessagesSended({searchText}:ListMessagesProps){
         }
 
        
-        for(const [, value] of userAuthenticated.compliments.send.entries()){
+        for(const [, value] of listComplimentsSend.entries()){
     
             extractCompliment(value)
           
@@ -87,7 +85,7 @@ export default function ListMessagesSended({searchText}:ListMessagesProps){
      })
 
      function handleShowCompliment(id:string){
-        for(const [, value] of userAuthenticated.compliments.send.entries()){
+        for(const [, value] of listComplimentsSend.entries()){
             if(value.id === id){
                 setValuesCompliments(value)
                 return handleModalIsShownCompliments()
@@ -97,8 +95,7 @@ export default function ListMessagesSended({searchText}:ListMessagesProps){
      }
 
     useEffect(() => {
-        getAllUsers()
-        if(userAuthenticated.compliments.send.length > 0){
+        if(listComplimentsSend !== [DEFAULT_COMPLIMENT_DATA]){
             filterUserReceiver()
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps

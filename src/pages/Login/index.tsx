@@ -6,11 +6,13 @@ import { useForm } from 'react-hook-form'
 import { useContext } from 'react'
 import { AuthContext } from '../../context/AuthContext'
 import { ListsComplimetsContext } from '../../context/ListsComplimets'
+import { UserDataContext } from '../../context/UserDataContext'
 
 export function Login(){
     const { register, handleSubmit  } = useForm()
-    const { authenticate, userAuthenticated } = useContext(AuthContext)
-    //const { listComplimentsReceiver, getAllComplimentsSend } = useContext(ListsComplimetsContext)
+    const { authenticate, userAuthenticated, authenticated } = useContext(AuthContext)
+    
+    const { getAllComplimentsSend, getAllComplimentsReceiver } = useContext(ListsComplimetsContext)
     const navigate = useNavigate()
     
     async function onSubmit(data:Credentials){
@@ -19,7 +21,6 @@ export function Login(){
         if(localStorage.getItem('user')){
             setTimeout(()=>navigate('/user/myHome'), 500)
         }   
-
     }
 
 

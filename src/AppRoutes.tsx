@@ -16,12 +16,10 @@ import { Loading } from "./pages/Loading/index";
 import { Recebidos } from "./pages/Recebidos";
 import { Register } from "./pages/Register";
 import { Sobre } from "./pages/Sobre";
-import { ListsComplimetsProvider } from "./context/ListsComplimets";
 
-import { ReactElement, ReactNode, useContext, useState } from 'react';
-import { getUser, User } from './service/User';
-import { Credentials, storeToken } from './service/Authenticate';
-import { AuthContext, AuthProvider, DEFAULT_CONTEXT_DATA } from './context/AuthContext';
+import { useContext } from 'react';
+
+import { AuthContext, AuthProvider} from './context/AuthContext';
 
 
 
@@ -31,7 +29,7 @@ function AppRoutes(){
      children:any;
  }
     const Private = ({children}:PrivateProps)=>{
-        const { authenticated, loading, userAuthenticated } = useContext(AuthContext)
+        const { authenticated, loading } = useContext(AuthContext)
 
 
         if(loading){
@@ -55,7 +53,6 @@ function AppRoutes(){
         <Router>
             <AuthProvider>
                 <UserDataProvider>
-                    <ListsComplimetsProvider>
                         <TagDataProvider>
                             <SideMenuProvider>
                                 <ModalIshownProvider>
@@ -71,7 +68,6 @@ function AppRoutes(){
                                 </ModalIshownProvider>
                             </SideMenuProvider>
                         </TagDataProvider>
-                    </ListsComplimetsProvider>
                 </UserDataProvider>
             </AuthProvider>
         </Router>

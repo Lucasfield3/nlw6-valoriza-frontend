@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { getToken } from "../service/Authenticate";
 import { getTags, Tag } from "../service/Compliment";
 import { AuthContext } from "./AuthContext";
 
@@ -17,26 +18,15 @@ export function TagDataProvider({children}:TagDataProviderProps){
 
     const [ tags, setTags] = useState<Tag[]>()
     const {userAuthenticated, authenticated} = useContext(AuthContext)
-    async function getAllTags(){
-        const tagsSend = await getTags()
-        if(tagsSend){
-            return await getTags().then((data:Tag[]) =>{
-                if(data){
-                    setTags(data)
-                }
-            }) as Tag[] | any
+    async function getAllTags():Promise<Tag[] | any>{
+        const tagsSend = await getTags() as Tag[]
+        if(authenticated){
+            setTags(tagsSend)
         }
-            
-            
-      
-       
 
     }
-    useEffect(() => {
-        if(authenticated){
-            getAllTags()
-        }
-    }, [])
+
+
   
     return(
         <TagDataContext.Provider value={{tags, getAllTags}}>

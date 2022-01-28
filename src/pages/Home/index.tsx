@@ -2,7 +2,7 @@ import MenuHamburguer from '../../components/MenuHamburguer'
 import OverlayDismissSideMenu from '../../components/OverlayDismissSideMenu'
 import SideMenu from '../../components/SideMenu'
 import logo from '../../images/logo.svg'
-import { createCompliment, NewCompliment} from '../../service/Compliment'
+import { createCompliment} from '../../service/Compliment'
 import plus from '../../images/plus.svg'
 import { useContext,  useEffect,  useState } from 'react'
 import { CreateTagModal } from '../../components/CreateTagModal'
@@ -12,29 +12,24 @@ import { UserDataContext } from '../../context/UserDataContext'
 import { TagDataContext } from '../../context/TagDataContext'
 
 import '../../styles/user-page.scss'
-import { Navigate, useNavigate } from 'react-router'
-import { getPayload, PayLoad } from '../../service/Authenticate'
-import { ListsComplimetsContext } from '../../context/ListsComplimets'
-import { AuthContext } from '../../context/AuthContext'
-import { Loading } from '../Loading'
+import { AuthContext, DEFAULT_CONTEXT_DATA } from '../../context/AuthContext'
+
 
 
 
 
 export function Home(){
 
-    const { getAllUsers, users} = useContext(UserDataContext)
-    const {userAuthenticated, authenticated} = useContext(AuthContext)
+    const { users, getAllUsers} = useContext(UserDataContext)
+    const {userAuthenticated, getAllComplimentsSend} = useContext(AuthContext)
     const { tags, getAllTags} = useContext(TagDataContext)
     const { isShown, handleModalIsShown } = useContext(ModalIshownContext)
-    const { getAllComplimentsSend, getAllComplimentsReceiver } = useContext(ListsComplimetsContext)
+    //const { getAllComplimentsSend } = useContext(ListsComplimetsContext)
     const [ isFirstOptionShown, setIsFirtsOptionShown] = useState(true)
     const [user_receiver, setUser_receiver] = useState('')
     const [tag_id, setTag_id] = useState('')
     const [message, setMessage] = useState('')
-    const navigate = useNavigate()
     const [ , setIsTagShown ] = useState(false)
-    var data:NewCompliment | any = null;
 
     const handleCreateCompliment = async () => {
         let tagId = ''
@@ -45,25 +40,28 @@ export function Home(){
                 }
                 return tag.id
             })
-            data = await createCompliment({user_receiver, message, tag_id:tagId})
-
-            if(data){
-                console.log('compliment created')
-                getAllComplimentsSend()
-            }else{
-                console.log("Nothing to return");
-            }
+            await createCompliment({user_receiver, message, tag_id:tagId})
+            .then((data)=>{
+                if(data){
+                    console.log('created')
+                   setTimeout(()=> getAllComplimentsSend(), 500)
+                }
+            })
+            
     }
 
    // const reloadCount = Number(sessionStorage.getItem('reloadCount')) || 0;
-   if(userAuthenticated === null){
-    console.log('not authenticated')
-    return <Navigate to='/'/>
-    }
+    useEffect(()=>{
+        getAllUsers()
+        getAllTags()
+        console.log(users)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])  
+
   
     return(
         <>
-      {userAuthenticated &&  <div id="user-page">
+      {userAuthenticated !== DEFAULT_CONTEXT_DATA &&  <div id="user-page">
            <SideMenu/>
             <MenuHamburguer/>
             <OverlayDismissSideMenu/>

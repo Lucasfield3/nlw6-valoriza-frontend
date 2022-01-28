@@ -1,6 +1,6 @@
 /* eslint-disable array-callback-return */
 import { useContext, useEffect, useState } from 'react'
-import { AuthContext } from '../context/AuthContext'
+import { AuthContext, DEFAULT_COMPLIMENT_DATA } from '../context/AuthContext'
 import { ListsComplimetsContext } from '../context/ListsComplimets'
 import { ModalIshownContext } from '../context/ModalIsShownContext'
 import { TagDataContext } from '../context/TagDataContext'
@@ -21,8 +21,8 @@ interface ComplimentsFiltered{
 }
 export default function ListMessagesReceived({searchText}:ListMessagesProps){
 
-    //const {getAllComplimentsReceiver } = useContext(ListsComplimetsContext)
-    const { users, getAllUsers} = useContext(UserDataContext)
+    const {getAllComplimentsReceiver } = useContext(ListsComplimetsContext)
+    const { users} = useContext(UserDataContext)
     const { tags, } = useContext(TagDataContext)
     const { userAuthenticated, listComplimentsReceiver } = useContext(AuthContext)
     const { handleModalIsShownCompliments, complimentModalShown } = useContext(ModalIshownContext)
@@ -50,7 +50,7 @@ export default function ListMessagesReceived({searchText}:ListMessagesProps){
         }
 
        
-        for(const [, value] of userAuthenticated.compliments.receive.entries()){
+        for(const [, value] of listComplimentsReceiver.entries()){
     
             extractCompliment(value)
           
@@ -87,7 +87,7 @@ export default function ListMessagesReceived({searchText}:ListMessagesProps){
 
      function handleShowCompliment(id:string){
          if(tags.length > 0){
-             for(const [, value] of userAuthenticated.compliments.receive.entries()){
+             for(const [, value] of listComplimentsReceiver.entries()){
                  if(value.id === id){
                      setValuesCompliments(value)
                      return handleModalIsShownCompliments()
@@ -98,7 +98,7 @@ export default function ListMessagesReceived({searchText}:ListMessagesProps){
      }
 
     useEffect(() => {
-        if(userAuthenticated.compliments.receive !== undefined){
+        if(listComplimentsReceiver !== [DEFAULT_COMPLIMENT_DATA]){
             filterUserSender()
         }
         
@@ -107,7 +107,7 @@ export default function ListMessagesReceived({searchText}:ListMessagesProps){
 
     return(
         <>
-        {userAuthenticated && <div className="list-messages">
+        {listComplimentsReceiver && <div className="list-messages">
             {usersSenderFiltered.map((result, index) => {
                 return (
                     <>

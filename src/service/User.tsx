@@ -32,7 +32,7 @@ export async function getUsers():Promise<User[] | any>{
         return https
             .get('/users')
             .then(async(res)=>{
-                return await res.data as User[]
+                return await res.data as User[] | any
             })
             .catch((erro)=>{
                 console.log(erro)

@@ -5,7 +5,6 @@ import { OverlayDismissModal } from '../../components/OverlayDismissModal'
 import OverlayDismissSideMenu from '../../components/OverlayDismissSideMenu'
 import SideMenu from '../../components/SideMenu'
 import { AuthContext } from '../../context/AuthContext'
-import { ListsComplimetsContext } from '../../context/ListsComplimets'
 import { ModalIshownContext } from '../../context/ModalIsShownContext'
 import logo from '../../images/logo.svg'
 import '../../styles/user-page.scss'
@@ -15,9 +14,9 @@ export function Recebidos(){
     const [searchText, setSearchText] = useState('');
     const { handleModalIsShownCompliments, complimentModalShown } = useContext(ModalIshownContext)
 
-    const {userAuthenticated} = useContext(AuthContext)
+    const {userAuthenticated, listComplimentsReceiver} = useContext(AuthContext)
 
-
+    console.log(listComplimentsReceiver)
     // useEffect(()=>{
     //     getAllUsers()
     //     getAllComplimentsReceiver()
@@ -27,7 +26,7 @@ export function Recebidos(){
 
     return(
         <>
-        {userAuthenticated.compliments.receive && <div id="user-page">
+        {listComplimentsReceiver && <div id="user-page">
            <SideMenu userName={userAuthenticated && userAuthenticated.user.name}/>
             <MenuHamburguer/>
             <OverlayDismissSideMenu/>
@@ -45,7 +44,7 @@ export function Recebidos(){
                         <input placeholder='pesquisar' onChange={(e)=> setSearchText(e.target.value)} value={searchText} type='text'/>
                     </div>
                     <span/>
-                    {userAuthenticated.compliments.receive && <ListMessagesReceived searchText={searchText}/>}
+                    {listComplimentsReceiver && <ListMessagesReceived searchText={searchText}/>}
                 </div>
             </div>
             <OverlayDismissModal onClick={handleModalIsShownCompliments} isShown={complimentModalShown}/>

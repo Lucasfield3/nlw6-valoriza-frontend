@@ -30,12 +30,11 @@ export interface Tag {
 
 export async function createCompliment(newCompliment:NewCompliment){
 
-    console.log(newCompliment);
-
     return https
     .post<Compliment>('/compliments', newCompliment)
     .then(async(res)=> {
-        return await res.data
+        console.log(res.data);
+        return  res.data
     })
     .catch(err => console.log(err))
 
@@ -65,26 +64,26 @@ export async function getTags():Promise<Tag[] | any>{
 
 }
 
-export async function getComplimentsListSend(id:string):Promise<Compliment[]>{
+export async function getComplimentsListSend(id:string):Promise<Compliment[] | any>{
 
 
     return https
     .get<Compliment[]>(`/user/compliments/send/${id}`)
     .then(async(res)=> {
-        return res.data as Compliment[] | any
+        return res.data
     })
     .catch(err => console.log(err))
     
 }
 
-export async function getComplimentsListReceive(id:string):Promise<Compliment[]>{
+export async function getComplimentsListReceive(id:string):Promise<Compliment[] | any>{
 
    
    
     return https
     .get<Compliment[]>(`/user/compliments/receive/${id}`)
     .then(async(res)=> {
-        return  res.data as Compliment[] | any
+        return  res.data 
     })
     .catch(err => console.log(err))
     
