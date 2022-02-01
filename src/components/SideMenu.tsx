@@ -25,9 +25,9 @@ export default function SideMenu({userName}:SideMenuProps){
                 <div>
                     <h1>{userAuthenticated.user.name !== undefined ? userAuthenticated.user.name : ''}</h1>
                     <div className="list">
-                        <p onClick={() => users && setTimeout(()=>navigate('/user/myHome'), 500)}>Home</p>
-                        <p onClick={() => users && setTimeout(()=>navigate('/recebidos'), 1000)}>Recebidos</p>
-                        <p onClick={() => users && setTimeout(()=>navigate('/enviados'), 1000)}>Enviados</p>
+                        <p onClick={()=>navigate('/user/myHome')}>Home</p>
+                        <p onClick={()=>navigate('/recebidos')}>Recebidos</p>
+                        <p onClick={()=>navigate('/enviados')}>Enviados</p>
                         <p onClick={() => navigate('/sobre')}>Sobre</p>
                         <p onClick={()=>{
                             logOut()

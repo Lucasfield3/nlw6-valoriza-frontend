@@ -1,32 +1,39 @@
-import { useContext,  useState } from 'react'
+import { useContext,  useEffect,  useState } from 'react'
 import ListMessagesReceived from '../../components/ListMessagesReceived'
 import MenuHamburguer from '../../components/MenuHamburguer'
 import { OverlayDismissModal } from '../../components/OverlayDismissModal'
 import OverlayDismissSideMenu from '../../components/OverlayDismissSideMenu'
 import SideMenu from '../../components/SideMenu'
-import { AuthContext } from '../../context/AuthContext'
+import { AuthContext} from '../../context/AuthContext'
 import { ModalIshownContext } from '../../context/ModalIsShownContext'
+import { TagDataContext } from '../../context/TagDataContext'
+import { UserDataContext } from '../../context/UserDataContext'
 import logo from '../../images/logo.svg'
 import '../../styles/user-page.scss'
+import { Loading } from '../Loading'
 
 export function Recebidos(){
 
     const [searchText, setSearchText] = useState('');
     const { handleModalIsShownCompliments, complimentModalShown } = useContext(ModalIshownContext)
+    const { users, getAllUsers } = useContext(UserDataContext)
+    const { tags, getAllTags } = useContext(TagDataContext)
+    const {userAuthenticated, listComplimentsReceiver, getAllComplimentsReceiver} = useContext(AuthContext)
 
-    const {userAuthenticated, listComplimentsReceiver} = useContext(AuthContext)
-
-    console.log(listComplimentsReceiver)
-    // useEffect(()=>{
-    //     getAllUsers()
-    //     getAllComplimentsReceiver()
-    //     getAllTags()
-    // // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [])
+    
+    useEffect(()=>{
+        getAllUsers()
+        getAllComplimentsReceiver()
+        getAllTags()
+        console.log(users)
+        console.log(tags)
+        console.log(listComplimentsReceiver)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     return(
         <>
-        {listComplimentsReceiver && <div id="user-page">
+        <div id="user-page">
            <SideMenu userName={userAuthenticated && userAuthenticated.user.name}/>
             <MenuHamburguer/>
             <OverlayDismissSideMenu/>
@@ -44,12 +51,12 @@ export function Recebidos(){
                         <input placeholder='pesquisar' onChange={(e)=> setSearchText(e.target.value)} value={searchText} type='text'/>
                     </div>
                     <span/>
-                    {listComplimentsReceiver && <ListMessagesReceived searchText={searchText}/>}
+                    {users && listComplimentsReceiver.length > 0  && tags ? <ListMessagesReceived arrayUsers={users} arrayComplimentsReceiver={listComplimentsReceiver} arrayTag={tags} searchText={searchText}/> : <div>Loading...</div>}
                 </div>
             </div>
             <OverlayDismissModal onClick={handleModalIsShownCompliments} isShown={complimentModalShown}/>
-        </div>}
+        </div>
         </>
-    )
+    ) 
 
 }

@@ -4,12 +4,16 @@ import { AuthContext, DEFAULT_COMPLIMENT_DATA } from '../context/AuthContext'
 import { ModalIshownContext } from '../context/ModalIsShownContext'
 import { TagDataContext } from '../context/TagDataContext'
 import { UserDataContext } from '../context/UserDataContext'
-import { Compliment } from '../service/Compliment'
+import { Compliment, Tag } from '../service/Compliment'
+import { User } from '../service/User'
 import '../styles/user-page.scss'
 import { ModalCompliments } from './ModalCompliments'
 
 interface ListMessagesProps {
     searchText:string;
+    arrayUsers:User[];
+    arrayComplimentsSend:Compliment[];
+    arrayTag:Tag[];
 }
 
 interface ComplimentsFiltered{
@@ -19,7 +23,7 @@ interface ComplimentsFiltered{
        
     }
 }
-export default function ListMessagesSended({searchText}:ListMessagesProps){
+export default function ListMessagesSended({searchText, arrayUsers, arrayComplimentsSend, arrayTag}:ListMessagesProps){
 
     const { users } = useContext(UserDataContext)
     const { tags, } = useContext(TagDataContext)
@@ -40,7 +44,7 @@ export default function ListMessagesSended({searchText}:ListMessagesProps){
     }];
     function filterUserReceiver(){
         const extractCompliment = (arrayValue:Compliment)=>{
-            for(const [, value] of users.entries()){
+            for(const [, value] of arrayUsers.entries()){
                 if(value.id === arrayValue.user_receiver){
                     return resultEmailFiltered.push(arrayValue)
 
@@ -49,7 +53,7 @@ export default function ListMessagesSended({searchText}:ListMessagesProps){
         }
 
        
-        for(const [, value] of listComplimentsSend.entries()){
+        for(const [, value] of arrayComplimentsSend.entries()){
     
             extractCompliment(value)
           
@@ -58,7 +62,7 @@ export default function ListMessagesSended({searchText}:ListMessagesProps){
         console.log(resultEmailFiltered)
          
         const extractValueReceivers = (arrayValue:Compliment)=>{
-            for(const [, value] of users.entries()){
+            for(const [, value] of arrayUsers.entries()){
                 if(value.id === arrayValue.user_receiver){
                     return finalResult.push({compliments:{email:value.email, id:arrayValue.id}})
                 }
@@ -85,7 +89,7 @@ export default function ListMessagesSended({searchText}:ListMessagesProps){
      })
 
      function handleShowCompliment(id:string){
-        for(const [, value] of listComplimentsSend.entries()){
+        for(const [, value] of arrayComplimentsSend.entries()){
             if(value.id === id){
                 setValuesCompliments(value)
                 return handleModalIsShownCompliments()
@@ -95,9 +99,9 @@ export default function ListMessagesSended({searchText}:ListMessagesProps){
      }
 
     useEffect(() => {
-        if(listComplimentsSend !== [DEFAULT_COMPLIMENT_DATA]){
-            filterUserReceiver()
-        }
+        
+        filterUserReceiver()
+        
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -116,8 +120,8 @@ export default function ListMessagesSended({searchText}:ListMessagesProps){
                 )
             })}
             {valuesCompliments !== undefined &&<ModalCompliments 
-            email={users.map(user => user.id === valuesCompliments.user_receiver && user.email)} 
-            tag={tags.map(tag => tag.id === valuesCompliments.tag_id && tag.name)} 
+            email={arrayUsers.map(user => user.id === valuesCompliments.user_receiver && user.email)} 
+            tag={arrayTag.map(tag => tag.id === valuesCompliments.tag_id && tag.name)} 
             isShown={complimentModalShown}
             forFrom={'Para:'}
             message={valuesCompliments.message}

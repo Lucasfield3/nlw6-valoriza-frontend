@@ -2,6 +2,7 @@ import { createContext, ReactNode, useEffect, useState } from "react" ;
 import { useNavigate } from "react-router-dom";
 import { Credentials, login, storeToken, UserAuthenticated} from "../service/Authenticate";
 import { Compliment, getComplimentsListReceive, getComplimentsListSend } from "../service/Compliment";
+import https from "../utils/https";
 
 
 interface AuthContextData{
@@ -50,26 +51,30 @@ export let DEFAULT_CONTEXT_DATA = {
 
 export function AuthProvider({children}:AuthProviderProps){
     const [ userAuthenticated, setUserAuthenticated ] = useState<UserAuthenticated>(DEFAULT_CONTEXT_DATA)
-    const [ listComplimentsSend, setListComplimentsSend ] = useState<Compliment[]>([DEFAULT_COMPLIMENT_DATA])
-    const [ listComplimentsReceiver, setListComplimentsReceiver ] = useState<Compliment[]>([DEFAULT_COMPLIMENT_DATA])
+    const [ listComplimentsSend, setListComplimentsSend ] = useState<Compliment[]>([])
+    const [ listComplimentsReceiver, setListComplimentsReceiver ] = useState<Compliment[]>([])
     const [ loading, setLoading ] = useState(true)
     const navigate = useNavigate()
-    async function authenticate(data:Credentials):Promise<UserAuthenticated | any>{
-          var access_token:string | any = null;
-          const response =  await login(data)
-          const user = response.data as UserAuthenticated
-          if(user){
-            access_token = response.data.token
+
+    async function authenticate(credentials: Credentials):Promise<UserAuthenticated | any>{
+
+        console.log(credentials);
+        var access_token:string | any = null;
+        return await https
+        .post<UserAuthenticated>('/login', credentials)
+        .then((res)=>{
+            access_token = res.data.token
             storeToken(access_token)
-            setUserAuthenticated(user)
-            setListComplimentsSend(user.compliments.send)
-            setListComplimentsReceiver(user.compliments.receive)
-            localStorage.setItem('user', JSON.stringify(user))
+            setUserAuthenticated(res.data)
+            setListComplimentsSend(res.data.compliments.send)
+            setListComplimentsReceiver(res.data.compliments.receive)
+            localStorage.setItem('user', JSON.stringify(res.data))
             console.log(listComplimentsSend, listComplimentsReceiver)
-          }
+        }).catch(err => console.log(err))
+        
     }
   
-      function logOut(){
+    function logOut(){
           localStorage.removeItem('user')
           localStorage.removeItem('access_token')
           setUserAuthenticated(null)
@@ -77,25 +82,27 @@ export function AuthProvider({children}:AuthProviderProps){
           
       }
 
-      async function getAllComplimentsSend():Promise<Compliment[] | any>{
-    
-        const response = await getComplimentsListSend(userAuthenticated.user.id) as Compliment[]
-        console.log(response)
-        if(response){
-            setListComplimentsSend(response)
-        }
-            
+    async function getAllComplimentsSend():Promise<Compliment[] | any>{
+
+        return await https
+        .get<Compliment[]>(`/user/compliments/send/${userAuthenticated.user.id}`)
+        .then((res)=> {
+            setListComplimentsSend(res.data)
+        })
+        .catch(err => console.log(err))
+        
     }
 
 
     async function getAllComplimentsReceiver():Promise<Compliment[] | any>{
-       
-            const response = await getComplimentsListReceive(userAuthenticated.user.id) as Compliment[]
-            console.log(response)
-            if(response){
-                setListComplimentsReceiver(response)
-            }
 
+        return await https
+        .get<Compliment[]>(`/user/compliments/receive/${userAuthenticated.user.id}`)
+        .then((res)=> {
+            setListComplimentsReceiver(res.data)
+        })
+        .catch(err => console.log(err))
+        
     }
     
 

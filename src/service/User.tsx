@@ -30,7 +30,7 @@ export async function createUser(newUser:NewUser){
 export async function getUsers():Promise<User[] | any>{
  
         return https
-            .get('/users')
+            .get<User[]>('/users')
             .then(async(res)=>{
                 return await res.data as User[] | any
             })

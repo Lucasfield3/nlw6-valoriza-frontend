@@ -1,6 +1,7 @@
 import { createContext, ReactNode,  useContext,  useEffect,  useState } from "react";
 
 import { getUsers, User } from "../service/User";
+import https from "../utils/https";
 import { AuthContext } from "./AuthContext";
 
 interface UserDataContextData {
@@ -25,25 +26,30 @@ interface UserDataProviderProps {
 
 export function UserDataProvider({children}: UserDataProviderProps) {
 
-    const [ users , setUsers] = useState<User[]>([])
+    const [ users , setUsers] = useState<User[]>()
     const { authenticated} = useContext(AuthContext)
     async function getAllUsers():Promise<User[] | any>{
-        const users = await getUsers() as User[] | any;
-        if(users){
-         
-            setUsers(users)
-           
-        }  
-        
-    }  
+ 
+        return await https
+            .get<User[]>('/users')
+            .then((res)=>{
+                const users = res.data
+                setUsers(users)
+            })
+            .catch((erro)=>{
+                console.log(erro)
+                
+            })
+    
+    }
 
     
-    useEffect(() => {
-        if(authenticated){
-            getAllUsers()
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    // useEffect(() => {
+    //     if(authenticated){
+    //         getAllUsers()
+    //     }
+    // // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [])
   
 
     return(
