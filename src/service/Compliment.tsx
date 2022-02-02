@@ -67,7 +67,7 @@ export async function getTags():Promise<Tag[] | any>{
 export async function getComplimentsListSend(id:string):Promise<Compliment[] | any>{
 
 
-    return https
+    return await https
     .get<Compliment[]>(`/user/compliments/send/${id}`)
     .then(async(res)=> {
         return res.data
@@ -80,13 +80,24 @@ export async function getComplimentsListReceive(id:string):Promise<Compliment[] 
 
    
    
-    return https
+    return await https
     .get<Compliment[]>(`/user/compliments/receive/${id}`)
     .then(async(res)=> {
         return  res.data 
     })
     .catch(err => console.log(err))
     
+
+}
+
+export async function deleteCompliment(id:string){
+
+    return await https
+    .delete(`/remove-compliment/${id}`)
+    .then((res)=> {
+        return res.data
+    })
+    .catch(err => console.log(err))
 
 }
 

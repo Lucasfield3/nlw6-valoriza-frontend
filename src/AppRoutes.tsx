@@ -31,6 +31,7 @@ function AppRoutes(){
     const Private = ({children}:PrivateProps)=>{
         const { authenticated, loading } = useContext(AuthContext)
 
+        console.log(authenticated)
 
         if(loading){
             console.log('loading')

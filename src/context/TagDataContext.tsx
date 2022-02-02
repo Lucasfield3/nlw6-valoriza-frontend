@@ -19,17 +19,12 @@ export function TagDataProvider({children}:TagDataProviderProps){
 
     const [ tags, setTags] = useState<Tag[]>()
     async function getAllTags():Promise<Tag[] | any>{
+        const tagsSend = await getTags() as Tag[]
+        if(tagsSend){
+            setTags(tagsSend)
+        }
 
-        return await https
-        .get<Tag[]>('/tags')
-        .then((res)=> {
-            setTags(res.data)
-        })
-        .catch(err => console.log(err))
-    
     }
-
-
   
     return(
         <TagDataContext.Provider value={{tags, getAllTags}}>

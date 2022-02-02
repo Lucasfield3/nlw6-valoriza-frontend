@@ -4,7 +4,7 @@ import { AuthContext, DEFAULT_COMPLIMENT_DATA } from '../context/AuthContext'
 import { ModalIshownContext } from '../context/ModalIsShownContext'
 import { TagDataContext } from '../context/TagDataContext'
 import { UserDataContext } from '../context/UserDataContext'
-import { Compliment, Tag } from '../service/Compliment'
+import { Compliment, deleteCompliment, Tag } from '../service/Compliment'
 import { User } from '../service/User'
 import '../styles/user-page.scss'
 import { ModalCompliments } from './ModalCompliments'
@@ -98,6 +98,12 @@ export default function ListMessagesSended({searchText, arrayUsers, arrayComplim
 
      }
 
+     async function deleteComplimentId(id:string){
+        const complimentDeleted =  resultEmail.filter((compliment) => compliment.compliments.id !== id )
+        setResultEmail(complimentDeleted)
+        return await deleteCompliment(id)
+     }
+
     useEffect(() => {
         
         filterUserReceiver()
@@ -112,7 +118,8 @@ export default function ListMessagesSended({searchText, arrayUsers, arrayComplim
                 return (
                     <>
                         <p  key={index} onClick={() => {
-                            handleShowCompliment(result.compliments.id)
+                            //handleShowCompliment(result.compliments.id)
+                            deleteComplimentId(result.compliments.id)
                             }}>
                             {result.compliments.email}
                         </p>

@@ -10,7 +10,6 @@ import { TagDataContext } from '../../context/TagDataContext'
 import { UserDataContext } from '../../context/UserDataContext'
 import logo from '../../images/logo.svg'
 import '../../styles/user-page.scss'
-import { Loading } from '../Loading'
 
 export function Recebidos(){
 
@@ -25,9 +24,6 @@ export function Recebidos(){
         getAllUsers()
         getAllComplimentsReceiver()
         getAllTags()
-        console.log(users)
-        console.log(tags)
-        console.log(listComplimentsReceiver)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 

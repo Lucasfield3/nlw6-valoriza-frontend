@@ -13,6 +13,7 @@ import { TagDataContext } from '../../context/TagDataContext'
 
 import '../../styles/user-page.scss'
 import { AuthContext, DEFAULT_CONTEXT_DATA } from '../../context/AuthContext'
+import { ModalCreatedCompliment } from '../../components/ModalCreatedCompliment'
 
 
 
@@ -24,12 +25,12 @@ export function Home(){
     const {userAuthenticated, getAllComplimentsSend} = useContext(AuthContext)
     const { tags, getAllTags} = useContext(TagDataContext)
     const { isShown, handleModalIsShown } = useContext(ModalIshownContext)
-    //const { getAllComplimentsSend } = useContext(ListsComplimetsContext)
     const [ isFirstOptionShown, setIsFirtsOptionShown] = useState(true)
     const [user_receiver, setUser_receiver] = useState('')
     const [tag_id, setTag_id] = useState('')
     const [message, setMessage] = useState('')
     const [ , setIsTagShown ] = useState(false)
+    const [ isModalComplimentShown, setIsModalComplimentShown] = useState(false)
 
     const handleCreateCompliment = async () => {
         let tagId = ''
@@ -41,21 +42,23 @@ export function Home(){
                 return tag.id
             })
             await createCompliment({user_receiver, message, tag_id:tagId})
-            .then((data)=>{
-                if(data){
-                    console.log('created')
-                   setTimeout(()=> getAllComplimentsSend(), 500)
-                }
+            .then(()=>{
+                console.log('created')
+                setTimeout(()=> getAllComplimentsSend(), 500)
+                setIsModalComplimentShown(true)
             })
-            
     }
 
-   // const reloadCount = Number(sessionStorage.getItem('reloadCount')) || 0;
+
     useEffect(()=>{
         getAllUsers()
         getAllTags()
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])  
+
+    useEffect(()=>{
+        setTimeout(()=> setIsModalComplimentShown(false), 1500)
+    }, [isModalComplimentShown])
 
   
     return(
@@ -64,6 +67,7 @@ export function Home(){
            <SideMenu/>
             <MenuHamburguer/>
             <OverlayDismissSideMenu/>
+            <ModalCreatedCompliment isModalShown={isModalComplimentShown} />
             <header>
                 <img src={logo} alt='logo'/>
             </header>
@@ -75,22 +79,12 @@ export function Home(){
                         <div style={{display:'flex', flexDirection:'column'}}>
                             <div key='users' className='custom-select'>
                                 <p>Para:</p>
-                                <select onFocus={()=> {
-                                    document.getElementById('custom-select').setAttribute('size', '4')
-                                    document.getElementById('custom-select').setAttribute('position', 'absolute')
-                                    document.getElementById('custom-select').setAttribute('z-index', '100')
-                                }} id='custom-select' onBlur={()=>{
-                                    document.getElementById('custom-select').setAttribute('size', '1')
-                                }} value={user_receiver} onChange={(e) => {
-                                    setUser_receiver(e.target.value)
-                                    document.getElementById('custom-select').setAttribute('size', '1')
-                                    document.getElementById('custom-select').blur()
-                                    }} onClick={()=> setIsFirtsOptionShown(false)}>
+                                <select id='custom-select' value={user_receiver} onChange={(e) => setUser_receiver(e.target.value)} onClick={()=> setIsFirtsOptionShown(false)}>
                                 {isFirstOptionShown && <option key={users && users.length + 1}>usuários</option> }
                                     {users && users.map((userEmail, index)=> {
                                     return (
                                         <>
-                                            <option key={users.length}  value={userEmail.id}>{userEmail.email}</option>                                
+                                            {userAuthenticated.user.id !== userEmail.id &&  <option key={index}  value={userEmail.id}>{userEmail.email}</option>}                           
                                         </>
                                         )
                                     })}
@@ -124,7 +118,7 @@ export function Home(){
             </div>
             <CreateTagModal/>
             <OverlayDismissModal onClick={handleModalIsShown} isShown={isShown}/>
-            <button onClick={handleModalIsShown} className='create-tag-button'><img src={plus} alt="Plus-icon" /></button>
+            {userAuthenticated.user.admin === true &&  <button onClick={handleModalIsShown} className='create-tag-button'><img src={plus} alt="Plus-icon" /></button>}
         </div>}
         </>
     )

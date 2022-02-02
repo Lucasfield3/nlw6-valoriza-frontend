@@ -1,5 +1,4 @@
 import https from '../utils/https';
-import { getPayload, PayLoad } from './Authenticate';
 
 export interface NewUser{
     name:string;
@@ -11,6 +10,7 @@ export interface User {
     id:string;
     name:string;
     email:string;
+    admin?:boolean;
     password:string;
     created_at: Date;
     updated_at:Date;
@@ -29,29 +29,14 @@ export async function createUser(newUser:NewUser){
 
 export async function getUsers():Promise<User[] | any>{
  
-        return https
+        return await https
             .get<User[]>('/users')
-            .then(async(res)=>{
-                return await res.data as User[] | any
+            .then((res)=>{
+                return  res.data as User[] | any
             })
             .catch((erro)=>{
                 console.log(erro)
                 
             })
-    
-
-}
-
-export async function getUser():Promise<User | any>{
-    //const payLoad = getPayload() as PayLoad
-    return https
-        .get<User>('/user')
-        .then(async(res)=>{
-            return res.data as User
-        })
-        .catch((erro)=>{
-            console.log(erro)
-            
-        })
 
 }

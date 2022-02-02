@@ -5,7 +5,7 @@ import { ListsComplimetsContext } from '../context/ListsComplimets'
 import { ModalIshownContext } from '../context/ModalIsShownContext'
 import { TagDataContext } from '../context/TagDataContext'
 import { UserDataContext } from '../context/UserDataContext'
-import { Compliment, Tag } from '../service/Compliment'
+import { Compliment, deleteCompliment, Tag } from '../service/Compliment'
 import { getUsers, User } from '../service/User'
 import '../styles/user-page.scss'
 import { ModalCompliments } from './ModalCompliments'
@@ -97,6 +97,12 @@ export default function ListMessagesReceived({searchText, arrayUsers, arrayCompl
             }
      }
 
+     async function deleteComplimentId(id:string){
+        const complimentDeleted =  resultEmail.filter((compliment) => compliment.compliments.id !== id )
+        setResultEmail(complimentDeleted)
+        return await deleteCompliment(id)
+     }
+
     useEffect(() => {
         filterUserSender()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -109,7 +115,8 @@ export default function ListMessagesReceived({searchText, arrayUsers, arrayCompl
                 return (
                     <>
                         <p  key={index} onClick={() => {
-                            handleShowCompliment(result.compliments.id)
+                           // handleShowCompliment(result.compliments.id)
+                           deleteComplimentId(result.compliments.id)
                             }}>
                             {result.compliments.email}
                         </p>

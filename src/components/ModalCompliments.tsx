@@ -13,7 +13,7 @@ export function ModalCompliments({isShown, email, tag, message, forFrom}:ModalCo
 
     return(
         <>
-             <div style={{opacity:isShown ? 1 : 0, zIndex:isShown ? 80 : -80}} className="list-compliment">
+             <div style={{opacity:isShown ? 1 : 0, zIndex:isShown ? 80 : -80, padding:'0.5rem 0.5rem 0 0.5rem'}} className="list-compliment">
                     <p>{forFrom} {email}</p>
                 <textarea readOnly value={message} cols={28}/>
                 #{tag}
