@@ -48,7 +48,7 @@ export function Enviados(){
                         <input placeholder='pesquisar' onChange={(e)=> setSearchText(e.target.value)} value={searchText} type='text'/>
                     </div>
                     <span/>
-                    {users && listComplimentsSend.length > 0  && tags ? <ListMessagesSended arrayUsers={users} arrayTag={tags} arrayComplimentsSend={listComplimentsSend} searchText={searchText}/> : <div>Loading</div>}
+                    {users && listComplimentsSend && tags ? <ListMessagesSended arrayUsers={users} arrayTag={tags} arrayComplimentsSend={listComplimentsSend} searchText={searchText}/> : <div>Loading</div>}
                 </div>
             </div>
             <OverlayDismissModal onClick={handleModalIsShownCompliments} isShown={complimentModalShown}/>

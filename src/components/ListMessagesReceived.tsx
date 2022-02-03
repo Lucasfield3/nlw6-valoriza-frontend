@@ -114,12 +114,16 @@ export default function ListMessagesReceived({searchText, arrayUsers, arrayCompl
             {usersSenderFiltered.map((result, index) => {
                 return (
                     <>
-                        <p  key={index} onClick={() => {
-                           // handleShowCompliment(result.compliments.id)
-                           deleteComplimentId(result.compliments.id)
+                        <p title={result.compliments.email} key={index} onClick={() => {
+                           
+                           handleShowCompliment(result.compliments.id)
                             }}>
                             {result.compliments.email}
                         </p>
+                        <div title='apagar' onClick={()=> deleteComplimentId(result.compliments.id)} className='close-icon'>
+                            <div></div>
+                            <div></div>
+                        </div>
                     </>
                 )
             })}
@@ -130,6 +134,7 @@ export default function ListMessagesReceived({searchText, arrayUsers, arrayCompl
             forFrom={'De:'}
             message={valuesCompliments.message}
             />}
+             {listComplimentsReceiver.length === 0 && <div className="empty">Vazio</div>}
             </div>
         </>
     )

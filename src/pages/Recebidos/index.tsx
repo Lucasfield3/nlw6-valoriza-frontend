@@ -47,7 +47,7 @@ export function Recebidos(){
                         <input placeholder='pesquisar' onChange={(e)=> setSearchText(e.target.value)} value={searchText} type='text'/>
                     </div>
                     <span/>
-                    {users && listComplimentsReceiver.length > 0  && tags ? <ListMessagesReceived arrayUsers={users} arrayComplimentsReceiver={listComplimentsReceiver} arrayTag={tags} searchText={searchText}/> : <div>Loading...</div>}
+                    {users && listComplimentsReceiver  && tags ? <ListMessagesReceived arrayUsers={users} arrayComplimentsReceiver={listComplimentsReceiver} arrayTag={tags} searchText={searchText}/> : <div>Loading...</div>}
                 </div>
             </div>
             <OverlayDismissModal onClick={handleModalIsShownCompliments} isShown={complimentModalShown}/>

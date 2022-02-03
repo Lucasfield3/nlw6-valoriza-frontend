@@ -293,19 +293,83 @@ nav {
 
     }
 
-    p{
-        font-weight:normal !important;
+   
+
+   .empty{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        color: var(--landing-background-color);
+    }
+
+    .messages{
+        width: 100%;
+        display: flex;
+        justify-content: space-between !important;
         border-bottom: 2px solid #BCADB8;
         transition: all 0.1s ease-in-out;
-        cursor:pointer;
-        border-top-left-radius: 2px;
-        border-top-right-radius: 2px;
-        align-self: unset !important;
 
         &:hover{
-            background-color: #7a6174;
-            color:#FFFFFF !important;
+            background-color: var(--light-brown);
+            cursor:pointer;
         }
+
+        p{
+            font-weight:normal !important;
+            border-top-left-radius: 2px;
+            border-top-right-radius: 2px;
+            align-self: unset !important;
+            width: 100%;
+            text-overflow: ellipsis;
+        }
+
+        &:hover > p{
+            color:white!important;
+        }
+
+        &:hover > .close-icon  div{
+            background: white !important;
+        }
+
+        .close-icon{
+            display:flex;
+            justify-content:center !important;
+            align-items: center !important;
+            width:1.6rem !important;
+            height:1.6rem;
+            border-radius:4px;
+            margin-right: 0.3rem;
+
+            &:hover{
+                background: white;
+            }
+
+            &:hover > div{
+                background: var(--light-brown) !important;
+            }
+    
+            div:first-child{
+                background: var(--light-brown);
+                width: 1.5rem !important;
+                height: 0.2rem !important;
+                transform: rotate(-45deg);
+                position: absolute;
+                border-radius: 2px;
+            }
+    
+            div:nth-child(2){
+                background: var(--light-brown);
+                width: 1.5rem !important;
+                height: 0.2rem !important;
+                transform: rotate(45deg);
+                position: absolute;
+                border-radius: 2px;
+            }
+        
+    }
+
     }
 
 }
@@ -378,3 +442,4 @@ nav {
 .not-shown{
     transform: translate(285%, -905%);
 }
+

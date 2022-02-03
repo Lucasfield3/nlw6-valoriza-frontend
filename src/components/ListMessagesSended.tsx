@@ -113,27 +113,33 @@ export default function ListMessagesSended({searchText, arrayUsers, arrayComplim
 
     return(
         <>
-        {userAuthenticated && <div className="list-messages">
-            {usersReceiverFiltered.map((result, index) => {
-                return (
-                    <>
-                        <p  key={index} onClick={() => {
-                            //handleShowCompliment(result.compliments.id)
-                            deleteComplimentId(result.compliments.id)
-                            }}>
-                            {result.compliments.email}
-                        </p>
-                    </>
-                )
-            })}
-            {valuesCompliments !== undefined &&<ModalCompliments 
-            email={arrayUsers.map(user => user.id === valuesCompliments.user_receiver && user.email)} 
-            tag={arrayTag.map(tag => tag.id === valuesCompliments.tag_id && tag.name)} 
-            isShown={complimentModalShown}
-            forFrom={'Para:'}
-            message={valuesCompliments.message}
-            />}
-            </div>}
+            <div className="list-messages">
+                {usersReceiverFiltered.map((result, index) => {
+                    return (
+                        <>
+                        <div className="messages">
+                            <p title={result.compliments.email} key={index} onClick={() => {
+                                handleShowCompliment(result.compliments.id)
+                                }}>
+                                {result.compliments.email}
+                            </p>
+                            <div title='apagar' onClick={()=> deleteComplimentId(result.compliments.id)} className='close-icon'>
+                                <div></div>
+                                <div></div>
+                            </div>
+                        </div>
+                        </>
+                    )
+                })}
+                {valuesCompliments !== undefined &&<ModalCompliments 
+                email={arrayUsers.map(user => user.id === valuesCompliments.user_receiver && user.email)} 
+                tag={arrayTag.map(tag => tag.id === valuesCompliments.tag_id && tag.name)} 
+                isShown={complimentModalShown}
+                forFrom={'Para:'}
+                message={valuesCompliments.message}
+                />}
+            </div>
+            {listComplimentsSend.length === 0 && <div className="empty">Vazio</div>}
         </>
     )
 

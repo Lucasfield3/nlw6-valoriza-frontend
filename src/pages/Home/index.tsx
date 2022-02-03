@@ -46,6 +46,9 @@ export function Home(){
                 console.log('created')
                 setTimeout(()=> getAllComplimentsSend(), 500)
                 setIsModalComplimentShown(true)
+                setUser_receiver('')
+                setTag_id('')
+                setMessage('')
             })
     }
 

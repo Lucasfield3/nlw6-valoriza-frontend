@@ -50,8 +50,8 @@ export let DEFAULT_CONTEXT_DATA = {
 
 export function AuthProvider({children}:AuthProviderProps){
     const [ userAuthenticated, setUserAuthenticated ] = useState<UserAuthenticated>(DEFAULT_CONTEXT_DATA)
-    const [ listComplimentsSend, setListComplimentsSend ] = useState<Compliment[]>([])
-    const [ listComplimentsReceiver, setListComplimentsReceiver ] = useState<Compliment[]>([])
+    const [ listComplimentsSend, setListComplimentsSend ] = useState<Compliment[]>(null)
+    const [ listComplimentsReceiver, setListComplimentsReceiver ] = useState<Compliment[]>(null)
     const [ loading, setLoading ] = useState(true)
     const navigate = useNavigate()
 
