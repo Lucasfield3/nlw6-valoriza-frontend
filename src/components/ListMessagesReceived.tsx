@@ -114,6 +114,7 @@ export default function ListMessagesReceived({searchText, arrayUsers, arrayCompl
             {usersSenderFiltered.map((result, index) => {
                 return (
                     <>
+                    <div className="messages">
                         <p title={result.compliments.email} key={index} onClick={() => {
                            
                            handleShowCompliment(result.compliments.id)
@@ -124,6 +125,7 @@ export default function ListMessagesReceived({searchText, arrayUsers, arrayCompl
                             <div></div>
                             <div></div>
                         </div>
+                    </div>
                     </>
                 )
             })}
