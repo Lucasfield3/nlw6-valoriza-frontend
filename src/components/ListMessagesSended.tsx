@@ -1,9 +1,7 @@
 /* eslint-disable array-callback-return */
 import { useContext, useEffect, useState } from 'react'
-import { AuthContext, DEFAULT_COMPLIMENT_DATA } from '../context/AuthContext'
+import { AuthContext } from '../context/AuthContext'
 import { ModalIshownContext } from '../context/ModalIsShownContext'
-import { TagDataContext } from '../context/TagDataContext'
-import { UserDataContext } from '../context/UserDataContext'
 import { Compliment, deleteCompliment, Tag } from '../service/Compliment'
 import { User } from '../service/User'
 import '../styles/user-page.scss'
@@ -25,10 +23,8 @@ interface ComplimentsFiltered{
 }
 export default function ListMessagesSended({searchText, arrayUsers, arrayComplimentsSend, arrayTag}:ListMessagesProps){
 
-    const { users } = useContext(UserDataContext)
-    const { tags, } = useContext(TagDataContext)
     const { handleModalIsShownCompliments, complimentModalShown } = useContext(ModalIshownContext)
-    const { userAuthenticated, listComplimentsSend } = useContext(AuthContext)
+    const {  listComplimentsSend } = useContext(AuthContext)
     const [ resultEmail, setResultEmail ] = useState<ComplimentsFiltered[]>([])
     const [ valuesCompliments, setValuesCompliments ] = useState<Compliment>()
   

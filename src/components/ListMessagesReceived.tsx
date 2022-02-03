@@ -1,12 +1,9 @@
 /* eslint-disable array-callback-return */
 import { useContext, useEffect, useState } from 'react'
-import { AuthContext, DEFAULT_COMPLIMENT_DATA } from '../context/AuthContext'
-import { ListsComplimetsContext } from '../context/ListsComplimets'
+import { AuthContext } from '../context/AuthContext'
 import { ModalIshownContext } from '../context/ModalIsShownContext'
-import { TagDataContext } from '../context/TagDataContext'
-import { UserDataContext } from '../context/UserDataContext'
 import { Compliment, deleteCompliment, Tag } from '../service/Compliment'
-import { getUsers, User } from '../service/User'
+import { User } from '../service/User'
 import '../styles/user-page.scss'
 import { ModalCompliments } from './ModalCompliments'
 
@@ -26,9 +23,7 @@ interface ComplimentsFiltered{
 export default function ListMessagesReceived({searchText, arrayUsers, arrayComplimentsReceiver, arrayTag}:ListMessagesProps){
 
     //const {getAllComplimentsReceiver } = useContext(ListsComplimetsContext)
-    const { users, getAllUsers} = useContext(UserDataContext)
-    const { tags, } = useContext(TagDataContext)
-    const { userAuthenticated, listComplimentsReceiver, getAllComplimentsReceiver } = useContext(AuthContext)
+    const {listComplimentsReceiver } = useContext(AuthContext)
     const { handleModalIsShownCompliments, complimentModalShown } = useContext(ModalIshownContext)
     const [ resultEmail, setResultEmail ] = useState<ComplimentsFiltered[]>([])
     const [ valuesCompliments, setValuesCompliments ] = useState<Compliment>()
