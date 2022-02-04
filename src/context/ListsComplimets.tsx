@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useEffect } from "react";
+import { createContext, ReactNode, useContext } from "react";
 import { Compliment,  getComplimentsListReceive, getComplimentsListSend } from "../service/Compliment";
 
 import { AuthContext } from "./AuthContext";

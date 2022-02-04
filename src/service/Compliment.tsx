@@ -1,5 +1,5 @@
 import https from "../utils/https";
-import { getPayload, UserAuthenticated } from "./Authenticate";
+
 
 export interface NewCompliment {
     tag_id: string;

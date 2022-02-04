@@ -15,6 +15,7 @@ import '../../styles/user-page.scss'
 import { AuthContext, DEFAULT_CONTEXT_DATA } from '../../context/AuthContext'
 import { ModalCreatedCompliment } from '../../components/ModalCreatedCompliment'
 import { SideMenuContext } from '../../context/SideMenuContext'
+import { getToken } from '../../service/Authenticate'
 
 
 
@@ -26,16 +27,15 @@ export function Home(){
     const {userAuthenticated, getAllComplimentsSend} = useContext(AuthContext)
     const { tags, getAllTags} = useContext(TagDataContext)
     const { isShown, handleModalIsShown } = useContext(ModalIshownContext)
-    const [ isFirstOptionShown, setIsFirtsOptionShown] = useState(true)
+    //const [ setIsFirtsOptionShown] = useState(true)
     const [user_receiver, setUser_receiver] = useState('')
     const [tag_id, setTag_id] = useState('')
     const [message, setMessage] = useState('')
     const [ , setIsTagShown ] = useState(false)
     const [ isModalComplimentShown, setIsModalComplimentShown] = useState(false)
-    const { overlayIsActive , isActive} = useContext(SideMenuContext)
-    const checkFields = [tag_id, message, user_receiver ]
+    const { isActive} = useContext(SideMenuContext)
     
-    let isEmpty = null
+    const [isValid , setIsValid] = useState(false)
 
     const handleCreateCompliment = async () => {
         let tagId = ''
@@ -45,48 +45,57 @@ export function Home(){
             }
             return tag.id
         })
+      
 
-        checkFields.map((field)=>{
-            if(field === ''){
-                return isEmpty = true
-            }
-
-            if(field !== ''){
-                return isEmpty = false
-            }
-
-            return field
-        })
-        console.log(isEmpty)
-        if(isEmpty){
-            console.log('invalid')
-        }else{
-            await createCompliment({user_receiver, message, tag_id:tagId})
-            .then((data)=>{
-                if(data){
-                    console.log('created')
-                    setTimeout(()=> getAllComplimentsSend(), 500)
-                    setIsModalComplimentShown(true)
-                    setUser_receiver('')
-                    setTag_id('')
-                    setMessage('')
-                }
-            })
+       console.log(isValid)
+        if(isValid === true){
+           const compliment =  await createCompliment({user_receiver, message, tag_id:tagId})
+           if(compliment){
+               console.log('created')
+               setTimeout(()=> getAllComplimentsSend(), 500)
+               setIsModalComplimentShown(true)
+           }
+            
         }
+
+        if(isValid === false || isValid === null){
+            console.log('invalid')   
+            setIsModalComplimentShown(true)
+            
+        }
+       
     }
 
 
     useEffect(()=>{
-        getAllUsers()
-        getAllTags()
+        const token =  getToken()
+        console.log(message)
+        if(token){
+            getAllUsers()
+            getAllTags()
+        }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])  
 
     useEffect(()=>{
-        setTimeout(()=> setIsModalComplimentShown(false), 1500)
+        setTimeout(()=> setIsModalComplimentShown(false), 2000)
     }, [isModalComplimentShown])
 
-  
+  useEffect(()=>{
+    console.log(isValid)
+        if(tag_id === 'tags' || user_receiver === 'usuários' || message.length === 0){
+            return setIsValid(false)
+        }else if(tag_id === 'tags' || user_receiver === 'usuários'){
+            return setIsValid(false)
+        }else if(user_receiver === 'usuários' || message.length === 0){
+            return setIsValid(false)
+        }else if(tag_id === 'tags' || message.length === 0){
+            return setIsValid(false)
+        }else{
+            return setIsValid(true)
+        }
+  }, [user_receiver, tag_id, message, isValid])
+
     return(
         <>
       {userAuthenticated !== DEFAULT_CONTEXT_DATA &&  <div id="user-page">
@@ -94,7 +103,7 @@ export function Home(){
             {isActive && <OverlayDismissSideMenu/>}
             <div className="head">
                 <MenuHamburguer/>
-                <ModalCreatedCompliment isModalShown={isModalComplimentShown} />
+                <ModalCreatedCompliment isValid={isValid} isModalShown={isModalComplimentShown} />
             </div>
             <header>
                 <img src={logo} alt='logo'/>
@@ -107,8 +116,8 @@ export function Home(){
                         <div style={{display:'flex', flexDirection:'column'}}>
                             <div key='users' className='custom-select'>
                                 <p>Para:</p>
-                                <select id='custom-select' value={user_receiver} onChange={(e) => setUser_receiver(e.target.value)} onClick={()=> setIsFirtsOptionShown(false)}>
-                                {isFirstOptionShown && <option key={users && users.length + 1}>usuários</option> }
+                                <select id='custom-select' value={user_receiver} onChange={(e) => setUser_receiver(e.target.value)}>
+                                <option key={users && users.length + 1}>usuários</option> 
                                     {users && users.map((userEmail, index)=> {
                                     return (
                                         <>
@@ -138,8 +147,11 @@ export function Home(){
                              <span/>
                         </div>
                         
-                        <textarea value={message} required onChange={(e)=> setMessage(e.target.value)} placeholder='Menssagem..' rows={7} cols={28}>
-                        </textarea>
+                        <textarea value={message} onChange={(e)=> {
+                            setMessage(e.target.value)
+                            console.log(e.target.value.length)
+                            }} placeholder={ 'Menssagem..'} rows={7} cols={28}/>
+                       
                     </div>
                 </form>
                 <button onClick={handleCreateCompliment} >Enviar elogio</button>

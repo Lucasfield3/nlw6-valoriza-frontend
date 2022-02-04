@@ -24,7 +24,7 @@ interface ComplimentsFiltered{
 export default function ListMessagesSended({searchText, arrayUsers, arrayComplimentsSend, arrayTag}:ListMessagesProps){
 
     const { handleModalIsShownCompliments, complimentModalShown } = useContext(ModalIshownContext)
-    const {  listComplimentsSend } = useContext(AuthContext)
+    const {  listComplimentsSend, getAllComplimentsSend } = useContext(AuthContext)
     const [ resultEmail, setResultEmail ] = useState<ComplimentsFiltered[]>([])
     const [ valuesCompliments, setValuesCompliments ] = useState<Compliment>()
   
@@ -97,7 +97,8 @@ export default function ListMessagesSended({searchText, arrayUsers, arrayComplim
      async function deleteComplimentId(id:string){
         const complimentDeleted =  resultEmail.filter((compliment) => compliment.compliments.id !== id )
         setResultEmail(complimentDeleted)
-        return await deleteCompliment(id)
+        await deleteCompliment(id)
+        getAllComplimentsSend()
      }
 
     useEffect(() => {
@@ -106,6 +107,7 @@ export default function ListMessagesSended({searchText, arrayUsers, arrayComplim
         
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+    
 
     return(
         <>
@@ -134,8 +136,8 @@ export default function ListMessagesSended({searchText, arrayUsers, arrayComplim
                 forFrom={'Para:'}
                 message={valuesCompliments.message}
                 />}
-            </div>
             {listComplimentsSend.length === 0 && <div className="empty">Vazio</div>}
+            </div>
         </>
     )
 

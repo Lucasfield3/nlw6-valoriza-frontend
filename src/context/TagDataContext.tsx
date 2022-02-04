@@ -1,8 +1,6 @@
-import { createContext, ReactNode, useContext, useEffect, useState } from "react";
-import { getToken } from "../service/Authenticate";
+import { createContext, ReactNode,  useState } from "react";
 import { getTags, Tag } from "../service/Compliment";
-import https from "../utils/https";
-import { AuthContext } from "./AuthContext";
+
 
 interface TagDataContextProp{
     tags:Tag[];

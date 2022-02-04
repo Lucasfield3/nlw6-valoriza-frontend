@@ -5,14 +5,11 @@ import { Credentials, } from '../../service/Authenticate'
 import { useForm } from 'react-hook-form'
 import { useContext } from 'react'
 import { AuthContext } from '../../context/AuthContext'
-import { ListsComplimetsContext } from '../../context/ListsComplimets'
-import { UserDataContext } from '../../context/UserDataContext'
 
 export function Login(){
     const { register, handleSubmit  } = useForm()
-    const { authenticate, userAuthenticated, authenticated } = useContext(AuthContext)
+    const { authenticate } = useContext(AuthContext)
     
-    const { getAllComplimentsSend, getAllComplimentsReceiver } = useContext(ListsComplimetsContext)
     const navigate = useNavigate()
     
     async function onSubmit(data:Credentials){

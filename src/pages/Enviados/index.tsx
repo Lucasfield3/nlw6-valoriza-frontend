@@ -4,13 +4,13 @@ import MenuHamburguer from '../../components/MenuHamburguer'
 import { OverlayDismissModal } from '../../components/OverlayDismissModal'
 import OverlayDismissSideMenu from '../../components/OverlayDismissSideMenu'
 import SideMenu from '../../components/SideMenu'
-import { AuthContext, DEFAULT_COMPLIMENT_DATA } from '../../context/AuthContext'
+import { AuthContext } from '../../context/AuthContext'
 import { ModalIshownContext } from '../../context/ModalIsShownContext'
 import { TagDataContext } from '../../context/TagDataContext'
 import { UserDataContext } from '../../context/UserDataContext'
 import logo from '../../images/logo.svg'
 import '../../styles/user-page.scss'
-import { Loading } from '../Loading'
+
 
 export function Enviados(){
 
@@ -25,6 +25,7 @@ export function Enviados(){
         getAllTags()
         getAllComplimentsSend()
         console.log(users)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
 

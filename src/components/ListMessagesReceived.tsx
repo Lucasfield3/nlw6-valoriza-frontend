@@ -23,7 +23,7 @@ interface ComplimentsFiltered{
 export default function ListMessagesReceived({searchText, arrayUsers, arrayComplimentsReceiver, arrayTag}:ListMessagesProps){
 
     //const {getAllComplimentsReceiver } = useContext(ListsComplimetsContext)
-    const {listComplimentsReceiver } = useContext(AuthContext)
+    const {listComplimentsReceiver, getAllComplimentsReceiver } = useContext(AuthContext)
     const { handleModalIsShownCompliments, complimentModalShown } = useContext(ModalIshownContext)
     const [ resultEmail, setResultEmail ] = useState<ComplimentsFiltered[]>([])
     const [ valuesCompliments, setValuesCompliments ] = useState<Compliment>()
@@ -95,7 +95,8 @@ export default function ListMessagesReceived({searchText, arrayUsers, arrayCompl
      async function deleteComplimentId(id:string){
         const complimentDeleted =  resultEmail.filter((compliment) => compliment.compliments.id !== id )
         setResultEmail(complimentDeleted)
-        return await deleteCompliment(id)
+         await deleteCompliment(id)
+         getAllComplimentsReceiver()
      }
 
     useEffect(() => {

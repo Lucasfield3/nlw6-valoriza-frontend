@@ -2,7 +2,6 @@ import { useContext } from 'react';
 import { useNavigate } from 'react-router';
 import { AuthContext } from '../context/AuthContext';
 import { SideMenuContext } from '../context/SideMenuContext';
-import { UserDataContext } from '../context/UserDataContext';
 import miniLogo from '../images/mini-logo.svg'
 
 import '../styles/user-page.scss';
@@ -15,7 +14,6 @@ export default function SideMenu({userName}:SideMenuProps){
 
     const { isActive, handleIsActive } = useContext(SideMenuContext)
     const { logOut, userAuthenticated } = useContext(AuthContext)
-    const { users} = useContext(UserDataContext)
     const navigate = useNavigate()
 
 
