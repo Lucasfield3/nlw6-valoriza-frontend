@@ -14,6 +14,7 @@ import { TagDataContext } from '../../context/TagDataContext'
 import '../../styles/user-page.scss'
 import { AuthContext, DEFAULT_CONTEXT_DATA } from '../../context/AuthContext'
 import { ModalCreatedCompliment } from '../../components/ModalCreatedCompliment'
+import { SideMenuContext } from '../../context/SideMenuContext'
 
 
 
@@ -31,25 +32,47 @@ export function Home(){
     const [message, setMessage] = useState('')
     const [ , setIsTagShown ] = useState(false)
     const [ isModalComplimentShown, setIsModalComplimentShown] = useState(false)
+    const { overlayIsActive , isActive} = useContext(SideMenuContext)
+    const checkFields = [tag_id, message, user_receiver ]
+    
+    let isEmpty = null
 
     const handleCreateCompliment = async () => {
         let tagId = ''
+        tags.map((tag)=>{
+            if(tag_id === tag.name){
+                tagId = tag.id
+            }
+            return tag.id
+        })
 
-            tags.map((tag)=>{
-                if(tag_id === tag.name){
-                    tagId = tag.id
-                }
-                return tag.id
-            })
+        checkFields.map((field)=>{
+            if(field === ''){
+                return isEmpty = true
+            }
+
+            if(field !== ''){
+                return isEmpty = false
+            }
+
+            return field
+        })
+        console.log(isEmpty)
+        if(isEmpty){
+            console.log('invalid')
+        }else{
             await createCompliment({user_receiver, message, tag_id:tagId})
-            .then(()=>{
-                console.log('created')
-                setTimeout(()=> getAllComplimentsSend(), 500)
-                setIsModalComplimentShown(true)
-                setUser_receiver('')
-                setTag_id('')
-                setMessage('')
+            .then((data)=>{
+                if(data){
+                    console.log('created')
+                    setTimeout(()=> getAllComplimentsSend(), 500)
+                    setIsModalComplimentShown(true)
+                    setUser_receiver('')
+                    setTag_id('')
+                    setMessage('')
+                }
             })
+        }
     }
 
 
@@ -68,9 +91,11 @@ export function Home(){
         <>
       {userAuthenticated !== DEFAULT_CONTEXT_DATA &&  <div id="user-page">
            <SideMenu/>
-            <MenuHamburguer/>
-            <OverlayDismissSideMenu/>
-            <ModalCreatedCompliment isModalShown={isModalComplimentShown} />
+            {isActive && <OverlayDismissSideMenu/>}
+            <div className="head">
+                <MenuHamburguer/>
+                <ModalCreatedCompliment isModalShown={isModalComplimentShown} />
+            </div>
             <header>
                 <img src={logo} alt='logo'/>
             </header>
@@ -113,7 +138,7 @@ export function Home(){
                              <span/>
                         </div>
                         
-                        <textarea value={message} onChange={(e)=> setMessage(e.target.value)} placeholder='Menssagem..' rows={7} cols={28}>
+                        <textarea value={message} required onChange={(e)=> setMessage(e.target.value)} placeholder='Menssagem..' rows={7} cols={28}>
                         </textarea>
                     </div>
                 </form>
