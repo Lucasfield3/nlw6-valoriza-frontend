@@ -55,7 +55,6 @@ export default function ListMessagesSended({searchText, arrayUsers, arrayComplim
           
         }
 
-        console.log(resultEmailFiltered)
          
         const extractValueReceivers = (arrayValue:Compliment)=>{
             for(const [, value] of arrayUsers.entries()){
@@ -73,7 +72,7 @@ export default function ListMessagesSended({searchText, arrayUsers, arrayComplim
 
         finalResult.shift()
         setResultEmail(finalResult)
-        console.log(resultEmail)
+        console.log(listComplimentsSend)
 
     }
 
@@ -102,8 +101,10 @@ export default function ListMessagesSended({searchText, arrayUsers, arrayComplim
      }
 
     useEffect(() => {
-        
-        filterUserReceiver()
+        if(listComplimentsSend){
+
+            filterUserReceiver()
+        }
         
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
@@ -112,7 +113,7 @@ export default function ListMessagesSended({searchText, arrayUsers, arrayComplim
     return(
         <>
             <div className="list-messages">
-                {usersReceiverFiltered.map((result, index) => {
+                {listComplimentsSend && usersReceiverFiltered.map((result, index) => {
                     return (
                         <>
                         <div className="messages">
@@ -136,7 +137,7 @@ export default function ListMessagesSended({searchText, arrayUsers, arrayComplim
                 forFrom={'Para:'}
                 message={valuesCompliments.message}
                 />}
-            {listComplimentsSend.length === 0 && <div className="empty">Vazio</div>}
+            {listComplimentsSend === null || listComplimentsSend.length === 0 ? <div className="empty">Vazio</div> : null}
             </div>
         </>
     )

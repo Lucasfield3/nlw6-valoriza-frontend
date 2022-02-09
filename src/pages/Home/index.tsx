@@ -15,7 +15,7 @@ import '../../styles/user-page.scss'
 import { AuthContext, DEFAULT_CONTEXT_DATA } from '../../context/AuthContext'
 import { ModalCreatedCompliment } from '../../components/ModalCreatedCompliment'
 import { SideMenuContext } from '../../context/SideMenuContext'
-import { getToken } from '../../service/Authenticate'
+import { getPayload, getToken } from '../../service/Authenticate'
 
 
 
@@ -47,18 +47,18 @@ export function Home(){
         })
       
 
-       console.log(isValid)
         if(isValid === true){
-           const compliment =  await createCompliment({user_receiver, message, tag_id:tagId})
-           if(compliment){
-               console.log('created')
-               setTimeout(()=> getAllComplimentsSend(), 500)
-               setIsModalComplimentShown(true)
-           }
-            
-        }
+            const compliment =  await createCompliment({user_receiver, message, tag_id:tagId})
+            if(compliment){
+                console.log('created')
+                setTimeout(()=> getAllComplimentsSend(), 500)
+                setIsModalComplimentShown(true)
+            }
+             
+         }
+ 
 
-        if(isValid === false || isValid === null){
+        if(isValid === false){
             console.log('invalid')   
             setIsModalComplimentShown(true)
             
@@ -98,7 +98,7 @@ export function Home(){
 
     return(
         <>
-      {userAuthenticated !== DEFAULT_CONTEXT_DATA &&  <div id="user-page">
+      <div id="user-page">
            <SideMenu/>
             {isActive && <OverlayDismissSideMenu/>}
             <div className="head">
@@ -147,10 +147,7 @@ export function Home(){
                              <span/>
                         </div>
                         
-                        <textarea value={message} onChange={(e)=> {
-                            setMessage(e.target.value)
-                            console.log(e.target.value.length)
-                            }} placeholder={ 'Menssagem..'} rows={7} cols={28}/>
+                        <textarea value={message} onChange={(e)=> setMessage(e.target.value)} placeholder={ 'Menssagem..'} rows={7} cols={28}/>
                        
                     </div>
                 </form>
@@ -159,7 +156,7 @@ export function Home(){
             <CreateTagModal/>
             <OverlayDismissModal onClick={handleModalIsShown} isShown={isShown}/>
             {userAuthenticated.user.admin === true &&  <button onClick={handleModalIsShown} className='create-tag-button'><img src={plus} alt="Plus-icon" /></button>}
-        </div>}
+        </div>
         </>
     )
 

@@ -9,16 +9,13 @@ export function Register(){
     const { register, handleSubmit  } = useForm()
     const navigate = useNavigate()
 
-  var newUser:string | any = null;
+  //var newUser:string | any = null;
    async function onSubmit(data:NewUser){
 
-        try{
-            newUser = await createUser(data)
-            if(newUser !== null){
-                navigate('/')
-            }
-        }catch(err){
-            console.log(err);
+        const newUser = await createUser(data)
+        if(newUser){
+            console.log('user created')
+            navigate('/')
         }
 
     }

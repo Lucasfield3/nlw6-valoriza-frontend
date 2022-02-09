@@ -19,10 +19,10 @@ export interface User {
 
 export async function createUser(newUser:NewUser){
     console.log(newUser);
-    https
+    return await https
         .post<User>('/users', newUser)
         .then(async(res)=> {
-            return await res.data
+            return res.data
         })
 
 }

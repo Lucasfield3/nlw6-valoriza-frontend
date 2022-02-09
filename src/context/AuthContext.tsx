@@ -56,12 +56,10 @@ export function AuthProvider({children}:AuthProviderProps){
     const navigate = useNavigate()
 
     async function authenticate(data:Credentials):Promise<UserAuthenticated | any>{
-        var access_token:string | any = null;
         const response =  await login(data)
         const user = response.data as UserAuthenticated 
         if(user){
-          access_token = response.data.token
-          storeToken(access_token)
+          storeToken(user.token)
           setUserAuthenticated(user)
           setListComplimentsSend(user.compliments.send)
           setListComplimentsReceiver(user.compliments.receive)
@@ -78,19 +76,23 @@ export function AuthProvider({children}:AuthProviderProps){
       }
 
       async function getAllComplimentsSend():Promise<Compliment[] | any>{
+            const userUpdateId =  JSON.parse(localStorage.getItem('user')) as UserAuthenticated
+            console.log(userUpdateId.user.id)
 
-        const response = await getComplimentsListSend(userAuthenticated.user.id) as Compliment[]
-        console.log(response)
-        if(response){
-            setListComplimentsSend(response)
-        }
+           await getComplimentsListSend(userUpdateId.user.id)
+           .then((compliments:Compliment[]) =>{
+                setListComplimentsSend(compliments)
+           }) as Compliment[]
+           
 
     }
 
 
     async function getAllComplimentsReceiver():Promise<Compliment[] | any>{
-
-            const response = await getComplimentsListReceive(userAuthenticated.user.id) as Compliment[]
+            const userUpdateId =  JSON.parse(localStorage.getItem('user')) as UserAuthenticated
+            console.log(userUpdateId.user.id)
+            
+            const response = await getComplimentsListReceive(userUpdateId.user.id) as Compliment[]
             console.log(response)
             if(response){
                 setListComplimentsReceiver(response)
@@ -106,6 +108,8 @@ export function AuthProvider({children}:AuthProviderProps){
         }
         setLoading(false)
     }, [])
+
+
 
     return(
         <AuthContext.Provider value={{
