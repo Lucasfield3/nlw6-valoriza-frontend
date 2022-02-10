@@ -48,7 +48,7 @@ export function Home(){
       
 
         if(isValid === true){
-            const compliment =  await createCompliment({user_receiver, message, tag_id:tagId})
+            const compliment =  await createCompliment({user_receiver, message, tag_id:tagId, user_sender:userAuthenticated.user.id})
             if(compliment){
                 console.log('created')
                 setTimeout(()=> getAllComplimentsSend(), 500)
@@ -69,7 +69,6 @@ export function Home(){
 
     useEffect(()=>{
         const token =  getToken()
-        console.log(message)
         if(token){
             getAllUsers()
             getAllTags()
@@ -82,7 +81,6 @@ export function Home(){
     }, [isModalComplimentShown])
 
   useEffect(()=>{
-    console.log(isValid)
         if(tag_id === 'tags' || user_receiver === 'usuários' || message.length === 0){
             return setIsValid(false)
         }else if(tag_id === 'tags' || user_receiver === 'usuários'){
@@ -151,7 +149,7 @@ export function Home(){
                        
                     </div>
                 </form>
-                <button onClick={handleCreateCompliment} >Enviar elogio</button>
+                <button style={{cursor:isModalComplimentShown ? 'not-allowed' : 'pointer'}} disabled={isModalComplimentShown ? true : false} onClick={handleCreateCompliment} >Enviar elogio</button>
             </div>
             <CreateTagModal/>
             <OverlayDismissModal onClick={handleModalIsShown} isShown={isShown}/>

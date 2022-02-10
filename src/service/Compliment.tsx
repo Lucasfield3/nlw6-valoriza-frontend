@@ -4,6 +4,7 @@ import https from "../utils/https";
 export interface NewCompliment {
     tag_id: string;
     user_receiver:string;
+    user_sender:string;
     message:string;
 }
 
@@ -31,7 +32,7 @@ export interface Tag {
 export async function createCompliment(newCompliment:NewCompliment){
 
     return https
-    .post<Compliment>('/compliments', newCompliment)
+    .post<Compliment>(`/compliments/create/${newCompliment.user_sender}`, newCompliment)
     .then(async(res)=> {
         console.log(res.data);
         return  res.data
