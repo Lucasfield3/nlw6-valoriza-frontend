@@ -12,12 +12,12 @@ import { UserDataContext } from '../../context/UserDataContext'
 import { TagDataContext } from '../../context/TagDataContext'
 
 import '../../styles/user-page.scss'
-import { AuthContext, DEFAULT_CONTEXT_DATA } from '../../context/AuthContext'
+import { AuthContext } from '../../context/AuthContext'
 import { ModalCreatedCompliment } from '../../components/ModalCreatedCompliment'
 import { SideMenuContext } from '../../context/SideMenuContext'
-import { getPayload, getToken } from '../../service/Authenticate'
+import { getToken } from '../../service/Authenticate'
 
-
+export const DEFAULT_TAG_ID = '56336480-51d9-48a7-bc0c-b7ffed66e96d'
 
 
 
@@ -42,6 +42,8 @@ export function Home(){
         tags.map((tag)=>{
             if(tag_id === tag.name){
                 tagId = tag.id
+            }else {
+                tagId = DEFAULT_TAG_ID
             }
             return tag.id
         })
@@ -78,21 +80,25 @@ export function Home(){
 
     useEffect(()=>{
         setTimeout(()=> setIsModalComplimentShown(false), 2000)
+        if(!isModalComplimentShown){
+           setTimeout(()=> { 
+            setUser_receiver('usuários')
+            setTag_id('tags')
+            setMessage('')}, 300)
+        }
     }, [isModalComplimentShown])
 
   useEffect(()=>{
-        if(tag_id === 'tags' || user_receiver === 'usuários' || message.length === 0){
+        if(user_receiver === 'usuários' || message.length === 0){
             return setIsValid(false)
-        }else if(tag_id === 'tags' || user_receiver === 'usuários'){
+        }else if(user_receiver === 'usuários'){
             return setIsValid(false)
-        }else if(user_receiver === 'usuários' || message.length === 0){
-            return setIsValid(false)
-        }else if(tag_id === 'tags' || message.length === 0){
+        }else if(message.length === 0){
             return setIsValid(false)
         }else{
             return setIsValid(true)
         }
-  }, [user_receiver, tag_id, message, isValid])
+  }, [user_receiver, message, isValid])
 
     return(
         <>
@@ -133,10 +139,10 @@ export function Home(){
                                     {tags && tags.map((tag, index)=>{
                                         return (
                                             <>
-                                                <option onClick={()=> {
+                                                {tag.id !== DEFAULT_TAG_ID && <option onClick={()=> {
                                                     setIsTagShown(false)
                                                     console.log(tag.id)
-                                                    }} value={tag.name} key={index}>{tag.name}</option>
+                                                    }} value={tag.name} key={index}>{tag.name}</option>}
                                             </>
                                         )
                                     })}

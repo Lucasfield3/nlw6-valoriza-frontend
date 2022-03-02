@@ -58,12 +58,14 @@ export function AuthProvider({children}:AuthProviderProps){
     async function authenticate(data:Credentials):Promise<UserAuthenticated | any>{
         const response =  await login(data)
         const user = response.data as UserAuthenticated 
+        setLoading(true)
         if(user){
           storeToken(user.token)
           setUserAuthenticated(user)
           setListComplimentsSend(user.compliments.send)
           setListComplimentsReceiver(user.compliments.receive)
           localStorage.setItem('user', JSON.stringify(user))
+          setLoading(false)
         }
   }
   
@@ -76,8 +78,6 @@ export function AuthProvider({children}:AuthProviderProps){
       }
 
       async function getAllComplimentsSend():Promise<Compliment[] | any>{
-            // const userUpdateId =  JSON.parse(localStorage.getItem('user')) as UserAuthenticated
-            // console.log(userUpdateId.user.id)
 
            await getComplimentsListSend(userAuthenticated.user.id)
            .then((compliments:Compliment[]) =>{
@@ -90,8 +90,6 @@ export function AuthProvider({children}:AuthProviderProps){
 
 
     async function getAllComplimentsReceiver():Promise<Compliment[] | any>{
-            // const userUpdateId =  JSON.parse(localStorage.getItem('user')) as UserAuthenticated
-            // console.log(userUpdateId.user.id)
             
             const response = await getComplimentsListReceive(userAuthenticated.user.id) as Compliment[]
             console.log(response)
@@ -109,12 +107,6 @@ export function AuthProvider({children}:AuthProviderProps){
         }
         setLoading(false)
     }, [])
-
-    // useEffect(()=>{
-    //     if(){}
-    //     getAllComplimentsSend()
-    // }, [userAuthenticated])
-
 
     return(
         <AuthContext.Provider value={{

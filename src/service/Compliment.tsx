@@ -12,7 +12,7 @@ export interface Compliment {
     id:string;
     user_sender:string;
     user_receiver:string;
-    tag_id:string;
+    tag_id?:string;
     message:string;
     created_at:Date;
 }

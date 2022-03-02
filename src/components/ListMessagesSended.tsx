@@ -2,6 +2,7 @@
 import { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../context/AuthContext'
 import { ModalIshownContext } from '../context/ModalIsShownContext'
+import { DEFAULT_TAG_ID } from '../pages/Home'
 import { Compliment, deleteCompliment, Tag } from '../service/Compliment'
 import { User } from '../service/User'
 import '../styles/user-page.scss'
@@ -100,6 +101,19 @@ export default function ListMessagesSended({searchText, arrayUsers, arrayComplim
         getAllComplimentsSend()
      }
 
+     function handleEmptyTag(){
+        let tagName = ['']
+        arrayTag.map(tag => {
+            if(valuesCompliments.tag_id === DEFAULT_TAG_ID){
+                return tagName
+            }else if(tag.id === valuesCompliments.tag_id){
+                return tagName =  [tag.custom_name] 
+            }
+        })
+
+        return tagName
+    }
+
     useEffect(() => {
         if(listComplimentsSend){
 
@@ -132,7 +146,7 @@ export default function ListMessagesSended({searchText, arrayUsers, arrayComplim
                 })}
                 {valuesCompliments !== undefined &&<ModalCompliments 
                 email={arrayUsers.map(user => user.id === valuesCompliments.user_receiver && user.email)} 
-                tag={arrayTag.map(tag => tag.id === valuesCompliments.tag_id && tag.name)} 
+                tag={handleEmptyTag()} 
                 isShown={complimentModalShown}
                 forFrom={'Para:'}
                 message={valuesCompliments.message}
