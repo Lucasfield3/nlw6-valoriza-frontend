@@ -4,7 +4,7 @@ Front end criado do zero, desdo design até o deploy consumindo a api criada na 
 Web App de criação de elogios com hash tags no estilo de envio de emails, com lista de recebidos e enviados.
 
 <div>
-  <p>Link do site: <a target="_blank" href='https://nlw-heat-react-tan.vercel.app/'>https://nlw6-valoriza-frontend.vercel.app/</a></p>
+  <p>Link do site: <a target="_blank" href='https://nlw-heat-react-tan.vercel.app/'>http://nlw6-valoriza-frontend.vercel.app/</a></p>
 </div>
 
 
