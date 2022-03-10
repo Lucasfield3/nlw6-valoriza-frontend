@@ -17,7 +17,7 @@ import { ModalCreatedCompliment } from '../../components/ModalCreatedCompliment'
 import { SideMenuContext } from '../../context/SideMenuContext'
 import { getToken } from '../../service/Authenticate'
 
-export const DEFAULT_TAG_ID = '56336480-51d9-48a7-bc0c-b7ffed66e96d'
+export const DEFAULT_TAG_ID = 'd90e8ae6-73c4-43bf-8558-a3b2d042cb2b'
 
 
 
@@ -159,7 +159,7 @@ export function Home(){
             </div>
             <CreateTagModal/>
             <OverlayDismissModal onClick={handleModalIsShown} isShown={isShown}/>
-            {userAuthenticated.user.admin === true &&  <button onClick={handleModalIsShown} className='create-tag-button'><img src={plus} alt="Plus-icon" /></button>}
+             <button onClick={handleModalIsShown} className='create-tag-button'><img src={plus} alt="Plus-icon" /></button>
         </div>
         </>
     )

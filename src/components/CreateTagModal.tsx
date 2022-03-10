@@ -18,6 +18,7 @@ export function CreateTagModal(){
         if(newTag){
             handleModalIsShown()
             getAllTags()
+            setTag({name:''})
         }
 
     }
