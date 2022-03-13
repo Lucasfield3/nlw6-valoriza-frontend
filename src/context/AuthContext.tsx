@@ -14,6 +14,7 @@ interface AuthContextData{
     listComplimentsSend:Compliment[];
     getAllComplimentsSend:() => Promise<Compliment[]>;
     getAllComplimentsReceiver:() => Promise<Compliment[]>;
+    handleLoading:(value:boolean)=>void
 
 }
 
@@ -68,6 +69,10 @@ export function AuthProvider({children}:AuthProviderProps){
           setLoading(false)
         }
   }
+
+  const handleLoading = (value:boolean)=>{
+        setLoading(value)
+  }
   
     function logOut(){
           localStorage.removeItem('user')
@@ -118,7 +123,8 @@ export function AuthProvider({children}:AuthProviderProps){
             listComplimentsReceiver,
             listComplimentsSend,
             getAllComplimentsReceiver,
-            getAllComplimentsSend
+            getAllComplimentsSend,
+            handleLoading
             }}>
             {children}
         </AuthContext.Provider>

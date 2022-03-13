@@ -38,6 +38,14 @@
                 margin-bottom: 2.2rem;
             }
 
+            .input-error{
+
+                &::placeholder{
+                    color:rgb(226, 80, 80)
+                }
+
+            }
+
             button {
                 width: 26rem;
                 height: 4.6rem;
