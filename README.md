@@ -1,46 +1,38 @@
-# Getting Started with Create React App
+# nlw6-valoriza-frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Front end criado do zero, desdo design até o deploy consumindo a api criada na semana nlw 6 de nodejs da rocket seat com melhorias pessoais.<br>
+Web App de criação de elogios com hash tags no estilo de envio de emails, com lista de recebidos e enviados.
 
-## Available Scripts
+<div>
+  <p>Link do site: <a target="_blank" href='http://nlw6-valoriza-frontend.vercel.app/'>http://nlw6-valoriza-frontend.vercel.app/</a></p>
+</div>
 
-In the project directory, you can run:
 
-### `npm start`
+<div style='display: inline-block'>
+  <h3>Back end:</h3>
+  <img align='center' alt='typescript' height='30' width='40' src='https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-plain.svg' />
+  <img align='center' alt='javascript' height='30' width='40' src='https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-plain.svg' />
+  <img align='center' alt='nodejs' height='30' width='40' src='https://raw.githubusercontent.com/devicons/devicon/2ae2a900d2f041da66e950e4d48052658d850630/icons/nodejs/nodejs-original.svg' />
+  <img align='center' alt='typeorm' height='30' width='55' src='https://github.com/typeorm/typeorm/raw/master/resources/logo_big.png' />
+  <img align='center' alt='heroku' height='30' width='40' src='https://raw.githubusercontent.com/devicons/devicon/2ae2a900d2f041da66e950e4d48052658d850630/icons/heroku/heroku-original.svg' />
+   <img align='center' alt='postgresql' height='30' width='40' src='https://raw.githubusercontent.com/devicons/devicon/2ae2a900d2f041da66e950e4d48052658d850630/icons/postgresql/postgresql-original.svg' />
+</div>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
-### `npm test`
+<div style='display: inline-block'>
+  <h3>Front end:</h3>
+  <img align='center' alt='react' height='30' width='40' src='https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg' />
+  <img align='center' alt='sass' height='30' width='40' src='https://raw.githubusercontent.com/devicons/devicon/master/icons/sass/sass-original.svg' />
+</div>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<h3>Interface landing page:</h3>
+<img src="https://user-images.githubusercontent.com/62312987/157771841-475f631e-35d2-4612-8dfb-b1741703e9f2.png"/>
 
-### `npm run build`
+<h3>Interface home page:</h3>
+<img src="https://user-images.githubusercontent.com/62312987/157772191-841e1514-d90e-418f-927a-e3483147c8c8.png"/>
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<h3>Interface side menu and list:</h3>
+<img src="https://user-images.githubusercontent.com/62312987/157772369-2fe781de-dc16-49fc-9632-9422171a932f.png"/>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
