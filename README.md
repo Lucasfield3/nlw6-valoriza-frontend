@@ -11,7 +11,6 @@ Web App de criação de elogios com hash tags no estilo de envio de emails, com 
 <div style='display: inline-block'>
   <h3>Back end:</h3>
   <img align='center' alt='typescript' height='30' width='40' src='https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-plain.svg' />
-  <img align='center' alt='javascript' height='30' width='40' src='https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-plain.svg' />
   <img align='center' alt='nodejs' height='30' width='40' src='https://raw.githubusercontent.com/devicons/devicon/2ae2a900d2f041da66e950e4d48052658d850630/icons/nodejs/nodejs-original.svg' />
   <img align='center' alt='typeorm' height='30' width='55' src='https://github.com/typeorm/typeorm/raw/master/resources/logo_big.png' />
   <img align='center' alt='heroku' height='30' width='40' src='https://raw.githubusercontent.com/devicons/devicon/2ae2a900d2f041da66e950e4d48052658d850630/icons/heroku/heroku-original.svg' />
@@ -32,7 +31,9 @@ Web App de criação de elogios com hash tags no estilo de envio de emails, com 
 <h3>Interface home page:</h3>
 <img src="https://user-images.githubusercontent.com/62312987/157772191-841e1514-d90e-418f-927a-e3483147c8c8.png"/>
 
-<h3>Interface side menu and list:</h3>
+<h3>Interface side menu e lista:</h3>
 <img src="https://user-images.githubusercontent.com/62312987/157772369-2fe781de-dc16-49fc-9632-9422171a932f.png"/>
 
+<h3>Modal de visualização de mensagens enviadas/recebidas</h3>
+<img src="https://user-images.githubusercontent.com/62312987/158230549-872066c9-6476-4f35-a499-801cc01c4094.png"/>
 
