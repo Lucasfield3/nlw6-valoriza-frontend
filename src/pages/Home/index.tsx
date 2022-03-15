@@ -13,7 +13,7 @@ import { TagDataContext } from '../../context/TagDataContext'
 
 import '../../styles/user-page.scss'
 import { AuthContext } from '../../context/AuthContext'
-import { ModalCreatedCompliment } from '../../components/ModalCreatedCompliment'
+import { Modal } from '../../components/Modal'
 import { SideMenuContext } from '../../context/SideMenuContext'
 import { getToken } from '../../service/Authenticate'
 
@@ -107,7 +107,7 @@ export function Home(){
             {isActive && <OverlayDismissSideMenu/>}
             <div className="head">
                 <MenuHamburguer/>
-                <ModalCreatedCompliment isValid={isValid} isModalShown={isModalComplimentShown} />
+                <Modal isValid={isValid} frase='Elogio enviado!' isModalShown={isModalComplimentShown} />
             </div>
             <header>
                 <img src={logo} alt='logo'/>

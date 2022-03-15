@@ -35,3 +35,31 @@ body, input, button, textarea {
 ::-moz-selection {
     background: #B1B7D1;
 }
+
+.modal-create-compliment{
+    width: fit-content;
+    height: 3.7rem;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    border-radius: 5px;
+    background: white;
+    transition: transform 0.2s ease-in-out;
+    justify-self: flex-end;
+
+    p{
+        font-size: 1.8rem;
+        color: var(--light-brown);
+        width: max-content;
+        padding: 0 1rem;
+    }
+}
+
+
+.shown{
+    transform: translate(-13.5%, 56%);
+}
+
+.not-shown{
+    transform: translate(-13.5%, -114%);
+}

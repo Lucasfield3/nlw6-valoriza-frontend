@@ -20,6 +20,7 @@ export function Login(){
 
         const users = await getUsers() as User[]
         let validPassword:null | boolean
+
         users.map(async user =>{
             compare(data.password, user.password, async (err ,success:boolean)=>{
                
@@ -30,20 +31,23 @@ export function Login(){
                 if(success){
                     validPassword = true
                     console.log(validPassword)
-                    if(validPassword && user.email === data.email){
+                    if(user.email === data.email){
                         setErrorMsg('')
                         handleLoading(true)
-                         await authenticate(data)
+                        await authenticate(data)
                         if(localStorage.getItem('user')){
                             navigate('/user/myHome')
                             handleLoading(false)
                         }   
+                    }else{
+                        handleLoading(false)
+                        return setTimeout(()=>setErrorMsg('Email incorreto'), 200)
                     }
                 }
 
                 if(!validPassword){
                     handleLoading(false)
-                    return setTimeout(()=>setErrorMsg('Email/senha incorreto/s'), 200)
+                    return setTimeout(()=>setErrorMsg('Senha incorreta'), 200)
                 }
                 
             })
@@ -53,7 +57,7 @@ export function Login(){
     }
 
     const errorMsgEmail = errors.email?.type === 'required' ? 'Email inválido' : 'digite seu email'
-    const errorMsgPassword = errors.password?.type === 'required' ? 'Senha inválida' : 'digite seu email'
+    const errorMsgPassword = errors.password?.type === 'required' ? 'Senha inválida' : 'digite sua senha'
 
     return(
         <>
@@ -67,7 +71,7 @@ export function Login(){
             <div className="container">
                 <h1>Login</h1>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                <input onChange={()=> setErrorMsg('')} className={errors.email?.type === 'required' && `input-error`} {...register("email", { required: true })}  placeholder={errorMsgEmail} type='email'/>
+                <input className={errors.email?.type === 'required' && `input-error`} {...register("email", { required: true })}  placeholder={errorMsgEmail} type='email'/>
                 <p style={{color:'red'}}>{errorMsg}</p>
                 <input className={errors.password?.type === 'required' && `input-error`} {...register("password", { required: true })} placeholder={errorMsgPassword} type='password'/>
                     <button type='submit'>Entrar</button>
