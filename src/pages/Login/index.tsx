@@ -6,6 +6,8 @@ import { useForm } from 'react-hook-form'
 import { useContext, useState } from 'react'
 import { AuthContext } from '../../context/AuthContext'
 import { Loading } from '../Loading'
+import { getUsers, User } from '../../service/User'
+import { compare } from 'bcryptjs'
 
 export function Login(){
     const { register, handleSubmit, formState:{errors}  } = useForm()
@@ -16,22 +18,38 @@ export function Login(){
     
     async function onSubmit(data:Credentials){
 
-        console.log(errors.email);
-        handleLoading(true)
-        try {
-            await authenticate(data)
-            if(localStorage.getItem('user')){
-                setTimeout(()=>{
-                    handleLoading(false)
-                    navigate('/user/myHome')
-                }, 500)
+        const users = await getUsers() as User[]
+        let validPassword:null | boolean
+        users.map(async user =>{
+            compare(data.password, user.password, async (err ,success:boolean)=>{
+               
+                while(err){
+                    return 
+                } 
                 
-            }   
-        } catch (error) {
-            handleLoading(false)
-            return setErrorMsg('Email/senha inválido')
-        }
-        
+                if(success){
+                    validPassword = true
+                    console.log(validPassword)
+                    if(validPassword && user.email === data.email){
+                        setErrorMsg('')
+                        handleLoading(true)
+                         await authenticate(data)
+                        if(localStorage.getItem('user')){
+                            navigate('/user/myHome')
+                            handleLoading(false)
+                        }   
+                    }
+                }
+
+                if(!validPassword){
+                    handleLoading(false)
+                    return setTimeout(()=>setErrorMsg('Email/senha incorreto/s'), 200)
+                }
+                
+            })
+            
+        })
+ 
     }
 
     const errorMsgEmail = errors.email?.type === 'required' ? 'Email inválido' : 'digite seu email'
