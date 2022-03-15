@@ -33,6 +33,7 @@
         grid-template-rows: 1fr 1fr 1fr;
         position: absolute;
         z-index: 80;
+        padding: 0 3rem;
 
         h1{
             margin-top: 1rem;
@@ -198,6 +199,7 @@
                 color:var(--light-brown);
                 padding:0.5rem;
                 resize: none;
+                width: 100%;
 
                 &::-webkit-scrollbar{
                     width:0.5rem;
@@ -426,5 +428,14 @@ nav {
         margin-top: 15px;
     }
 
+}
+
+
+.shown{
+    transform: translate(-13.5%, 56%);
+}
+
+.not-shown{
+    transform: translate(-13.5%, -114%);
 }
 

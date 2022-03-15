@@ -107,7 +107,7 @@ export function Home(){
             {isActive && <OverlayDismissSideMenu/>}
             <div className="head">
                 <MenuHamburguer/>
-                <Modal isValid={isValid} frase='Elogio enviado!' isModalShown={isModalComplimentShown} />
+                <Modal isValid={isValid} shown='shown' notShown='not-shown' frase='Elogio enviado!' isModalShown={isModalComplimentShown} />
             </div>
             <header>
                 <img src={logo} alt='logo'/>

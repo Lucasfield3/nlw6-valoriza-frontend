@@ -37,7 +37,7 @@ export function Register(){
         <header className='header-register'>
             <span></span>
             <img src={logo} alt='logo'></img>
-             <Modal isValid={true} frase='Usuário criado!' isModalShown={isModalComplimentShown} />
+             <Modal isValid={true} frase='Usuário criado!' shown='shown-register' notShown='not-shown-register' isModalShown={isModalComplimentShown} />
         </header>
         <div className="container">
             <h1>Cadastro</h1>
@@ -45,7 +45,7 @@ export function Register(){
                 <input className={errors.name?.type === 'required' && `input-error`} {...register("name", { required: true })} placeholder={errorMsgName} type='text'/>
                 <input className={errors.email?.type === 'required' && `input-error`} {...register("email", { required: true })}  placeholder={errorMsgEmail} type='email'/>
                 <input className={errors.password?.type === 'required' && `input-error`}  {...register("password", { required: true })} placeholder={errorMsgPassword} type='password'/>
-                <button type='submit'>Criar conta</button>
+                <button style={{cursor:isModalComplimentShown ? 'not-allowed' : 'pointer'}}  disabled={isModalComplimentShown ? true : false} type='submit'>Criar conta</button>
             </form>
             <Link className='link' to='/' >Já tem conta?</Link>
         </div>
