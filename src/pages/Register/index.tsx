@@ -18,6 +18,7 @@ export function Register(){
         const newUser = await createUser(data)
        
         if(newUser){
+            setIsModalComplimentShown(true)
             navigate('/')
         }
 
@@ -41,10 +42,10 @@ export function Register(){
         <div className="container">
             <h1>Cadastro</h1>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <input {...register("name", { required: true })} placeholder={errorMsgName} type='text'/>
-                <input {...register("email", { required: true })}  placeholder={errorMsgEmail} type='email'/>
-                <input  {...register("password", { required: true })} placeholder={errorMsgPassword} type='password'/>
-                <button onClick={()=>setIsModalComplimentShown(true)} type='submit'>Criar conta</button>
+                <input className={errors.email?.type === 'required' && `input-error`} {...register("name", { required: true })} placeholder={errorMsgName} type='text'/>
+                <input className={errors.password?.type === 'required' && `input-error`} {...register("email", { required: true })}  placeholder={errorMsgEmail} type='email'/>
+                <input className={errors.name?.type === 'required' && `input-error`}  {...register("password", { required: true })} placeholder={errorMsgPassword} type='password'/>
+                <button type='submit'>Criar conta</button>
             </form>
             <Link className='link' to='/' >Já tem conta?</Link>
         </div>
