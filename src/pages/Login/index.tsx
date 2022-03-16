@@ -49,7 +49,12 @@ export function Login(){
                     handleLoading(false)
                     return setTimeout(()=>setErrorMsg('Senha incorreta'), 200)
                 }
-                
+
+                if(!validPassword && user.email === data.email){
+                    handleLoading(false)
+                    return setTimeout(()=>setErrorMsg('Email/senha incorretos'), 200)
+                }
+
             })
             
         })
