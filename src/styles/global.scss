@@ -71,8 +71,8 @@ body, input, button, textarea {
 @media screen and (max-width:580px){
     .header-register{
         grid-template-rows: 1fr;
-        grid-template-columns: unset !important;
-        justify-content: unset;
+        grid-template-columns: unset!important;
+        justify-content: center !important;
     }
 
     .not-shown-register{
