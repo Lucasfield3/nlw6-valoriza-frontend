@@ -83,3 +83,13 @@ body, input, button, textarea {
         transform: translate(-13.5%, -238%);
     }
 }
+
+@media screen and (max-width:360px){
+    .container .compliment-sender div{
+        width: 23rem !important;
+    }
+
+    .modal-create-tag{
+        width:23rem !important;
+    }
+}

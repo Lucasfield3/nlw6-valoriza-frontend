@@ -28,35 +28,24 @@ export function Login(){
                     return 
                 } 
                 
-                if(success){
+                if(success && user.email === data.email){
                     validPassword = true
                     console.log(validPassword)
-                    if(user.email === data.email){
-                        setErrorMsg('')
-                        handleLoading(true)
-                        await authenticate(data)
-                        if(localStorage.getItem('user')){
-                            navigate('/user/myHome')
-                            handleLoading(false)
-                        }   
-                    }else{
+                    setErrorMsg('')
+                    handleLoading(true)
+                    await authenticate(data)
+                    if(localStorage.getItem('user')){
+                        navigate('/user/myHome')
                         handleLoading(false)
-                        return setTimeout(()=>setErrorMsg('Email incorreto'), 200)
-                    }
-                }
-
-                if(!validPassword){
+                    }   
+                    
+                }else{
                     handleLoading(false)
-                    return setTimeout(()=>setErrorMsg('Senha incorreta'), 200)
-                }
-
-                if(!validPassword && user.email !== data.email){
-                    handleLoading(false)
-                    return setTimeout(()=>setErrorMsg('Email/senha incorretos'), 200)
-                }
+                    return setErrorMsg('Email/Senha incorreto/s')
+                }              
 
             })
-            
+
         })
  
     }
