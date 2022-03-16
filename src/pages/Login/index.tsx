@@ -41,7 +41,7 @@ export function Login(){
                     
                 }else{
                     handleLoading(false)
-                    return setTimeout(()=>setErrorMsg('Email/Senha incorreto/s'), 200)
+                    return setTimeout(()=>setErrorMsg('Email/Senha incorreto/s'), 500)
                 }              
 
             })
