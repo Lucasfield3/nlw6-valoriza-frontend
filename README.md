@@ -37,3 +37,8 @@ Web App de criação de elogios com hash tags no estilo de envio de emails, com 
 <h3>Modal de visualização de mensagens enviadas/recebidas</h3>
 <img src="https://user-images.githubusercontent.com/62312987/158230549-872066c9-6476-4f35-a499-801cc01c4094.png"/>
 
+<h3>Modal de criação de hashtags:</h3>
+<img src="https://user-images.githubusercontent.com/62312987/168139837-7a4529f4-8f41-4bd7-90cf-b1742cb82da9.png"/>
+
+
+
